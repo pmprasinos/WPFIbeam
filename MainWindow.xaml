@@ -1,0 +1,48 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFiBeam"
+        xmlns:ddes="http://schemas.devdept.com/winfx/2008/xaml/control" xmlns:ddgr="http://schemas.devdept.com/winfx/2008/xaml/graphics" x:Class="WPFiBeam.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="1021.944" Width="1201.854">
+    <Grid>
+
+        <ddes:ViewportLayout x:Name="viewPortLayout1" HorizontalAlignment="Left" Margin="10,10,0,50" Width="1184" RenderTransformOrigin="0.529,0.494" MouseDown="MouseDown" LayoutMode="SingleViewport">
+            <ddes:ViewportLayout.ProgressBar>
+                <ddes:ProgressBar Lighting="False"/>
+            </ddes:ViewportLayout.ProgressBar>
+            <ddes:ViewportLayout.Viewports>
+                <ddes:Viewport DisplayMode="Rendered" InitialView="Other">
+                    <ddes:Viewport.Background>
+                        <ddgr:BackgroundSettings BottomColor="#FFF5F5F5" StyleMode="LinearGradient" TopColor="#FF66A3D2"/>
+                    </ddes:Viewport.Background>
+                    <ddes:Viewport.CoordinateSystemIcon>
+                        <ddes:CoordinateSystemIcon Lighting="False"/>
+                    </ddes:Viewport.CoordinateSystemIcon>
+                    <ddes:Viewport.Camera>
+                        <ddes:Camera Distance="600" ProjectionMode="Perspective" Rotation="0.0868240888334652, 0.150383733180435, 0.492403876506104, 0.852868531952443" Target="0, 0, 50" ZoomFactor="2"/>
+                    </ddes:Viewport.Camera>
+                    <ddes:Viewport.OriginSymbol>
+                        <ddes:OriginSymbol Lighting="False"/>
+                    </ddes:Viewport.OriginSymbol>
+                    <ddes:Viewport.Rotate>
+                        <ddes:RotateSettings Enabled="True"/>
+                    </ddes:Viewport.Rotate>
+                    <ddes:Viewport.ViewCubeIcon>
+                        <ddes:ViewCubeIcon Lighting="False"/>
+                    </ddes:Viewport.ViewCubeIcon>
+                </ddes:Viewport>
+            </ddes:ViewportLayout.Viewports>
+        </ddes:ViewportLayout>
+        <Button Content="Button" HorizontalAlignment="Left" Height="35" Margin="96,946,0,0" VerticalAlignment="Top" Width="164" Click="TranslateBeam"/>
+        <TextBox x:Name="TextBox1" HorizontalAlignment="Left" Height="40" Margin="286,941,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="78"/>
+        <TextBox x:Name="TextBox2" HorizontalAlignment="Left" Height="40" Margin="369,941,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="78"/>
+        <TextBox x:Name="TextBox3" HorizontalAlignment="Left" Height="40" Margin="452,941,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="78"/>
+        <TextBox x:Name="TextBox4" HorizontalAlignment="Left" Height="40" Margin="535,941,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="78"/>
+        <TextBox x:Name="TextBox5" HorizontalAlignment="Left" Height="40" Margin="618,941,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="78"/>
+        <TextBox x:Name="TextBox6" HorizontalAlignment="Left" Height="40" Margin="701,941,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="78"/>
+
+    </Grid>
+</Window>
