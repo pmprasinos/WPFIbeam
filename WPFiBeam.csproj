@@ -70,6 +70,9 @@
     <Reference Include="DmcLib.Wpf">
       <HintPath>..\..\..\..\Downloads\LatestRelease (1)\packages\DmcLib.Wpf.2.0.0.45\lib\net45\DmcLib.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="DockingLibrary">
+      <HintPath>..\..\Visual Studio 2017\DockingLibrary\DockingLibrary\DockingLibrary\obj\Debug\DockingLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>G:\CF.FlyingApp\Newtonsoft.Json.dll</HintPath>
@@ -102,6 +105,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="EventOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -109,6 +116,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EventOptions.xaml.cs">
+      <DependentUpon>EventOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
