@@ -1,0 +1,40 @@
+﻿<Window x:Class="WpfApp1.JoyStickSetup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="JoyStickSetup" Height="198.12" Width="418.576" Background="#FF252222" BorderBrush="Black" WindowStyle="None" ResizeMode="NoResize" Deactivated="OnDeactivated">
+    <Grid Margin="0,0,0,16">
+        <ComboBox HorizontalAlignment="Left" Height="42" Margin="75,10,0,0" VerticalAlignment="Top" Width="334">
+            <ComboBox.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                    <GradientStop Color="#FF424242" Offset="1"/>
+                </LinearGradientBrush>
+            </ComboBox.Background>
+            <ComboBoxItem Content="AXIS NUMBER"/>
+        </ComboBox>
+        <ComboBox HorizontalAlignment="Left" Height="42" Margin="75,77,0,0" VerticalAlignment="Top" Width="334">
+            <ComboBox.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                    <GradientStop Color="#FF595959" Offset="1"/>
+                </LinearGradientBrush>
+            </ComboBox.Background>
+        </ComboBox>
+        <ComboBox HorizontalAlignment="Left" Height="42" Margin="75,143,0,0" VerticalAlignment="Top" Width="334" BorderBrush="#FF6A6868">
+            <ComboBox.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                    <GradientStop Color="#FF444242" Offset="1"/>
+                </LinearGradientBrush>
+            </ComboBox.Background>
+        </ComboBox>
+        <Image HorizontalAlignment="Left" Height="45" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.526,0.49" Margin="16,7,0,0" Source="obj/UpDown.png"/>
+        <Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="46" RenderTransformOrigin="0.526,0.49" Margin="10,77,0,0" Source="obj/LeftRight.png" Opacity="0.995"/>
+        <Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="46" RenderTransformOrigin="0.342,0.465" Margin="10,143,0,0" Source="obj/Twist.png"/>
+
+    </Grid>
+</Window>
