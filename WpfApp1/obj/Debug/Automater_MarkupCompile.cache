@@ -8,13 +8,13 @@ B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\
 WpfApp1
 none
 false
-TRACE;DEBUG
+CODE_ANALYSIS;TRACE;DEBUG
 B:\GitHub\WPFIbeam\WpfApp1\App.xaml
-3-246709460
+4-415561919
 2-474489110
-17994812706
-32895068010
-JoyStickSetup.xaml;MainWindow.xaml;NameState.xaml;
+19894076006
+32-406862503
+ADSQL\DesignControl.xaml;JoyStickSetup.xaml;MainWindow.xaml;NameState.xaml;
 
 False
 

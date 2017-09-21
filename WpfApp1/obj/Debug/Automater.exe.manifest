@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="Automater.exe" version="1.0.0.66" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
+  <asmv1:assemblyIdentity name="Automater.exe" version="1.0.0.80" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <description asmv2:iconFile="SaferVenue.ico" asmv2:publisher="P. Prasinos" co.v1:suiteName="Theatre Automation" asmv2:product="Automater" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="Automater" version="1.0.0.0" publicKeyToken="9D9BF72C0D89EE0E" language="neutral" processorArchitecture="x86" />
+    <assemblyIdentity name="Automater" version="1.0.0.0" publicKeyToken="9D9BF72C0D89EE0E" language="neutral" processorArchitecture="msil" />
     <commandLine file="Automater.exe" parameters="" />
   </entryPoint>
   <co.v1:useManifestForTrust xmlns="urn:schemas-microsoft-com:asm.v1" />
@@ -56,14 +56,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Automater.exe" size="382392">
-      <assemblyIdentity name="Automater" version="1.0.0.0" publicKeyToken="9D9BF72C0D89EE0E" language="neutral" processorArchitecture="x86" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Automater.exe" size="520120">
+      <assemblyIdentity name="Automater" version="1.0.0.0" publicKeyToken="9D9BF72C0D89EE0E" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>7Zvab833pP9kf/tU6qSjqQHDCXDMrYClU39EC+KBA9E=</dsig:DigestValue>
+        <dsig:DigestValue>Bds4K8/RdmdcPqdbeFuMeIYrKuEN9NGYF/O4S2XiKBs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -187,13 +187,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Automater.exe.config" size="2527">
+  <file name="Automater.exe.config" size="2525">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>/lVDh7Byx4/dRdE7GJsej0oX57gVYwKziJRx/65hRbY=</dsig:DigestValue>
+      <dsig:DigestValue>cy9ta988N9FgRJA7nvLOstp+gojZDuz9OM8dxT4F6Wc=</dsig:DigestValue>
     </hash>
   </file>
   <file name="CAD\iBeam.stl" size="24543">

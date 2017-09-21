@@ -72,9 +72,10 @@ class SerialRemote
   
             spin.ReadTimeout = 500;
             if (spin.BytesToRead > 100) spin.ReadExisting();
-            Debug.Print(spin.BytesToRead.ToString());
+            //Debug.Print(spin.BytesToRead.ToString());
             long t = DateTime.Now.Ticks;
             byte[] frame = { 0, 0, 0, 0, 0 };
+
             int CheckByte = 0;
             //System.Threading.Thread.Sleep(3000);
             do
@@ -88,7 +89,7 @@ class SerialRemote
             } while (CheckByte != 10);
             do
             {
-                Thread.Sleep(1);
+                Thread.Sleep(2);
             } while (this.spin.BytesToRead < 4);
 
 

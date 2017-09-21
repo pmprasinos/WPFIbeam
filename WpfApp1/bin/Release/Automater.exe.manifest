@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="Automater.exe" version="1.0.0.75" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="Automater.exe" version="1.0.0.79" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <description asmv2:iconFile="SaferVenue.ico" asmv2:publisher="P. Prasinos" co.v1:suiteName="Theatre Automation" asmv2:product="Automater" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
@@ -56,14 +56,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Automater.exe" size="401848">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Automater.exe" size="495544">
       <assemblyIdentity name="Automater" version="1.0.0.0" publicKeyToken="9D9BF72C0D89EE0E" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>EnXPlqMGYoM7WOw2l2wurLC3pTZQyodmyM7eHZd9W44=</dsig:DigestValue>
+        <dsig:DigestValue>BBXVoK46+zqH8kT1t6WHpPEpp7rezBQqpAB0NNXJvfg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -1,0 +1,58 @@
+﻿<UserControl
+    x:Class="CustomControl.AxisControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CustomControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Height="88"
+   
+   >
+
+    <Grid Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Border BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            <Grid Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="NoWrap" Text="Axis:" Grid.Row="1" TextAlignment="Right" Foreground="White" />
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   TextWrapping="NoWrap" Text="Status:" Grid.Row="2" TextAlignment="Right" Foreground="White"/>
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   TextWrapping="NoWrap" Text="CurrentPosition:" Grid.Row="3" TextAlignment="Right" Foreground="White"/>
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   TextWrapping="NoWrap" Text="TargetPosition:" Grid.Row="4" TextAlignment="Right" Foreground="White"/>
+                  
+                </Grid>
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBox x:Name="AxisNameTextBox" TextWrapping="NoWrap" Text="{Binding ItemsSource.AxisName,  UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="1" Grid.Column="1" TextAlignment="Left" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"/>
+                    <TextBox x:Name ="AxisStatusTextBox" TextWrapping="NoWrap" Text="" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="2" Grid.Column="1" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"/>
+                    <TextBox x:Name ="CurrentPositionTextBox" TextWrapping="NoWrap" Text="{Binding CurrentPosition}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="3" Grid.Column="1" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}"  BorderBrush="{x:Null}" Foreground="White"/>
+                    <TextBox x:Name ="TargetPositionTextBox" TextWrapping="NoWrap" Text="{Binding TargetPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="4" Grid.Column="1" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"/>
+                </Grid>
+              
+            </Grid>
+                
+
+        </Border>
+       
+       
+
+       
+    </Grid>
+</UserControl>

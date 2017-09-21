@@ -1,10 +1,3 @@
-B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\JoyStickSetup.g.cs
-B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\NameState.g.cs
-B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\App.g.cs
-B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\Automater_Content.g.cs
-B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\GeneratedInternalTypeHelper.g.cs
-B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\Automater_MarkupCompile.cache
-B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\Automater_MarkupCompile.lref
 B:\GitHub\WPFIbeam\WpfApp1\bin\Debug\CAD\iBeam.stl
 B:\GitHub\WPFIbeam\WpfApp1\bin\Debug\CAD\Pulley.stl
 B:\GitHub\WPFIbeam\WpfApp1\bin\Debug\Resources\Left.png
@@ -17,6 +10,8 @@ B:\GitHub\WPFIbeam\WpfApp1\bin\Debug\Automater.exe.manifest
 B:\GitHub\WPFIbeam\WpfApp1\bin\Debug\Automater.application
 B:\GitHub\WPFIbeam\WpfApp1\bin\Debug\Automater.exe
 B:\GitHub\WPFIbeam\WpfApp1\bin\Debug\Automater.pdb
+B:\GitHub\WPFIbeam\WpfApp1\bin\Debug\Automater.exe.CodeAnalysisLog.xml
+B:\GitHub\WPFIbeam\WpfApp1\bin\Debug\Automater.exe.lastcodeanalysissucceeded
 B:\GitHub\WPFIbeam\WpfApp1\bin\Debug\devDept.Eyeshot.Control.Wpf.v9.dll
 B:\GitHub\WPFIbeam\WpfApp1\bin\Debug\devDept.Eyeshot.Dicom.Wpf.v9.dll
 B:\GitHub\WPFIbeam\WpfApp1\bin\Debug\devDept.Eyeshot.Kinect.Wpf.v9.dll
@@ -32,7 +27,16 @@ B:\GitHub\WPFIbeam\WpfApp1\bin\Debug\devDept.Geometry.v9.xml
 B:\GitHub\WPFIbeam\WpfApp1\bin\Debug\devDept.Graphics.Wpf.v9.xml
 B:\GitHub\WPFIbeam\WpfApp1\bin\Debug\EntityFramework.xml
 B:\GitHub\WPFIbeam\WpfApp1\bin\Debug\EntityFramework.SqlServer.xml
+B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\ADSQL\DesignControl.baml
+B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\ADSQL\DesignControl.g.cs
+B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\JoyStickSetup.g.cs
 B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\MainWindow.g.cs
+B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\NameState.g.cs
+B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\App.g.cs
+B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\Automater_Content.g.cs
+B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\GeneratedInternalTypeHelper.g.cs
+B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\Automater_MarkupCompile.cache
+B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\Automater_MarkupCompile.lref
 B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\JoyStickSetup.baml
 B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\MainWindow.baml
 B:\GitHub\WPFIbeam\WpfApp1\obj\Debug\NameState.baml

@@ -34,7 +34,10 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        Task BackTask;
+        int tickCounter=0;
         SqlConnection MomCon = new SqlConnection("data source = CONSOLE1; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework");
+        SqlDataReader sda; DataTable dt;
         private Vector3D[][] IBeamTrans = new Vector3D[3][];
         private double[] KidPositions = new double[6];
         private const string EYESHOT_SERIAL = "ULTWPF-94GF-N1277-FNLR3-1PPHF";
@@ -44,7 +47,6 @@ namespace WpfApp1
         double[] AxisSpeed = { 0, 0, 0, 0, 0, 0 };
         ADSClient Mom;
         List<AxisGroup> AxisData = new List<AxisGroup>();
-        List<AxisGroup> SelectedGroup;
         /// <summary>
         /// 1=Live mode, 2 = Virtual Mode, 3 = Fault Active, 4 = Estop Active
         /// </summary>
@@ -53,13 +55,13 @@ namespace WpfApp1
         Dictionary<string, long[]> States = new Dictionary<string, long[]>();
         static System.IO.Ports.SerialPort sp = new System.IO.Ports.SerialPort();
         SerialRemote sr;
-        DataTable tbl = new DataTable("Customers");
         List<_treeListView.TreeListViewItem> TviList = new List<_treeListView.TreeListViewItem>();
         ToolTip TT = new System.Windows.Controls.ToolTip();
         int loopCount = 0;
         private System.Drawing.Point _mouseLocation;
         private int SelectedLayer = -1;
-        bool ModeSelDisabled;
+        bool ModeSelDisabled; bool t_Busy = false;
+       bool UserInTextBox = false;  
 
         public MainWindow() : base()
         {
@@ -68,8 +70,8 @@ namespace WpfApp1
             InitializeComponent();
             ErrorIcon.Visibility = Visibility.Hidden;
             viewPortLayout1.Unlock(EYESHOT_SERIAL);
-
-            sr = null;
+          
+            if (!UserInTextBox)sr = null;
            
 
             for (int i = 0; i < 100; i++)
@@ -81,8 +83,8 @@ namespace WpfApp1
                     AxisData[i].Foreground = System.Windows.Media.Brushes.White;
                 }
             }
-            TLV.Tag = "";
-       
+            
+         
             viewPortLayout1.ToolBar.Visible = false;
             //JoySticks[0].X = 20;
 
@@ -99,53 +101,69 @@ namespace WpfApp1
 
         private void T_tick(object myObject, EventArgs e)
         {
+            if (!BackTask.IsCompleted) BackTask = null;
+            Stopwatch s = Stopwatch.StartNew();
             try
             {
-                t.Stop();
+                t.Interval = 50;
+                if (disabled || t_Busy) { t.Interval = 10; return; }
+                t_Busy = true;
+                tickCounter++;
+                
+               // t.Stop();
             ConnectMom();
+               
             ConnectSerial();
+              
+           
+                 UpdateCad(SelectedLayer);
+          
+                // if(sp.IsOpen && System.Math.Abs(JoySticks[0].X +JoySticks[0].Y + JoySticks[0].Z)  > 1 || loopCount % 10 ==8) UpdateCad(1);
 
-         
-                if (disabled) return;
-               // if(sp.IsOpen && System.Math.Abs(JoySticks[0].X +JoySticks[0].Y + JoySticks[0].Z)  > 1 || loopCount % 10 ==8) UpdateCad(1);
-                UpdateCad(1);
-                t.Interval =10;
-                Label1.Content = "";
+              
+             
                 for (int i = 0; i < JoySticks.Length; i++)
                 {
-                    Label1.Content += i.ToString();
                     if (sp.IsOpen) { JoySticks[i].X = sr.x[i]; JoySticks[i].Y = sr.y[i]; JoySticks[i].Z = sr.z[i]; JoySticks[i].W = sr.w[i]; }
-                    Label1.Content += " X: " + JoySticks[i].X + " Y: " + JoySticks[i].Y + " Z: " + JoySticks[i].Z + " Z: " + JoySticks[i].W + "\r\n";
                 }
                 AxisSpeed[Math.Abs(SelectedLayer - 1) * 2] = JoySticks[0].X / 2;
-                AxisSpeed[1 + Math.Abs(SelectedLayer - 1) * 2] = JoySticks[0].Z / 2;
-
-                //TLV.Items.Refresh();
-               // TVI2.Items.Refresh();
+                AxisSpeed[1 + Math.Abs(SelectedLayer - 1) * 2] = JoySticks[1].X / 2;
           
             loopCount++;
             loopCount = loopCount % 100;
             if (loopCount % 10==9) ModeSelect();
-            if (Mom != null && sr!= null) if(sr.DeadmanRightPressed || sr.DeadmanRightPressed) Mom.WriteValue(Mom.DeadMan, true, "DEADMAN"); else Mom.WriteValue(Mom.DeadMan, false, "DEADMAN");
-            if (Mom != null && sr != null) if (loopCount % 10 == 2 && Mom.Connected) Mom.WriteValue(Mom.MomControl, true, "MOMCONTROL");
-
+            if(LiveDisplay !=2)
+                {
+                    if (Mom != null && sr != null && loopCount % 10 == 3) if (sr.DeadmanRightPressed) Mom.WriteValue(Mom.DeadMan, true, "DEADMAN"); else if(loopCount % 10 == 3) Mom.WriteValue(Mom.DeadMan, false, "DEADMAN");
+                    if (Mom != null && sr != null) if (loopCount % 50 == 49 && Mom.Connected) Mom.WriteValue(Mom.MomControl, true, "MOMCONTROL");
+                }
+                t_Busy = false;
             }
-            catch { }
-            finally { t.Start(); }
-
+            catch { t_Busy = false; Debug.Print("ERROR"); }
+            finally {   }
+            Debug.Print(loopCount.ToString() + "   " + s.ElapsedMilliseconds.ToString());
         }
 
         void ConnectMom()
-        {
-            string s = (string)ErrorIcon.ToolTip;
+        {      
+  
             if (MomConnected) try
                 {
-
-                    if (Mom is null) { Mom = new ADSClient("192.168.10.96.1.1", true, 2); }
-                    Mom.WriteValue(Mom.TimeOutSwitch, false);
+                    if (Mom is null)
+                    {
+                         System.Net.NetworkInformation.Ping p = new System.Net.NetworkInformation.Ping();
+                         string host;
+                         int n = 0;
+                         do { host = "10.99.1.";  host = host + (n+1).ToString(); try { host = p.Send(host).Address.ToString(); if (!host.Contains("10.99.1")) host = ""; } catch { n++; host = ""; } } while (host == "" && n < 2);
+                        n = 0;
+                        do { if (host == "") { host = "MOM"; host = host + n; }; try { host = p.Send(host).Address.ToString(); if (!host.Contains("10.99.1")) host = ""; } catch { n++; host = ""; } } while (host == "" && n < 2);
+                        Mom = new ADSClient(host +".1.1", true, 2);
+                    }
+                    System.Threading.Tasks.Task<bool> t = Task.Run(()=> Mom.WriteValue(Mom.TimeOutSwitch, false));
                 }
                 catch
                 {
+                    string s = (string)ErrorIcon.ToolTip;
                     //Could not connect to mom instance
                     ErrorIcon.Visibility = Visibility.Visible;
                     s = (string)ErrorIcon.ToolTip;
@@ -193,7 +211,6 @@ namespace WpfApp1
         {
             System.Drawing.Point p = new System.Drawing.Point(-1000, 0);
             var secondaryScreen = System.Windows.Forms.Screen.FromPoint(p);
-
             if (secondaryScreen != null)
             {
                 if (!window.IsLoaded)
@@ -207,6 +224,7 @@ namespace WpfApp1
                 if (window.IsLoaded)
                 {
                     window.WindowState = WindowState.Maximized;
+                    
                 }
             }
         }
@@ -214,32 +232,29 @@ namespace WpfApp1
         private void FullScreen(object sender, RoutedEventArgs e)
         {
             //loadSTL();
+            BackTask = Task.Run(() => {  ConnectMom(); });
             MaximizeToSecondaryMonitor(this);
             viewPortLayout1.Layers.Add(new Layer("0")); viewPortLayout1.Layers.Add(new Layer("1")); viewPortLayout1.Layers.Add(new Layer("2")); viewPortLayout1.Layers.Add(new Layer("3"));
             OpenCADFile();
             t = new System.Windows.Forms.Timer();
-            t.Interval = 100;
+            t.Interval = 200;
             t.Enabled = true;
             t.Start();
             t.Tick += new EventHandler(T_tick);
             JoyStick_Activate();
+            UpdateCad(2);
         }
-
 
         private void OpenCADFile()
         {
             if (disabled) return;
-            string AppDir = System.AppDomain.CurrentDomain.BaseDirectory;
-            ReadFileAsynch rfa = null;
-            string FileName = AppDir + "CAD\\iBeam.stl";
-            rfa = new ReadSTL(FileName);                    //    break;
+            ReadFileAsynch rfa;
+            rfa = new ReadSTL(new MemoryStream(Properties.Resources.iBeam), false);                    //    break;
             rfa.Unlock(EYESHOT_SERIAL);
             rfa.LoadingText = "iBeam";
-
             viewPortLayout1.DoWork(rfa);
             rfa.AddToSceneAsSingleObject(viewPortLayout1, "iBeamParent", 0);
-            FileName = AppDir + "CAD\\Pulley.stl";
-            rfa = new ReadSTL(FileName);
+            rfa = new ReadSTL(new MemoryStream(Properties.Resources.Pulley), false);
             viewPortLayout1.DoWork(rfa);
             rfa.AddToSceneAsSingleObject(viewPortLayout1, "PulleyParent", 0);
             // FileName = "C:\\Users\\Phil\\source\\repos\\WpfApp1\\WpfApp1\\obj\\3D-Grid-and-ZeroDeck-pit.stl";
@@ -259,7 +274,7 @@ namespace WpfApp1
         private void ViewPortLayout1_OnLoad(object sender, RoutedEventArgs e)
         {
             if (disabled) return;
-           
+     
 
             Entity s = (Entity)viewPortLayout1.Blocks["PulleyParent"].Entities[0];
             s.Color = System.Drawing.Color.FromArgb(200, System.Drawing.Color.Aqua);
@@ -288,10 +303,12 @@ namespace WpfApp1
                 IBeamTrans[i][1] = new Vector3D(0, 0, 0);
 
             }
+            UpdateCad(0); UpdateCad(1); UpdateCad(2);
+            UpdateCad(0); UpdateCad(1); UpdateCad(2);
             viewPortLayout1.SetView(viewType.Trimetric, true, viewPortLayout1.AnimateCamera);
             viewPortLayout1.Invalidate();
             viewPortLayout1.ZoomFit();
-     
+ 
         }
 
         private void UpdateCad(int BeamIndex)
@@ -307,23 +324,43 @@ namespace WpfApp1
             // Entity s0 = (Entity)viewPortLayout1.Blocks["Pit"].Entities[0].Clone();
 
             for (int k = 1; k < viewPortLayout1.Entities.Count; k++) if (viewPortLayout1.Entities[k].LayerIndex != 0) viewPortLayout1.Entities.RemoveAt(k);
-         
-            for (int i = 0; i < 3; i++)
+
+            for(int i = 0; i < 3; i++)
             {
-                if (LiveDisplay == 1 && i ==0 && Mom != null)
+          
+               
+
+                if (LiveDisplay == 1 && i == SelectedLayer-1 && Mom != null)
                 {
-                    
-                    KidPositions[i*2] = Mom.Kids[(i*2)].CurrentPosition;
-                    if (loopCount % 3 == 2) Mom.Kids[(i* 2)].TargetPosition = Mom.Kids[(i*2)].CurrentPosition + int.Parse(Math.Round(3 * AxisSpeed[(i*2)], 0).ToString());
-                   // if (sr.DeadmanRightPressed || sr.DeadmanRightPressed) Mom.WriteValue(Mom.DeadMan, true, "DEADMAN"); else Mom.WriteValue(Mom.DeadMan, false, "DEADMAN");
-                    KidPositions[i] = Mom.Kids[(i * 2) + 1].CurrentPosition;
-                    if (loopCount % 3 == 2) Mom.Kids[(i * 2) + 1].TargetPosition = Mom.Kids[(i * 2) + 1].CurrentPosition + int.Parse(Math.Round(3 * AxisSpeed[(i * 2) + 1], 0).ToString());
-                    
+
+                 
+                    ADSQL.SqlWriteAxis((i * 2) + 1, "LiveValues", true);
+
+                    KidPositions[(i * 2)] = int.Parse(ADSQL.SqlReadAxis((i * 2) + 1, "CurrentPosition").ToString());
+                    KidPositions[(i * 2) + 1] = int.Parse(ADSQL.SqlReadAxis((i * 2) + 2, "CurrentPosition").ToString());
+                    // if (loopCount % 3 == 2) Mom.Kids[(i * 2) + 1].TargetPosition = Mom.Kids[(i * 2) + 1].CurrentPosition + int.Parse(Math.Round(3 * AxisSpeed[(i * 2) + 1], 0).ToString());
+
+                    if (loopCount % 3 == 2) ADSQL.SqlWriteAxis((i * 2) + 1, "TargetPosition", int.Parse(Math.Round(3 * AxisSpeed[(i * 2)], 0).ToString()) + KidPositions[(i * 2)]);
+                    if (loopCount % 3 == 2) ADSQL.SqlWriteAxis((i * 2) + 2, "TargetPosition", int.Parse(Math.Round(3 * AxisSpeed[(i * 2) + 1], 0).ToString()) + KidPositions[(i * 2) + 1]);
+
+                }
+                else if (i == SelectedLayer-1 && Mom != null)
+                {
+                    ADSQL.SqlWriteAxis((i * 2) + 1, "LiveValues", false);
+                    if (loopCount % 3 == 2) ADSQL.SqlWriteAxis((i * 2) + 1, "TargetPosition", int.Parse(Math.Round(3 * AxisSpeed[(i * 2)], 0).ToString()) + KidPositions[(i * 2)]);
+                    if (loopCount % 3 == 2) ADSQL.SqlWriteAxis((i * 2) + 2, "TargetPosition", int.Parse(Math.Round(3 * AxisSpeed[(i * 2) + 1], 0).ToString()) + KidPositions[(i * 2) + 1]);
+                    KidPositions[(i * 2)] = int.Parse(ADSQL.SqlReadAxis((i * 2) + 1, "TargetPosition").ToString());
+                    KidPositions[(i * 2) + 1] = int.Parse(ADSQL.SqlReadAxis((i * 2) + 2, "TargetPosition").ToString());
+
+                } else if (SelectedLayer == -1 && Mom != null)
+                {
+                    KidPositions[(i * 2)] = int.Parse(ADSQL.SqlReadAxis((i * 2) + 1, "CurrentPosition").ToString());
+                    KidPositions[(i * 2) + 1] = int.Parse(ADSQL.SqlReadAxis((i * 2) + 2, "CurrentPosition").ToString());
                 }
                 Entity e = (Entity)e0.Clone();
                 Entity P = (Entity)P0.Clone();
                 e.Rotate(1.5708, new Vector3D(1, 0, 0));
-                e.Rotate(System.Math.Tan((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)), new Vector3D(0, 1), boxCenter(e));
+                if(e.BoxMax != null)e.Rotate(System.Math.Tan((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)), new Vector3D(0, 1), boxCenter(e));
                 e.Translate(0, 1000 * i, 0);
                 e.Color = System.Drawing.Color.Black;
                 e.Translate(0, 0, (KidPositions[i * 2] + KidPositions[i * 2 + 1]) / 2);
@@ -335,11 +372,11 @@ namespace WpfApp1
 
                 if (KidPositions[i * 2] - KidPositions[(i * 2) + 1] < 0)
                 {
-                    P.Translate(e.BoxMax.X + (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMax.Z - P.BoxMin.Z);
+                    if (e.BoxMax != null && P.BoxMax != null) P.Translate(e.BoxMax.X + (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMax.Z - P.BoxMin.Z);
                 }
                 else
                 {
-                    P.Translate(e.BoxMax.X - (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMin.Z + 300);
+                    if (e.BoxMax != null && P.BoxMax != null) P.Translate(e.BoxMax.X - (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMin.Z + 300);
                 }
 
                 viewPortLayout1.Entities.Add(P, i + 1, System.Drawing.Color.AliceBlue);
@@ -348,19 +385,20 @@ namespace WpfApp1
                 P.Rotate(Math.PI / 2, new Vector3D(0, -1, 0));
                 if (KidPositions[i * 2] - KidPositions[(i * 2) + 1] < 0)
                 {
-                    P.Translate(e.BoxMin.X - (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMin.Z + 300);
+                    if (e.BoxMax != null && P.BoxMax != null) P.Translate(e.BoxMin.X - (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMin.Z + 300);
                 }
                 else
                 {
-                    P.Translate(e.BoxMin.X + (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMax.Z - P.BoxMin.Z);
+                    if (e.BoxMax != null && P.BoxMax !=null) P.Translate(e.BoxMin.X + (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMax.Z - P.BoxMin.Z);
                 }
                 viewPortLayout1.Entities.Add(P, i + 1);
-
-            }
+               if(SelectedLayer != -1  ) PopulateAxisInfo((SelectedLayer * 2) - 1, false);
+                if (SelectedLayer != -1 ) PopulateAxisInfo(SelectedLayer * 2, false);
+            
             viewPortLayout1.Invalidate();
+            }
             foreach (Entity en in viewPortLayout1.Entities)
             {
-
                 if (en.LayerIndex != 0) en.Visible = true;
                 if (en.LayerIndex == SelectedLayer) en.Selected = true;
             }
@@ -385,10 +423,13 @@ namespace WpfApp1
             {
                 if (en.Selected && SelectedLayer != en.LayerIndex)
                 {
+
                     SelectedLayer = en.LayerIndex;
-                    PopulateAxisInfo(SelectedLayer);
+                    PopulateAxisInfo((SelectedLayer*2) -1, true);
+                    PopulateAxisInfo(SelectedLayer * 2, false);
                 }
             }
+          
         }
 
         private void viewportLayout1_SelectionChanged(object sender, ViewportLayout.SelectionChangedEventArgs e)
@@ -408,132 +449,102 @@ namespace WpfApp1
             {
                 // Set the BlockReference as selected.
                // viewPortLayout1.Entities.CurrentBlockReference.Selected = true;
-                Selection();
+               // Selection();
                 viewPortLayout1.Invalidate();
             }
-            TLV.Tag = "";
-        }
-
-        private void Selection()
-        {
-            BlockReference currBlockref = viewPortLayout1.Entities.CurrentBlockReference;
-            if (currBlockref != null)
-            {
-                devDept.Eyeshot.Block bl = viewPortLayout1.Blocks[currBlockref.BlockName];
-                int currentEntity = viewPortLayout1.GetEntityUnderMouseCursor(_mouseLocation);
-                if (currentEntity != -1)
-                {
-                    BlockReference br = bl.Entities[currentEntity] as BlockReference;
-                    if (br != null)
-                    {
-                        //if (chkRecursiveSearch.IsChecked.Value)
-                        //{
-                        // If the block contains another blockreference then we want to search inside it.
-                        currBlockref.Selected = false;
-                        viewPortLayout1.Entities.SetCurrent(br);
-                        LayerInd = br.LayerIndex;
-                        // }
-                    }
-                    else
-                    {
-                        currBlockref.Selected = true;
-                        // Uncomment the line below if you want to select the entity inside this block reference                        
-                        //if (!bl.Entities[currentEntity].Selected) bl.Entities[currentEntity].Selected = true;                        
-                    }
-                }
-            }
+            JoyStick_Activate();
         }
 
 
 
         private void JoyStick_Activate()
         {
-            JS1.Source = ImageFilter.SetJoyStick(true, true, false, true); JS1.Opacity = 100;
-            JS2.Source = ImageFilter.SetJoyStick(false, true, true, true); JS2.Opacity = 20;
-            JS3.Source = ImageFilter.SetJoyStick(false, true, true, true); JS3.Opacity = 20;
-            JS4.Source = ImageFilter.SetJoyStick(false, true, true, true); JS4.Opacity = 20;
+            if(SelectedLayer != -1)
+            {
+                JS1.Source = ImageFilter.SetJoyStick(true, true, false, false); JS1.Opacity = 100;
+                JS2.Source = ImageFilter.SetJoyStick(true, true, false, false); JS2.Opacity = 20;
+            }
+           
+           // JS3.Source = ImageFilter.SetJoyStick(false, true, true, true); JS3.Opacity = 20;
+           // JS4.Source = ImageFilter.SetJoyStick(false, true, true, true); JS4.Opacity = 20;
         }
 
-        private void PopulateAxisInfo(int AxisNum)
+        private void PopulateAxisInfo(int AxisNum,  bool clear = false)
         {
-          
+            AxisControl_1.AxisNumber = 1 + ((SelectedLayer - 1) * 2);
+            AxisControl_2.AxisNumber = 2 + ((SelectedLayer-1) * 2);
+            AxisControl_1.Refresh();
+            AxisControl_2.Refresh();
 
-            bool added = false;
-
-
-
-               
-              
-                if (!this.TLV.Tag.ToString().Contains(AxisNum.ToString()))
-                {
-                    _treeListView.TreeListViewItem TVI2 = new _treeListView.TreeListViewItem();
-                 
-                    TviList.Add(TVI2);
-                    // int GroupNum = 0;
-                    if (!added)
-                    {
-                        TLV.Items.Clear();
-                        TLV.Items.Refresh();
-                        SelectedGroup = new List<AxisGroup>();
-                        
-                        
-                        string CmdString = string.Empty;
-                     
-                            CmdString = "exec getaxisdata @AxisNumber = " + AxisNum ;
-                            SqlCommand cmd = new SqlCommand(CmdString, MomCon);
-                            SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                            DataTable dt = new DataTable("Employee");
-                            sda.Fill(dt);
-                            TVI2.ItemsSource = dt.DefaultView;
-                            TLVI ax = new TLVI();
-                        string s = dt.Rows[0].Field<string>("AxisGroupName");
-                        ax.Name = s;
-                        ax.Property = "Property";
-                        ax.Value = "Value";
-                        TVI2.Header = ax;
-                        TLV.Items.Add(TVI2);
-                        TVI2.IsExpanded = true;
-                        added = true;
-                    }
-                   // SelectedGroup.Add(AxisData[((AxisGroup - 1) * 2) + x]);
-                    // AxisData[((AxisGroup - 1) * 2) + x].GroupNumber = GroupNum;
-                    this.TLV.Tag = this.TLV.Tag.ToString() + AxisNum.ToString();
-
-
-                }
-                else
-                {
-                    // _treeListView.TreeListViewItem g = (_treeListView.TreeListViewItem)TLV.Items[AxisData[((AxisGroup - 1) * 2) + x].GroupNumber];
-
-                    // Axis p = (Axis)g.Items[AxisData[((AxisGroup - 1) * 2) + x].Address];
-                    // p.Position = p.Position + 1;
-                    // AxisData[((AxisGroup - 1) * 2) + x].Visibility = Visibility.Hidden;
-                   foreach(_treeListView.TreeListViewItem t in TLV.Items)
-                {
-                    t.Items.Refresh();
-                }
-
-                }
-
-       
-
+            //dt.AcceptChanges();
+            //StatesGrid.ItemsSource = dt.Tables[0].DefaultView;
+            // StatesGrid.Items.Refresh();
+            // AxisControl_3.Refresh();
+            // AxisControl_4.Refresh();
+           // System.Data.DataRowView y = (System.Data.DataRowView)StatesGrid.Items[0];
+           // y.DataView.Table.Load(sda);
         }
 
-
+        SqlCommand scmd;
 
         private void StoreAxisGrouState_Clicked(object sender, RoutedEventArgs e)
         {
-            NameStateDialog nsd = new NameStateDialog();
-            nsd.ShowDialog();
-            double[] g = new double[] { LayerInd, KidPositions[LayerInd] };
-            // if (nsd.SaveClicked) States.Add(nsd.NameResult, g);
-            string[] row = new string[] { "THIS", "IS", "TEST" };
-            //ListViewItem l = new ListViewItem();
-            //LV.Items.Add(new string[] { "0", nsd.NameResult, "KidAxis_" + (LayerInd + 1).ToString(), KidPositions[LayerInd].ToString() });
+            String y = "";
+            using (SqlConnection con = new SqlConnection(MomCon.ConnectionString))
+            {
+                System.Data.DataRowView currentRow = (System.Data.DataRowView)StatesGrid.SelectedItem;
+                if (StatesGrid.SelectedCells.Count != 0) y = currentRow.Row.ItemArray[0].ToString();
+                MomCon.Open();
+                if(scmd ==null)scmd = new SqlCommand("Exec momsql.dbo.GetStateData", MomCon);
+               sda = scmd.ExecuteReader();
+                if (dt == null) { dt = new DataTable("AxisControl"); StatesGrid.ItemsSource = dt.DefaultView; }
+                dt.Clear();
+                dt.Load(sda);
+                StatesGrid.Items.Refresh();
+                MomCon.Close();
+           
+                if (y == "") return;
+                StatesGrid.SelectAll();
+            }
+
+            foreach ( object item in StatesGrid.ItemsSource)
+                {
+                    try
+                    {
+                        DataRowView drv = (DataRowView)item;
+                        if (drv.Row.ItemArray[0].ToString() == y) StatesGrid.SelectedItem = item;
+                    }
+                    catch { }
+                }
+                //this.ItemsSource = dt.DefaultView;
+           
+
+            //NameStateDialog nsd = new NameStateDialog();
+            //nsd.ShowDialog();
+            //double[] g = new double[] { LayerInd, KidPositions[LayerInd] };
+            //// if (nsd.SaveClicked) States.Add(nsd.NameResult, g);
+            //string[] row = new string[] { "THIS", "IS", "TEST" };
+
+            //string CmdString = "MomSQL..StoreGroupState" ;
+
+            //SqlCommand cmd = new SqlCommand(CmdString, MomCon );
+            //cmd.CommandType = CommandType.StoredProcedure;
+            //cmd.Parameters.AddWithValue("@AxisGroupNum", LayerInd);
+            //cmd.Parameters.AddWithValue("@StateName", nsd.NameResult);
+            //cmd.Parameters.AddWithValue("@Notes", nsd.NotesResult);
 
 
-           //StateData y = new StateData();// { id = 0, Name = nsd.NameResult, AxisGroup = "AxisGroup" + (LayerInd + 1).ToString() };
-          //  StatesGrid.Items.Add(y);
+            //cmd.CommandTimeout = 1000;
+
+            //try
+            //{
+            //    MomCon.Open();
+            //    cmd.ExecuteNonQuery();
+            //}
+            //catch { }
+            //finally { MomCon.Close(); }
+
+
         }
 
         private void UnhandeledEx(object sender, UnhandledExceptionEventArgs args)
@@ -551,18 +562,10 @@ namespace WpfApp1
          
         }
 
-        private void TLV_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-           // string s = sender.ToString();
-        }
-
-        private void ModeButton_Click(object sender, RoutedEventArgs e)
-        {
-          //  if(!(Mom is null))LiveDisplay = !LiveDisplay;
-        }
 
         private void closed(object sender, RoutedEventArgs e)
         {
+            Mom.WriteValue(Mom.MomControl, false, "MOMCONTROL");
             this.Close();
         }
 
@@ -581,7 +584,7 @@ namespace WpfApp1
                         Mom.WriteValue(Mom.GlobalEstop, true); ShadeRectangle1.Stroke = new SolidColorBrush(System.Windows.Media.Colors.Red);
                     }
 
-                    if ((int)Mom.ReadValue(Mom.GlobalEstop) > 0) LiveDisplay = 3;
+                    if ((int)Mom.ReadValue(Mom.GlobalEstop) > 0 && LiveDisplay != 2) LiveDisplay = 3;
                     if (sr.EstopPressed && LiveDisplay != 2) LiveDisplay = 4;
                     // if (!sr.EstopPressed && LiveDisplay == 2) { Mom.WriteValue(Mom.GlobalEstop, true); LiveDisplay = 3; }
 
@@ -603,19 +606,20 @@ namespace WpfApp1
                 ModeLabel.Content = "Console E-Stop active (Live)";
                 VirtualModeButton.Opacity = 80;
                 if (sr.EstopPressed) SafteyResetButton.Visibility = Visibility.Hidden;
-                Mom.WriteValue(Mom.GlobalEstop, true);
+              
             }
 
-            for (int axs = 0; axs < 2; axs++)
+            for (int axs = 0; axs < 6; axs++)
             {
-
+                KidPositions[axs] = KidPositions[axs] + AxisSpeed[axs];
+                AxisData[axs].Position = AxisData[axs].Position + AxisSpeed[axs];
+            }
                 if (LiveDisplay == 2)
                 {
                     ShadeRectangle1.Stroke = new SolidColorBrush(System.Windows.Media.Colors.Yellow);
                     ModeLabel.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Yellow);
                     ModeLabel.Content = "Simulation Mode Active\r";
-                    KidPositions[axs] = KidPositions[axs] + AxisSpeed[axs];
-                    AxisData[axs].Position = AxisData[axs].Position + AxisSpeed[axs];
+                  
                     VirtualModeButton.Opacity = 20;
                     VirtualModeButton.Content = "Enable Live Mode";
                     SafteyResetButton.Visibility = Visibility.Hidden;
@@ -631,7 +635,7 @@ namespace WpfApp1
 
                         ModeSelDisabled = false;
                     }
-                    Mom.WriteValue(Mom.MomControl, false, "MOMCONTROL");
+                    
                 } else if(LiveDisplay == 1)
                  {
 
@@ -639,10 +643,11 @@ namespace WpfApp1
                     ModeLabel.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Gray);
                     ModeLabel.Content = "Live mode Active";
                     VirtualModeButton.Content = "Enable Simulation";
-               }
+                    if(loopCount % 50 ==38)Mom.WriteValue(Mom.MomControl, true, "MOMCONTROL");
+                }
                
 
-            }
+            
             ModeSelDisabled = false;
         }
 
@@ -712,23 +717,22 @@ namespace WpfApp1
         private void TLVTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             object s = sender;
-        }
+            UserInTextBox = false;
+            _treeListView.SpecialTextBox tb = (sender as _treeListView.SpecialTextBox);
 
-        private void TLVTextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            var s = sender;
-           
+            ADSQL.SqlWriteAxis(int.Parse(tb.AxisNumber), tb.Tag.ToString(), int.Parse(tb.Text));
 
         }
 
+   
         private void TLVTextBox_GotKeyBoardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             _treeListView.SpecialTextBox tb = (sender as _treeListView.SpecialTextBox);
             if (tb != null)
             {
                 tb.SelectAll();
+                UserInTextBox = true;
                 e.Handled = true;
-
             }
         }
 
@@ -742,7 +746,14 @@ namespace WpfApp1
                     e.Handled = true;
                     tb.Focus();
                 }
+            }
+        }
 
+        private void TLVTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                _treeListView.SpecialTextBox tb = (sender as _treeListView.SpecialTextBox);
             }
         }
     }
