@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio\2017\community\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="15.0">
  <Targets>
-  <Target Name="B:\GitHub\WPFIbeam\WpfApp1\bin\x86\Debug\Automater.exe">
+  <Target Name="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\bin\x86\Debug\Automater.exe">
    <Modules>
     <Module Name="automater.exe">
      <Namespaces>
@@ -10,7 +10,7 @@
        <Types>
         <Type Name="ADSClient" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Status="Active" Created="2017-09-19 01:27:58Z" FixCategory="DependsOnFix">
+          <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Status="Active" Created="2017-09-27 02:45:47Z" FixCategory="DependsOnFix">
            <Issue Name="DependsOnFix" Certainty="95" Level="CriticalError">Implement IDisposable on 'ADSClient' because it creates members of the following IDisposable types: 'TcAdsClient'. If 'ADSClient' has previously shipped, adding new members that implement IDisposable to this type is considered a breaking change to existing consumers.</Issue>
           </Message>
          </Messages>
@@ -21,8 +21,8 @@
            <Accessors>
             <Accessor Name="#get_ModeVel()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
              <Messages>
-              <Message TypeName="DoNotRaiseExceptionsInUnexpectedLocations" Category="Microsoft.Design" CheckId="CA1065" Status="Active" Created="2017-09-19 01:27:58Z" FixCategory="Breaking">
-               <Issue Name="PropertyGetter" Certainty="90" Level="Warning" Path="B:\GitHub\WPFIbeam\WpfApp1" File="ADSClient.cs" Line="317">'AdsKid.ModeVel.get()' creates an exception of type 'Exception', an exception type that should not be raised in a property. If this exception instance might be raised, use a different exception type, convert this property into a method, or change this property's logic so that it no longer raises an exception.</Issue>
+              <Message TypeName="DoNotRaiseExceptionsInUnexpectedLocations" Category="Microsoft.Design" CheckId="CA1065" Status="Active" Created="2017-09-27 02:45:47Z" FixCategory="Breaking">
+               <Issue Name="PropertyGetter" Certainty="90" Level="Warning" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1" File="ADSClient.cs" Line="331">'AdsKid.ModeVel.get()' creates an exception of type 'Exception', an exception type that should not be raised in a property. If this exception instance might be raised, use a different exception type, convert this property into a method, or change this property's logic so that it no longer raises an exception.</Issue>
               </Message>
              </Messages>
             </Accessor>
@@ -34,8 +34,8 @@
          <Members>
           <Member Name="#SqlWriteAxis(System.Int32,System.String,System.Object,System.Boolean)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2017-09-19 01:27:58Z" FixCategory="NonBreaking">
-             <Issue Certainty="95" Level="Error" Path="B:\GitHub\WPFIbeam\WpfApp1\ADSQL" File="ADSQL.cs" Line="51">'ADSQL.SqlWriteAxis(int, string, object, bool)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2017-09-27 02:45:47Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\ADSQL" File="ADSQL.cs" Line="54">'ADSQL.SqlWriteAxis(int, string, object, bool)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
             </Message>
            </Messages>
           </Member>
@@ -49,12 +49,12 @@
          <Members>
           <Member Name="#Refresh()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-09-19 01:27:58Z" FixCategory="DependsOnFix">
-             <Issue Certainty="75" Level="Warning" Path="B:\GitHub\WPFIbeam\WpfApp1\ADSQL" File="DesignControl.xaml.cs" Line="82">Object 'con' can be disposed more than once in method 'AxisControl.Refresh()'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 82</Issue>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-09-27 02:45:47Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\ADSQL" File="DesignControl.xaml.cs" Line="91">Object 'con' can be disposed more than once in method 'AxisControl.Refresh()'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 91</Issue>
             </Message>
-            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-09-19 01:27:58Z" FixCategory="DependsOnFix">
-             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="B:\GitHub\WPFIbeam\WpfApp1\ADSQL" File="DesignControl.xaml.cs" Line="48">The query string passed to 'SqlCommand.SqlCommand(string, SqlConnection)' in 'AxisControl.Refresh()' could contain the following variables 'base.ToString()'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
-             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="B:\GitHub\WPFIbeam\WpfApp1\ADSQL" File="DesignControl.xaml.cs" Line="55">The query string passed to 'SqlCommand.SqlCommand(string, SqlConnection)' in 'AxisControl.Refresh()' could contain the following variables 'this.CmdString'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-09-27 02:45:47Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\ADSQL" File="DesignControl.xaml.cs" Line="49">The query string passed to 'SqlCommand.SqlCommand(string, SqlConnection)' in 'AxisControl.Refresh()' could contain the following variables 'base.ToString()'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\ADSQL" File="DesignControl.xaml.cs" Line="56">The query string passed to 'SqlCommand.SqlCommand(string, SqlConnection)' in 'AxisControl.Refresh()' could contain the following variables 'this.CmdString'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
             </Message>
            </Messages>
           </Member>
@@ -66,14 +66,14 @@
        <Types>
         <Type Name="MainWindow" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Status="Active" Created="2017-09-19 01:27:58Z" FixCategory="DependsOnFix">
-           <Issue Name="DependsOnFix" Certainty="95" Level="CriticalError">Implement IDisposable on 'MainWindow' because it creates members of the following IDisposable types: 'SqlConnection', 'DataTable'. If 'MainWindow' has previously shipped, adding new members that implement IDisposable to this type is considered a breaking change to existing consumers.</Issue>
+          <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Status="Active" Created="2017-09-27 02:45:47Z" FixCategory="DependsOnFix">
+           <Issue Name="DependsOnFix" Certainty="95" Level="CriticalError">Implement IDisposable on 'MainWindow' because it creates members of the following IDisposable types: 'SqlConnection', 'SqlCommand', 'DataTable'. If 'MainWindow' has previously shipped, adding new members that implement IDisposable to this type is considered a breaking change to existing consumers.</Issue>
           </Message>
          </Messages>
         </Type>
         <Type Name="MomSQLDataSet" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="ImplementISerializableCorrectly" Category="Microsoft.Usage" CheckId="CA2240" Status="Active" Created="2017-09-19 01:27:58Z" FixCategory="NonBreaking">
+          <Message TypeName="ImplementISerializableCorrectly" Category="Microsoft.Usage" CheckId="CA2240" Status="Active" Created="2017-09-27 02:45:47Z" FixCategory="NonBreaking">
            <Issue Certainty="60" Level="Error">Add an implementation of GetObjectData to type 'MomSQLDataSet'.</Issue>
           </Message>
          </Messages>
@@ -89,7 +89,7 @@
   <Rule TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202">
    <Name>Do not dispose objects multiple times</Name>
    <Description>A correctly implemented Dispose method can be called multiple times without throwing an exception. However, this is not guaranteed and to avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.</Description>
-   <Resolution Name="Default">Object {0} can be disposed more than once in method {1}. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 82</Resolution>
+   <Resolution Name="Default">Object {0} can be disposed more than once in method {1}. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 91</Resolution>
    <Owner>RuleOwner</Owner>
    <Url>http://msdn.microsoft.com/library/ms182334.aspx</Url>
    <Email />

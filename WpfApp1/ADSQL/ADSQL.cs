@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 
     public partial  class ADSQL
     {
-        public static SqlConnection MomCon = new SqlConnection("data source = CONSOLE1; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework");
+        public static SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework");
         public static ADSClient Mom = new ADSClient("10.99.1.1.1.1", true, 20);
 
 

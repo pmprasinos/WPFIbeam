@@ -16,193 +16,28 @@
         <Style x:Key="myHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="TextBlock.Foreground" Value="White"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Visibility" Value="Hidden"/>
         </Style>
 
-
-
-        <Style x:Key="ExpandCollapseToggleStyle"
-           TargetType="{x:Type ToggleButton}">
-            <Setter Property="Focusable"
-              Value="False"/>
-            <Setter Property="Width"
-              Value="14"/>
-            <Setter Property="Height"
-              Value="15"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Border Width="17"
-                    Height="13"
-                    Background="Transparent">
-                            <Border Width="15"
-                      Height="19"
-                      BorderThickness="1"
-                      BorderBrush="#FF7898B5"
-                      CornerRadius="1"
-                      SnapsToDevicePixels="true">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0"
-                                       EndPoint="2,2">
-                                        <LinearGradientBrush.GradientStops>
-                                            <GradientStop Color="White"
-                                    Offset=".2"/>
-                                            <GradientStop Color="#FFC0B7A6"
-                                    Offset="1"/>
-                                        </LinearGradientBrush.GradientStops>
-                                    </LinearGradientBrush>
-                                </Border.Background>
-                                <Path x:Name="ExpandPath"
-                      Margin="3,3,1,1"
-                      Fill="Black"
-                      Data="M 0 2 L 0 3 L 2 3 L 2 5 L 3 5 L 3 3 L 5 3 L 5 2 L 3 2 L 3 0 L 2 0 L 2 2 Z"/>
-                            </Border>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked"
-                       Value="True">
-                                <Setter Property="Data"
-                        TargetName="ExpandPath"
-                        Value="M 0 2 L 0 3 L 5 3 L 5 2 Z"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+        <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="9"/>
+                
+        </Style>
+        
+        <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="9"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
         </Style>
 
 
-        <l:LevelToIndentConverter x:Key="LevelToIndentConverter"/>
-
-
-        <DataTemplate x:Key="ReadOnly_TLVItem">
-            <DockPanel>
-                <ToggleButton x:Name="Expander" 
-                      Style="{StaticResource ExpandCollapseToggleStyle}" 
-                      Margin="{Binding Level,Converter={StaticResource LevelToIndentConverter},RelativeSource={RelativeSource AncestorType={x:Type l:TreeListViewItem}}}"
-                      IsChecked="{Binding Path=IsExpanded,RelativeSource={RelativeSource AncestorType={x:Type l:TreeListViewItem}}}"
-                      ClickMode="Press" FontSize="18" />
-
-                <TextBlock Text="{Binding Name}"/>
-
-            </DockPanel>
-            <DataTemplate.Triggers>
-                <DataTrigger Binding="{Binding Path=HasItems,RelativeSource={RelativeSource AncestorType={x:Type l:TreeListViewItem}}}" 
-                     Value="False">
-                    <Setter TargetName="Expander"
-                  Property="Visibility"
-                  Value="Hidden"/>
-                </DataTrigger>
-            </DataTemplate.Triggers>
-        </DataTemplate>
-
-        <DataTemplate x:Key="CellTemplate_Name">
-            <DockPanel>
-
-                <l:SpecialTextBox  x:Name="stb" Text="{Binding Value}" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" LostFocus="TLVTextBox_LostFocus" Tag="{Binding Property}" GotKeyboardFocus="TLVTextBox_GotKeyBoardFocus" PreviewMouseLeftButtonDown="SelectivelyIgnoreMouseButton" AxisNumber="{Binding AxisNumber}" IsEnabled="{Binding UserCanEdit}" Property="{Binding Property}" KeyDown="TLVTextBox_KeyDown" FontSize="18" />
-            </DockPanel>
-
-        </DataTemplate>
-
-
-        <Style TargetType="{x:Type l:TreeListViewItem}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type l:TreeListViewItem}">
-                        <StackPanel>
-                            <Border Name="Bd"
-                      Background="Transparent"
-                      TextBlock.Foreground="White"
-                      BorderThickness="0.5"
-                      BorderBrush="Gray"
-                      Padding="{TemplateBinding Padding}">
-                                <GridViewRowPresenter x:Name="PART_Header" 
-                                      Content="{TemplateBinding Header}" 
-                                      Columns="{Binding Path=Columns,RelativeSource={RelativeSource AncestorType={x:Type l:TreeListView}}}" />
-                            </Border>
-
-                            <ItemsPresenter x:Name="ItemsHost" />
-
-                        </StackPanel>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsExpanded"
-                       Value="false">
-                                <Setter TargetName="ItemsHost"
-                        Property="Visibility"
-                        Value="Collapsed"/>
-                            </Trigger>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="HasHeader"
-                             Value="false"/>
-                                    <Condition Property="Width"
-                             Value="Auto"/>
-                                </MultiTrigger.Conditions>
-                                <Setter TargetName="PART_Header"
-                        Property="MinWidth"
-                        Value="75"/>
-                            </MultiTrigger>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="HasHeader"
-                             Value="false"/>
-                                    <Condition Property="Height"
-                             Value="Auto"/>
-                                </MultiTrigger.Conditions>
-                                <Setter TargetName="PART_Header"
-                        Property="MinHeight"
-                        Value="19"/>
-                            </MultiTrigger>
-                            <Trigger Property="IsSelected"
-                       Value="true">
-                                <Setter Property="BorderBrush" Value="Gray"/>
-                                <Setter TargetName="Bd"
-            
-                        Property="Background"
-                        Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                                <Setter Property="Foreground"
-                        Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
-                            </Trigger>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="IsSelected"
-                             Value="true"/>
-                                    <Condition Property="IsSelectionActive"
-                             Value="false"/>
-                                </MultiTrigger.Conditions>
-                                <Setter TargetName="Bd"
-                        Property="Background"
-                        Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-                                <Setter Property="Foreground"
-                        Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-                            </MultiTrigger>
-                            <Trigger Property="IsEnabled"
-                       Value="false">
-                                <Setter Property="Foreground"
-                        Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-
-        <Style TargetType="{x:Type l:TreeListView}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type l:TreeListView}">
-                        <DockPanel>
-                            <GridViewHeaderRowPresenter Columns="{Binding Path=Columns,RelativeSource={RelativeSource TemplatedParent} }"
-                                            DockPanel.Dock="Top" />
-                            <ItemsPresenter/>
-                        </DockPanel>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
 
     </Window.Resources>
     <Window.Effect>
@@ -290,7 +125,7 @@
                     <DropShadowEffect BlurRadius="20" Color="Yellow" ShadowDepth="0" />
                 </Button.Effect>
             </Button>
-            <Image x:Name="ErrorIcon"  Source="obj/Error.png" Panel.ZIndex="180" ToolTip="" Height="112" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="118" PreviewKeyUp="ErrorIcon_PreviewKeyUp" MouseEnter="ErrorIcon_MouseEnter" MouseLeave="ErrorIcon_MouseLeave"/>
+            <Image x:Name="ErrorIcon"   Panel.ZIndex="180" ToolTip="" Height="112" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="118" PreviewKeyUp="ErrorIcon_PreviewKeyUp" MouseEnter="ErrorIcon_MouseEnter" MouseLeave="ErrorIcon_MouseLeave" Source="Resources/Error.png"/>
 
 
         </Grid>
@@ -324,8 +159,8 @@
                         <DockPanel Background="{x:Null}" Tag="{Binding ID}" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}, Path=IsSelected}">
                                                 <Image DockPanel.Dock="Left" Source="{Binding ImageUrl}" Height="64" Margin="10" />
                             <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="255"/>
+                                <Grid.ColumnDefinitions >
+                                    <ColumnDefinition Width="255" />
                                     <ColumnDefinition Width="5" />
                                     <ColumnDefinition Width="255" />
                                     <ColumnDefinition Width="5" />
@@ -338,11 +173,11 @@
                                 <GridSplitter Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" />
                                 <Grid Margin="0,10" Grid.Column="0">
                                                         <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100" />
-                                     <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="50" />
+                                     <ColumnDefinition Width="50" />
                                     <ColumnDefinition Width="10" />
-                                    <ColumnDefinition Width="100" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="50" />
                                     <ColumnDefinition Width="10" />
                                         <ColumnDefinition Width="100" />
                                         <ColumnDefinition Width="100" />
@@ -357,41 +192,33 @@
                                                                  <RowDefinition Height="Auto" />
 
                                     </Grid.RowDefinitions>
- 
-                                <TextBlock Text="AxisName: " FontWeight="Bold" TextAlignment="Right" />
-                                                        <TextBlock Tag="tbAxisName" Text="{Binding AxisName}" Grid.Column="1" />
-                                <TextBlock Text="TargetPosition: " FontWeight="Bold" Grid.Row="1"  TextAlignment="Right"/>
-                                                        <TextBox Tag="tbTargetPosition" Text="{Binding TargetPosition}"  Grid.Column="1" Grid.Row="1" IsEnabled="False" />
-                                <TextBlock Text="Max Speed: " FontWeight="Bold" Grid.Row="3" TextAlignment="Right" />
-                                                         
-                                                        <TextBox Tag="tbVelocity" Text="{Binding Velocity}" Grid.Column="1" Grid.Row="3" IsEnabled="False" />
-                                                    
-                                <TextBlock Text="Accel: " FontWeight="Bold" Grid.Row="0" Grid.Column="3" TextAlignment="Right"/>
-                                <TextBox Tag="tbAcceleration" Text="{Binding Acceleration}" Grid.Column="4" Grid.Row="0" IsEnabled="False" />
 
-                                <TextBlock Text="Deccel: " FontWeight="Bold" Grid.Row="1" Grid.Column="3" TextAlignment="Right"/>
-                                    <TextBox Tag="tbDeceleration" Text="{Binding Deceleration, UpdateSourceTrigger=PropertyChanged}" Grid.Column="4" Grid.Row="1" IsEnabled="False" />
+                                    <TextBlock Text="Axis: " FontWeight="Bold" TextAlignment="Right" Style="{StaticResource TextBlockStyle}" HorizontalAlignment="Left" />
+                                    <TextBlock Text="TargetPosition: " FontWeight="Bold" Grid.Row="1" Style="{StaticResource TextBlockStyle}" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="Max Speed: " FontWeight="Bold" Grid.Row="2" TextAlignment="Right" Style="{StaticResource TextBlockStyle}" />
+                                    <TextBlock Text="Accel: " FontWeight="Bold" Grid.Row="0" Grid.Column="3" TextAlignment="Right" Style="{StaticResource TextBlockStyle}"/>
+                                    <TextBlock Text="Deccel: " FontWeight="Bold" Grid.Row="1" Grid.Column="3" TextAlignment="Right" Style="{StaticResource TextBlockStyle}"/>
+                                    <TextBlock Text="MoveTime(est): " FontWeight="Bold" Grid.Row="2" Grid.Column="3" TextAlignment="Right" Style="{StaticResource TextBlockStyle}"/>
+                                    <TextBlock Text="{Binding moveTime1, Mode=OneWay}" Grid.Column="4" Grid.Row="2" IsEnabled="False"  Style="{StaticResource TextBlockStyle}"/>
 
-                                <TextBlock Text="MoveTime(est): " FontWeight="Bold" Grid.Row="2" Grid.Column="3" TextAlignment="Right"/>
-                                <TextBlock Tag="tbMoveTime" Text="{Binding moveTime, UpdateSourceTrigger=PropertyChanged}" Grid.Column="4" Grid.Row="2" IsEnabled="False" />
-
-                                    <TextBlock Text="CurrentPosition: " FontWeight="Bold" Grid.Row="3" Grid.Column="3" TextAlignment="Right"/>
-                                    <TextBlock Tag="tbCurrentPosition" Text="{Binding CurrentPosition, UpdateSourceTrigger=PropertyChanged}" Grid.Column="4" Grid.Row="3" IsEnabled="False" />
-
-
+                                    <TextBox Text="{Binding Velocity1, Mode=OneWay}" Grid.Column="1" Grid.Row="2" IsEnabled="False" Style="{StaticResource TextBoxStyle}" />
+                                    <TextBox Text="{Binding TargetPosition1, Mode=OneWay}"  Grid.Column="1" Grid.Row="1" IsEnabled="False"  Style="{StaticResource TextBoxStyle}"/>
+                                    <TextBox Text="{Binding Acceleration1, Mode=OneWay}" Grid.Column="4" Grid.Row="0" IsEnabled="False"  Style="{StaticResource TextBoxStyle}"/>
+                                    <TextBox Text="{Binding Deceleration1, Mode=OneWay}" Grid.Column="4" Grid.Row="1" IsEnabled="False"  Style="{StaticResource TextBoxStyle}" />
+                                    <TextBox Text="{Binding AxisName1, Mode=OneWay}" Grid.Column="1"  Style="{StaticResource TextBoxStyle}" FontWeight="Normal"/>
 
                                 </Grid>
                            
                             <Grid Margin="0,10" Grid.Column="2">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="50" />
                                     <ColumnDefinition Width="10" />
-                                    <ColumnDefinition Width="100" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="50" />
                                     <ColumnDefinition Width="10" />
-                                    <ColumnDefinition Width="100" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="50" />
                                     <ColumnDefinition Width="10" />
 
                                 </Grid.ColumnDefinitions>
@@ -403,23 +230,20 @@
 
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Text="Axis: " FontWeight="Bold" TextAlignment="Right" />
-                                <TextBlock Text="{Binding AxisName}" Grid.Column="1" />
-                                <TextBlock Text="TargetPosition: " FontWeight="Bold" Grid.Row="1"  TextAlignment="Right"/>
-                                <TextBox Text="{Binding TargetPosition}"  Grid.Column="1" Grid.Row="1" IsEnabled="False" />
-                                <TextBlock Text="Max Speed: " FontWeight="Bold" Grid.Row="3" TextAlignment="Right" />
+                                    <TextBlock Text="Axis: " FontWeight="Bold" Grid.Column="0" TextAlignment="Right" Style="{StaticResource TextBlockStyle}"/>
+                                    <TextBlock Text="TargetPosition: " FontWeight="Bold" Grid.Row="1" Style="{StaticResource TextBlockStyle}"/>
+                                    <TextBlock Text="Max Speed: " FontWeight="Bold" Grid.Row="2" TextAlignment="Right" Style="{StaticResource TextBlockStyle}" />
+                                    <TextBlock Text="Accel: " FontWeight="Bold" Grid.Row="0" Grid.Column="3" TextAlignment="Right" Style="{StaticResource TextBlockStyle}"/>
+                                    <TextBlock Text="Deccel: " FontWeight="Bold" Grid.Row="1" Grid.Column="3" TextAlignment="Right" Style="{StaticResource TextBlockStyle}"/>
+                                    <TextBlock Text="MvTime(est): " FontWeight="Bold" Grid.Row="2" Grid.Column="3" TextAlignment="Right" Style="{StaticResource TextBlockStyle}"/>
+                                    <TextBlock Text="{Binding moveTime2, Mode=OneWay}" Grid.Column="4" Grid.Row="2" IsEnabled="False"  Style="{StaticResource TextBlockStyle}"/>
+                                <TextBox Text="{Binding AxisName2, Mode=OneWay}" Grid.Column="1" Grid.Row="0" Style="{StaticResource TextBoxStyle}" FontWeight="Normal"/>
 
-                                <TextBox Text="{Binding Velocity}" Grid.Column="1" Grid.Row="3" IsEnabled="False" />
-
-                                <TextBlock Text="Accel: " FontWeight="Bold" Grid.Row="0" Grid.Column="3" TextAlignment="Right"/>
-                                <TextBox Text="{Binding Acceleration}" Grid.Column="4" Grid.Row="0" IsEnabled="False" Background="{x:Null}" />
-
-                                <TextBlock Text="Deccel: " FontWeight="Bold" Grid.Row="1" Grid.Column="3" TextAlignment="Right"/>
-                                <TextBox Text="{Binding Acceleration}" Grid.Column="4" Grid.Row="1" IsEnabled="False" Background="{x:Null}" />
-
-                                <TextBlock Text="MoveTime(est): " FontWeight="Bold" Grid.Row="2" Grid.Column="3" TextAlignment="Right"/>
-                                <TextBlock Text="{Binding moveTime}" Grid.Column="4" Grid.Row="2" IsEnabled="False" />
-
+                                    <TextBox Text="{Binding Velocity2, Mode=OneWay}" Grid.Column="1" Grid.Row="3" IsEnabled="False" Style="{StaticResource TextBoxStyle}"/>
+                                    <TextBox Text="{Binding TargetPosition2, Mode=OneWay}"  Grid.Column="1" Grid.Row="1" IsEnabled="False"  Style="{StaticResource TextBoxStyle}"/>
+                                    <TextBox Text="{Binding Acceleration2, Mode=OneWay}" Grid.Column="4" Grid.Row="0" IsEnabled="False"  Style="{StaticResource TextBoxStyle}"/>
+                                    <TextBox Text="{Binding Deceleration2, Mode=OneWay}" Grid.Column="4" Grid.Row="1" IsEnabled="False"  Style="{StaticResource TextBoxStyle}" />
+                                   
 
 
                             </Grid>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="Automater.exe" version="1.0.0.80" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
+  <asmv1:assemblyIdentity name="Automater.exe" version="1.0.0.99" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
   <description asmv2:iconFile="SaferVenue.ico" asmv2:publisher="P. Prasinos" co.v1:suiteName="Theatre Automation" asmv2:product="Automater" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
@@ -56,14 +56,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Automater.exe" size="511928">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Automater.exe" size="547256">
       <assemblyIdentity name="Automater" version="1.0.0.0" publicKeyToken="9D9BF72C0D89EE0E" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>1qgarNdGE49+DrJ+kePbJ/F3mux4HFomS01WoRS4V70=</dsig:DigestValue>
+        <dsig:DigestValue>Wt+PTWMX6uCYJouQT+caeTeHV6ojA/gWqewG00tC9pM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -176,33 +176,33 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TwinCAT.Ads.dll" size="503808">
-      <assemblyIdentity name="TwinCAT.Ads" version="4.2.132.0" publicKeyToken="180016CD49E5E8C3" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TwinCAT.Ads.dll" size="450560">
+      <assemblyIdentity name="TwinCAT.Ads" version="4.1.31.0" publicKeyToken="180016CD49E5E8C3" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>aXswbjTShDLPhpbG2l77MBySQTwGnhRQvZM5S3g04a8=</dsig:DigestValue>
+        <dsig:DigestValue>AoNA9iFg7vs9UEJlKyjVCUbNFHLMHal7SrRldLVJf34=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Automater.exe.config" size="2527">
+  <file name="Automater.exe.config" size="2107">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>/lVDh7Byx4/dRdE7GJsej0oX57gVYwKziJRx/65hRbY=</dsig:DigestValue>
+      <dsig:DigestValue>LjXfykKb5SqBGQyNE5r8BBUF71qlsGhW+PCcHrQD7+E=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="CAD\iBeam.stl" size="24543">
+  <file name="CAD\iBeam.stl" size="23897">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>DyFimpI6K+At4V5DM8fxfyLgbvdwWyVXo5/UX3mQ3V8=</dsig:DigestValue>
+      <dsig:DigestValue>vuXkYTQ4bFGg96rQvFz4osijwk5zR98Lj4Q5BHeVSXg=</dsig:DigestValue>
     </hash>
   </file>
   <file name="CAD\Pulley.stl" size="68084">
@@ -212,6 +212,69 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>1AZF//ho8bHVFpL8UrLK+trNntvwh4Gw4sOPcCAKSjo=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Down.png" size="786">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ra3LpS50C67MfOkfP2OREzwtlM4lrZb5lMZhZATAFdM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\EmptyJoyStick.png" size="12878">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>gcq/KoPxLIYicaYrdKCDpMtm5xrN7jJlUl/33bJSCxI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Error.png" size="34688">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>pVrnk5Gh1mLNs7iTqr4lCqnn9nbCCDi27xEVRarP1gI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Left.png" size="827">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>SLgi6YCYq6gDw5fjwMcSP5GvQ0FbiomgNHdcU+9Mag0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Right.png" size="956">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>t/HaejjbfBsJaVIopvM7WbCsLUDBntNGF9K3GoW7tC4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Twist.png" size="4890">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>WirHcLBjVbTiaZdnNDreJrQel7V24FTToTO+2QsB5Xo=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Up.png" size="800">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ZvWZIQ0VlnZoXyrzP7bkPQn05VWhLy8xSR7nQkvKmP8=</dsig:DigestValue>
     </hash>
   </file>
   <file name="SaferVenue.ico" size="154558">

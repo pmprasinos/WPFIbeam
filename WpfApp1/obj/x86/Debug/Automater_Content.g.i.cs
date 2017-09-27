@@ -8,6 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/error.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/emptyjoystick.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/left.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/up.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/down.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/right.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/twist.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("cad/ibeam.stl")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("cad/pulley.stl")]
 

@@ -22,26 +22,5 @@ namespace WpfApp1.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=CONSOLE1/MomSQL;UserName=\'PrasinosApps\', Password=\'Flyhouse1234\'")]
-        public string ConnString {
-            get {
-                return ((string)(this["ConnString"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=CONSOLE11;Initial Catalog=MomSQL;Persist Security Info=True;User ID=P" +
-            "rasinosApps;Password=flyhouse1234")]
-        public string MomSQLConnectionString {
-            get {
-                return ((string)(this["MomSQLConnectionString"]));
-            }
-        }
     }
 }

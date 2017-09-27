@@ -34,15 +34,14 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        Task BackTask;
-        int tickCounter=0;
-        SqlConnection MomCon = new SqlConnection("data source = CONSOLE1; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework");
+        //Task BackTask;
+        int tickCounter = 0;
+        SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework");
         SqlDataReader sda; DataTable dt;
         private Vector3D[][] IBeamTrans = new Vector3D[3][];
         private double[] KidPositions = new double[6];
         private const string EYESHOT_SERIAL = "ULTWPF-94GF-N1277-FNLR3-1PPHF";
-        private int LayerInd = 0;
-        static System.Windows.Forms.Timer t = new System.Windows.Forms.Timer();
+        static System.Windows.Forms.Timer t = new System.Windows.Forms.Timer(); static System.Windows.Forms.Timer StatesGridTimer = new System.Windows.Forms.Timer();
         bool disabled = false; bool MomConnected = true; bool SerialConnected = true;
         double[] AxisSpeed = { 0, 0, 0, 0, 0, 0 };
         ADSClient Mom;
@@ -61,18 +60,16 @@ namespace WpfApp1
         private System.Drawing.Point _mouseLocation;
         private int SelectedLayer = -1;
         bool ModeSelDisabled; bool t_Busy = false;
-       bool UserInTextBox = false;  
+        bool UserInTextBox = false;
 
         public MainWindow() : base()
         {
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandeledEx);
-
             InitializeComponent();
             ErrorIcon.Visibility = Visibility.Hidden;
             viewPortLayout1.Unlock(EYESHOT_SERIAL);
-          
-            if (!UserInTextBox)sr = null;
-           
+
+            if (!UserInTextBox) sr = null;
 
             for (int i = 0; i < 100; i++)
             {
@@ -83,14 +80,11 @@ namespace WpfApp1
                     AxisData[i].Foreground = System.Windows.Media.Brushes.White;
                 }
             }
-            
-         
-            viewPortLayout1.ToolBar.Visible = false;
-            //JoySticks[0].X = 20;
 
+            viewPortLayout1.ToolBar.Visible = false;            //JoySticks[0].X = 20;
         }
 
-     
+
 
         private void Joystick_Setup(object sender, RoutedEventArgs e)
         {
@@ -99,9 +93,13 @@ namespace WpfApp1
             js.ShowDialog();
         }
 
-        private void T_tick(object myObject, EventArgs e)
+        private void StatesGridTimer_tick(object myObject, EventArgs e)
         {
-            if (!BackTask.IsCompleted) BackTask = null;
+            StatesGrid_Update();
+        }
+            private void T_tick(object myObject, EventArgs e)
+        {
+            // if(BackTask !=null) if (!BackTask.IsCompleted) BackTask = null;
             Stopwatch s = Stopwatch.StartNew();
             try
             {
@@ -109,60 +107,55 @@ namespace WpfApp1
                 if (disabled || t_Busy) { t.Interval = 10; return; }
                 t_Busy = true;
                 tickCounter++;
-                
-               // t.Stop();
-            ConnectMom();
-               
-            ConnectSerial();
-              
-           
-                 UpdateCad(SelectedLayer);
-          
-                // if(sp.IsOpen && System.Math.Abs(JoySticks[0].X +JoySticks[0].Y + JoySticks[0].Z)  > 1 || loopCount % 10 ==8) UpdateCad(1);
 
-              
-             
+                // t.Stop();
+                ConnectMom();
+                ConnectSerial();
+                UpdateCad(SelectedLayer);       
+
                 for (int i = 0; i < JoySticks.Length; i++)
                 {
                     if (sp.IsOpen) { JoySticks[i].X = sr.x[i]; JoySticks[i].Y = sr.y[i]; JoySticks[i].Z = sr.z[i]; JoySticks[i].W = sr.w[i]; }
                 }
                 AxisSpeed[Math.Abs(SelectedLayer - 1) * 2] = JoySticks[0].X / 2;
                 AxisSpeed[1 + Math.Abs(SelectedLayer - 1) * 2] = JoySticks[1].X / 2;
-          
-            loopCount++;
-            loopCount = loopCount % 100;
-            if (loopCount % 10==9) ModeSelect();
-            if(LiveDisplay !=2)
+
+                loopCount++;
+                loopCount = loopCount % 100;
+                if (loopCount % 10 == 9) ModeSelect();
+                if (LiveDisplay != 2)
                 {
-                    if (Mom != null && sr != null && loopCount % 10 == 3) if (sr.DeadmanRightPressed) Mom.WriteValue(Mom.DeadMan, true, "DEADMAN"); else if(loopCount % 10 == 3) Mom.WriteValue(Mom.DeadMan, false, "DEADMAN");
+                    if (Mom != null && sr != null && loopCount % 10 == 3) if (sr.DeadmanRightPressed || sr.DeadmanLeftPressed) Mom.WriteValue(Mom.DeadMan, true, "DEADMAN"); else if (loopCount % 10 == 3) Mom.WriteValue(Mom.DeadMan, false, "DEADMAN");
                     if (Mom != null && sr != null) if (loopCount % 50 == 49 && Mom.Connected) Mom.WriteValue(Mom.MomControl, true, "MOMCONTROL");
                 }
                 t_Busy = false;
             }
             catch { t_Busy = false; Debug.Print("ERROR"); }
-            finally {   }
+            finally { }
             Debug.Print(loopCount.ToString() + "   " + s.ElapsedMilliseconds.ToString());
         }
 
         void ConnectMom()
-        {      
-  
+        {
             if (MomConnected) try
-                {
+            {
+                    MomConnected = false;
+
                     if (Mom is null)
                     {
-                         System.Net.NetworkInformation.Ping p = new System.Net.NetworkInformation.Ping();
-                         string host;
-                         int n = 0;
-                         do { host = "10.99.1.";  host = host + (n+1).ToString(); try { host = p.Send(host).Address.ToString(); if (!host.Contains("10.99.1")) host = ""; } catch { n++; host = ""; } } while (host == "" && n < 2);
+                        System.Net.NetworkInformation.Ping p = new System.Net.NetworkInformation.Ping();
+                        string host = "";
+                        int n = 0;
+                        do { host = "10.99.1."; host = host + (n + 1).ToString(); try { host = p.Send(host).Address.ToString(); if (!host.Contains("10.99.1")) host = ""; } catch { n++; host = ""; } } while (host == "" && n < 2);
                         n = 0;
                         do { if (host == "") { host = "MOM"; host = host + n; }; try { host = p.Send(host).Address.ToString(); if (!host.Contains("10.99.1")) host = ""; } catch { n++; host = ""; } } while (host == "" && n < 2);
-                        Mom = new ADSClient(host +".1.1", true, 2);
+                        host = "10.99.1.1";
+                        Mom = new ADSClient(host + ".1.1", true, 2);
                     }
-                    System.Threading.Tasks.Task<bool> t = Task.Run(()=> Mom.WriteValue(Mom.TimeOutSwitch, false));
-                }
-                catch
-                {
+                    System.Threading.Tasks.Task<bool> t = Task.Run(() => Mom.WriteValue(Mom.TimeOutSwitch, false));
+            }
+            catch
+            {
                     string s = (string)ErrorIcon.ToolTip;
                     //Could not connect to mom instance
                     ErrorIcon.Visibility = Visibility.Visible;
@@ -172,7 +165,7 @@ namespace WpfApp1
                     {
                         ErrorIcon.ToolTip = ErrorIcon.ToolTip + "Error connecing to Mom PLC Instance. Click to troubleshoot.\r";
                     }
-                }
+            }
         }
 
         void ConnectSerial()
@@ -184,7 +177,7 @@ namespace WpfApp1
                 {
                     if (!sp.IsOpen && SerialConnected)
                     {
-                        sp = new System.IO.Ports.SerialPort(ComPort, 38400);
+                        sp = new System.IO.Ports.SerialPort(ComPort, 19200);
                         try
                         {
                             sp.Open();
@@ -224,7 +217,6 @@ namespace WpfApp1
                 if (window.IsLoaded)
                 {
                     window.WindowState = WindowState.Maximized;
-                    
                 }
             }
         }
@@ -232,15 +224,14 @@ namespace WpfApp1
         private void FullScreen(object sender, RoutedEventArgs e)
         {
             //loadSTL();
-            BackTask = Task.Run(() => {  ConnectMom(); });
+            // BackTask = Task.Run(() => {  ConnectMom(); });
             MaximizeToSecondaryMonitor(this);
             viewPortLayout1.Layers.Add(new Layer("0")); viewPortLayout1.Layers.Add(new Layer("1")); viewPortLayout1.Layers.Add(new Layer("2")); viewPortLayout1.Layers.Add(new Layer("3"));
             OpenCADFile();
             t = new System.Windows.Forms.Timer();
-            t.Interval = 200;
-            t.Enabled = true;
+            t.Interval = 2000; StatesGridTimer.Interval = 100; StatesGridTimer.Start();
             t.Start();
-            t.Tick += new EventHandler(T_tick);
+            t.Tick += new EventHandler(T_tick); StatesGridTimer.Tick += new EventHandler(StatesGridTimer_tick);
             JoyStick_Activate();
             UpdateCad(2);
         }
@@ -267,14 +258,12 @@ namespace WpfApp1
             //rfa.Entities[0].Translate(-13400, -13400, -1000);
             //rfa.AddToSceneAsSingleObject(viewPortLayout1, "PIT", 0);
 
-
         }
 
 
         private void ViewPortLayout1_OnLoad(object sender, RoutedEventArgs e)
         {
             if (disabled) return;
-     
 
             Entity s = (Entity)viewPortLayout1.Blocks["PulleyParent"].Entities[0];
             s.Color = System.Drawing.Color.FromArgb(200, System.Drawing.Color.Aqua);
@@ -308,7 +297,7 @@ namespace WpfApp1
             viewPortLayout1.SetView(viewType.Trimetric, true, viewPortLayout1.AnimateCamera);
             viewPortLayout1.Invalidate();
             viewPortLayout1.ZoomFit();
- 
+
         }
 
         private void UpdateCad(int BeamIndex)
@@ -325,15 +314,12 @@ namespace WpfApp1
 
             for (int k = 1; k < viewPortLayout1.Entities.Count; k++) if (viewPortLayout1.Entities[k].LayerIndex != 0) viewPortLayout1.Entities.RemoveAt(k);
 
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
-          
-               
-
-                if (LiveDisplay == 1 && i == SelectedLayer-1 && Mom != null)
+                if (LiveDisplay == 1 && i == SelectedLayer - 1 && Mom != null)
                 {
 
-                 
+
                     ADSQL.SqlWriteAxis((i * 2) + 1, "LiveValues", true);
 
                     KidPositions[(i * 2)] = int.Parse(ADSQL.SqlReadAxis((i * 2) + 1, "CurrentPosition").ToString());
@@ -344,7 +330,7 @@ namespace WpfApp1
                     if (loopCount % 3 == 2) ADSQL.SqlWriteAxis((i * 2) + 2, "TargetPosition", int.Parse(Math.Round(3 * AxisSpeed[(i * 2) + 1], 0).ToString()) + KidPositions[(i * 2) + 1]);
 
                 }
-                else if (i == SelectedLayer-1 && Mom != null)
+                else if (i == SelectedLayer - 1 && Mom != null)
                 {
                     ADSQL.SqlWriteAxis((i * 2) + 1, "LiveValues", false);
                     if (loopCount % 3 == 2) ADSQL.SqlWriteAxis((i * 2) + 1, "TargetPosition", int.Parse(Math.Round(3 * AxisSpeed[(i * 2)], 0).ToString()) + KidPositions[(i * 2)]);
@@ -352,7 +338,8 @@ namespace WpfApp1
                     KidPositions[(i * 2)] = int.Parse(ADSQL.SqlReadAxis((i * 2) + 1, "TargetPosition").ToString());
                     KidPositions[(i * 2) + 1] = int.Parse(ADSQL.SqlReadAxis((i * 2) + 2, "TargetPosition").ToString());
 
-                } else if (SelectedLayer == -1 && Mom != null)
+                }
+                else if (SelectedLayer == -1 && Mom != null)
                 {
                     KidPositions[(i * 2)] = int.Parse(ADSQL.SqlReadAxis((i * 2) + 1, "CurrentPosition").ToString());
                     KidPositions[(i * 2) + 1] = int.Parse(ADSQL.SqlReadAxis((i * 2) + 2, "CurrentPosition").ToString());
@@ -360,7 +347,7 @@ namespace WpfApp1
                 Entity e = (Entity)e0.Clone();
                 Entity P = (Entity)P0.Clone();
                 e.Rotate(1.5708, new Vector3D(1, 0, 0));
-                if(e.BoxMax != null)e.Rotate(System.Math.Tan((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)), new Vector3D(0, 1), boxCenter(e));
+                if (e.BoxMax != null) e.Rotate(System.Math.Tan((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)), new Vector3D(0, 1), boxCenter(e));
                 e.Translate(0, 1000 * i, 0);
                 e.Color = System.Drawing.Color.Black;
                 e.Translate(0, 0, (KidPositions[i * 2] + KidPositions[i * 2 + 1]) / 2);
@@ -389,13 +376,13 @@ namespace WpfApp1
                 }
                 else
                 {
-                    if (e.BoxMax != null && P.BoxMax !=null) P.Translate(e.BoxMin.X + (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMax.Z - P.BoxMin.Z);
+                    if (e.BoxMax != null && P.BoxMax != null) P.Translate(e.BoxMin.X + (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMax.Z - P.BoxMin.Z);
                 }
                 viewPortLayout1.Entities.Add(P, i + 1);
-               if(SelectedLayer != -1  ) PopulateAxisInfo((SelectedLayer * 2) - 1, false);
-                if (SelectedLayer != -1 ) PopulateAxisInfo(SelectedLayer * 2, false);
-            
-            viewPortLayout1.Invalidate();
+                if (SelectedLayer != -1) PopulateAxisInfo((SelectedLayer * 2) - 1, false);
+                if (SelectedLayer != -1) PopulateAxisInfo(SelectedLayer * 2, false);
+
+                viewPortLayout1.Invalidate();
             }
             foreach (Entity en in viewPortLayout1.Entities)
             {
@@ -407,7 +394,6 @@ namespace WpfApp1
         private Point3D boxCenter(Entity en)
         {
             Point3D result = new Point3D((en.BoxMax.X + en.BoxMin.X) / 2, (en.BoxMax.Y + en.BoxMin.Y) / 2, (en.BoxMax.Z + en.BoxMin.Z) / 2);
-       
             return result;
         }
 
@@ -425,11 +411,11 @@ namespace WpfApp1
                 {
 
                     SelectedLayer = en.LayerIndex;
-                    PopulateAxisInfo((SelectedLayer*2) -1, true);
+                    PopulateAxisInfo((SelectedLayer * 2) - 1, true);
                     PopulateAxisInfo(SelectedLayer * 2, false);
                 }
             }
-          
+
         }
 
         private void viewportLayout1_SelectionChanged(object sender, ViewportLayout.SelectionChangedEventArgs e)
@@ -448,8 +434,8 @@ namespace WpfApp1
             else
             {
                 // Set the BlockReference as selected.
-               // viewPortLayout1.Entities.CurrentBlockReference.Selected = true;
-               // Selection();
+                // viewPortLayout1.Entities.CurrentBlockReference.Selected = true;
+                // Selection();
                 viewPortLayout1.Invalidate();
             }
             JoyStick_Activate();
@@ -459,35 +445,26 @@ namespace WpfApp1
 
         private void JoyStick_Activate()
         {
-            if(SelectedLayer != -1)
+            if (SelectedLayer != -1)
             {
                 JS1.Source = ImageFilter.SetJoyStick(true, true, false, false); JS1.Opacity = 100;
                 JS2.Source = ImageFilter.SetJoyStick(true, true, false, false); JS2.Opacity = 20;
             }
-           
-           // JS3.Source = ImageFilter.SetJoyStick(false, true, true, true); JS3.Opacity = 20;
-           // JS4.Source = ImageFilter.SetJoyStick(false, true, true, true); JS4.Opacity = 20;
+
+            // JS3.Source = ImageFilter.SetJoyStick(false, true, true, true); JS3.Opacity = 20;
+            // JS4.Source = ImageFilter.SetJoyStick(false, true, true, true); JS4.Opacity = 20;
         }
 
-        private void PopulateAxisInfo(int AxisNum,  bool clear = false)
+        private void PopulateAxisInfo(int AxisNum, bool clear = false)
         {
             AxisControl_1.AxisNumber = 1 + ((SelectedLayer - 1) * 2);
-            AxisControl_2.AxisNumber = 2 + ((SelectedLayer-1) * 2);
+            AxisControl_2.AxisNumber = 2 + ((SelectedLayer - 1) * 2);
             AxisControl_1.Refresh();
             AxisControl_2.Refresh();
-
-            //dt.AcceptChanges();
-            //StatesGrid.ItemsSource = dt.Tables[0].DefaultView;
-            // StatesGrid.Items.Refresh();
-            // AxisControl_3.Refresh();
-            // AxisControl_4.Refresh();
-           // System.Data.DataRowView y = (System.Data.DataRowView)StatesGrid.Items[0];
-           // y.DataView.Table.Load(sda);
         }
 
         SqlCommand scmd;
-
-        private void StoreAxisGrouState_Clicked(object sender, RoutedEventArgs e)
+        private void StatesGrid_Update()
         {
             String y = "";
             using (SqlConnection con = new SqlConnection(MomCon.ConnectionString))
@@ -495,54 +472,56 @@ namespace WpfApp1
                 System.Data.DataRowView currentRow = (System.Data.DataRowView)StatesGrid.SelectedItem;
                 if (StatesGrid.SelectedCells.Count != 0) y = currentRow.Row.ItemArray[0].ToString();
                 MomCon.Open();
-                if(scmd ==null)scmd = new SqlCommand("Exec momsql.dbo.GetStateData", MomCon);
-               sda = scmd.ExecuteReader();
+                if (scmd == null) scmd = new SqlCommand("Exec momsql.dbo.GetStateData", MomCon);
+                sda = scmd.ExecuteReader();
                 if (dt == null) { dt = new DataTable("AxisControl"); StatesGrid.ItemsSource = dt.DefaultView; }
                 dt.Clear();
                 dt.Load(sda);
                 StatesGrid.Items.Refresh();
                 MomCon.Close();
-           
+
                 if (y == "") return;
-                StatesGrid.SelectAll();
+               // StatesGrid.SelectAll();
             }
 
-            foreach ( object item in StatesGrid.ItemsSource)
+            foreach (object item in StatesGrid.ItemsSource)
+            {
+                try
                 {
-                    try
-                    {
-                        DataRowView drv = (DataRowView)item;
-                        if (drv.Row.ItemArray[0].ToString() == y) StatesGrid.SelectedItem = item;
-                    }
-                    catch { }
+                    DataRowView drv = (DataRowView)item;
+                    if (drv.Row.ItemArray[0].ToString() == y) StatesGrid.SelectedItem = item;
                 }
-                //this.ItemsSource = dt.DefaultView;
-           
+                catch { }
+            }
+        }
 
-            //NameStateDialog nsd = new NameStateDialog();
-            //nsd.ShowDialog();
-            //double[] g = new double[] { LayerInd, KidPositions[LayerInd] };
-            //// if (nsd.SaveClicked) States.Add(nsd.NameResult, g);
-            //string[] row = new string[] { "THIS", "IS", "TEST" };
+        private void StoreAxisGrouState_Clicked(object sender, RoutedEventArgs e)
+        {
 
-            //string CmdString = "MomSQL..StoreGroupState" ;
+            NameStateDialog nsd = new NameStateDialog();
+            nsd.ShowDialog();
+            double[] g = new double[] { SelectedLayer, KidPositions[SelectedLayer] };
+            // if (nsd.SaveClicked) States.Add(nsd.NameResult, g);
+            string[] row = new string[] { "THIS", "IS", "TEST" };
 
-            //SqlCommand cmd = new SqlCommand(CmdString, MomCon );
-            //cmd.CommandType = CommandType.StoredProcedure;
-            //cmd.Parameters.AddWithValue("@AxisGroupNum", LayerInd);
-            //cmd.Parameters.AddWithValue("@StateName", nsd.NameResult);
-            //cmd.Parameters.AddWithValue("@Notes", nsd.NotesResult);
+            string CmdString = "MomSQL..StoreGroupState";
+
+            SqlCommand cmd = new SqlCommand(CmdString, MomCon);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@AxisGroupNum", SelectedLayer);
+            cmd.Parameters.AddWithValue("@StateName", nsd.NameResult);
+            cmd.Parameters.AddWithValue("@Notes", nsd.NotesResult);
 
 
-            //cmd.CommandTimeout = 1000;
+            cmd.CommandTimeout = 1000;
 
-            //try
-            //{
-            //    MomCon.Open();
-            //    cmd.ExecuteNonQuery();
-            //}
-            //catch { }
-            //finally { MomCon.Close(); }
+            try
+            {
+                MomCon.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch { }
+            finally { MomCon.Close(); }
 
 
         }
@@ -551,15 +530,6 @@ namespace WpfApp1
         {
             Exception e = (Exception)args.ExceptionObject;
             MessageBox.Show(e.ToString(), "Unhandled Exception");
-        }
-
-        private void TreeListView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-           string s = sender.ToString();
-           // _treeListView.TreeListView t = (_treeListView.TreeListView)sender;
-           // TLVI f = (TLVI)t.SelectedItem;
-            // _treeListView.TreeListViewItem[] t = (_treeListView.TreeListViewItem[])sender;
-         
         }
 
 
@@ -571,11 +541,11 @@ namespace WpfApp1
 
         private void ModeSelect()
         {
-            if (Mom != null) if(!Mom.Connected)
+            if (Mom != null) if (!Mom.Connected)
                 {
                     LiveDisplay = 2;
                 }
-            else
+                else
                 {
                     if (!SerialConnected || sr is null || ModeSelDisabled) return;
                     ModeSelDisabled = true;
@@ -606,7 +576,7 @@ namespace WpfApp1
                 ModeLabel.Content = "Console E-Stop active (Live)";
                 VirtualModeButton.Opacity = 80;
                 if (sr.EstopPressed) SafteyResetButton.Visibility = Visibility.Hidden;
-              
+
             }
 
             for (int axs = 0; axs < 6; axs++)
@@ -614,52 +584,50 @@ namespace WpfApp1
                 KidPositions[axs] = KidPositions[axs] + AxisSpeed[axs];
                 AxisData[axs].Position = AxisData[axs].Position + AxisSpeed[axs];
             }
-                if (LiveDisplay == 2)
+            if (LiveDisplay == 2)
+            {
+                ShadeRectangle1.Stroke = new SolidColorBrush(System.Windows.Media.Colors.Yellow);
+                ModeLabel.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Yellow);
+                ModeLabel.Content = "Simulation Mode Active\r";
+
+                VirtualModeButton.Opacity = 20;
+                VirtualModeButton.Content = "Enable Live Mode";
+                SafteyResetButton.Visibility = Visibility.Hidden;
+                if (!sr.EstopPressed)
                 {
-                    ShadeRectangle1.Stroke = new SolidColorBrush(System.Windows.Media.Colors.Yellow);
-                    ModeLabel.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Yellow);
-                    ModeLabel.Content = "Simulation Mode Active\r";
-                  
-                    VirtualModeButton.Opacity = 20;
-                    VirtualModeButton.Content = "Enable Live Mode";
-                    SafteyResetButton.Visibility = Visibility.Hidden;
-                    if (!sr.EstopPressed)
+                    ModeSelDisabled = true;
+                    do
                     {
-                        ModeSelDisabled = true;
-                        do
-                        {
-                            MessageBoxResult c = MessageBox.Show("Console E-Stop Released, Press E-Stop to remain in Virtual Mode.\r Or press Ok to enter Live Mode.", "Enter Live Mode", MessageBoxButton.OKCancel);
-                            if (c == MessageBoxResult.Cancel) { ModeSelDisabled = false; return; }
-                            if (c == MessageBoxResult.OK) { ModeSelDisabled = false; LiveDisplay = 1; return; }
-                        } while (!sr.EstopPressed);
+                        MessageBoxResult c = MessageBox.Show("Console E-Stop Released, Press E-Stop to remain in Virtual Mode.\r Or press Ok to enter Live Mode.", "Enter Live Mode", MessageBoxButton.OKCancel);
+                        if (c == MessageBoxResult.Cancel) { ModeSelDisabled = false; return; }
+                        if (c == MessageBoxResult.OK) { ModeSelDisabled = false; LiveDisplay = 1; return; }
+                    } while (!sr.EstopPressed);
 
-                        ModeSelDisabled = false;
-                    }
-                    
-                } else if(LiveDisplay == 1)
-                 {
-
-                    ShadeRectangle1.Stroke = new SolidColorBrush(System.Windows.Media.Colors.Gray);
-                    ModeLabel.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Gray);
-                    ModeLabel.Content = "Live mode Active";
-                    VirtualModeButton.Content = "Enable Simulation";
-                    if(loopCount % 50 ==38)Mom.WriteValue(Mom.MomControl, true, "MOMCONTROL");
+                    ModeSelDisabled = false;
                 }
-               
 
-            
+            }
+            else if (LiveDisplay == 1)
+            {
+
+                ShadeRectangle1.Stroke = new SolidColorBrush(System.Windows.Media.Colors.Gray);
+                ModeLabel.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Gray);
+                ModeLabel.Content = "Live mode Active";
+                VirtualModeButton.Content = "Enable Simulation";
+                if (loopCount % 50 == 38) Mom.WriteValue(Mom.MomControl, true, "MOMCONTROL");
+            }
             ModeSelDisabled = false;
         }
 
         private void ResetSaftey(object sender, RoutedEventArgs e)
         {
-           if(!(Mom is null)) Mom.WriteValue(Mom.FaultReset, true, "FAULTRESET");
+            if (!(Mom is null)) Mom.WriteValue(Mom.FaultReset, true, "FAULTRESET");
             VirtualModeButton.Opacity = 20;
             SafteyResetButton.Visibility = Visibility.Hidden;
             ModeLabel.Content = "Resetting Saftey System...";
             LiveDisplay = 1;
             loopCount = 80;
-      
+
         }
 
         private void EnableVirtualMode(object sender, RoutedEventArgs e)
@@ -673,7 +641,8 @@ namespace WpfApp1
                     if (c == MessageBoxResult.Cancel) { ModeSelDisabled = false; return; }
                 } while (sr.EstopPressed);
                 LiveDisplay = 1;
-            }else
+            }
+            else
             {
                 do
                 {
@@ -683,9 +652,8 @@ namespace WpfApp1
                 } while (!sr.EstopPressed);
                 LiveDisplay = 2;
             }
-        
+
             ModeSelDisabled = false;
-           
             ModeSelect();
         }
 
@@ -714,57 +682,7 @@ namespace WpfApp1
             TT.IsOpen = false;
         }
 
-        private void TLVTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            object s = sender;
-            UserInTextBox = false;
-            _treeListView.SpecialTextBox tb = (sender as _treeListView.SpecialTextBox);
-
-            ADSQL.SqlWriteAxis(int.Parse(tb.AxisNumber), tb.Tag.ToString(), int.Parse(tb.Text));
-
-        }
-
-   
-        private void TLVTextBox_GotKeyBoardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            _treeListView.SpecialTextBox tb = (sender as _treeListView.SpecialTextBox);
-            if (tb != null)
-            {
-                tb.SelectAll();
-                UserInTextBox = true;
-                e.Handled = true;
-            }
-        }
-
-        private void SelectivelyIgnoreMouseButton(object sender, MouseButtonEventArgs e)
-        {
-            _treeListView.SpecialTextBox tb = (sender as _treeListView.SpecialTextBox);
-            if (tb != null)
-            {
-                if (!tb.IsKeyboardFocusWithin)
-                {
-                    e.Handled = true;
-                    tb.Focus();
-                }
-            }
-        }
-
-        private void TLVTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if(e.Key == Key.Enter)
-            {
-                _treeListView.SpecialTextBox tb = (sender as _treeListView.SpecialTextBox);
-            }
-        }
     }
 
-    public struct StateData
-    {
-        public int id { set; get; }
-        public string Name { set; get; }
-        public string AxisGroup { set; get; }
-        // public DateTime lastrun { set; get; }
-        //public DateTime nextrun { set; get; }
-    }
-     
+
 }

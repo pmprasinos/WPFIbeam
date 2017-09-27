@@ -29,6 +29,7 @@ namespace WpfApp1
                 //If you do not set e.Handled to true, the application will close due to crash.
                 MessageBox.Show("Application is going to close! ", "Uncaught Exception");
                 e.Handled = false;
+                MainWindow.Close();
             }
         }
 

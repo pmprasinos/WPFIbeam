@@ -27,7 +27,7 @@ namespace CustomControl
     {
         public UpdateSourceTrigger UpdateSourceTrigger { get; set; }
 
-        public static SqlConnection MomCon = new SqlConnection("data source = CONSOLE1; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework");
+        public static SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework");
         public string CmdString;
         
         public AxisControl()
@@ -41,7 +41,7 @@ namespace CustomControl
         {
             if (this.AxisNumber == -1) return;
 
-            using (SqlConnection con = new SqlConnection("data source = CONSOLE1; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+            using (SqlConnection con = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
             {
                 
                 con.Open();

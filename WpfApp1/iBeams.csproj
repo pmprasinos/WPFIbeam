@@ -30,7 +30,7 @@
     <PublisherName>P. Prasinos</PublisherName>
     <SuiteName>Theatre Automation</SuiteName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>81</ApplicationRevision>
+    <ApplicationRevision>99</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -237,24 +237,30 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="Resources\Error.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="obj\Error.png" />
     <None Include="bin\Release\CAD\iBeam.stl" />
     <None Include="bin\Release\CAD\Pulley.stl" />
-    <None Include="Resources\EmptyJoyStick.png" />
-    <None Include="Resources\Left.png">
+    <Content Include="Resources\EmptyJoyStick.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Up.png">
+    </Content>
+    <Content Include="Resources\Left.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Down.png">
+    </Content>
+    <Content Include="Resources\Up.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Right.png">
+    </Content>
+    <Content Include="Resources\Down.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Twist.png">
+    </Content>
+    <Content Include="Resources\Right.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
+    <Content Include="Resources\Twist.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="SaferVenue.ico" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -302,9 +308,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ORD\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <PublishFile Include="TwinCAT.Ads">
       <Visible>False</Visible>

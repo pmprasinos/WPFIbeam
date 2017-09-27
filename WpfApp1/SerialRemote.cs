@@ -39,7 +39,6 @@ class SerialRemote
 
     public SerialRemote(ref SerialPort ComPort)
     {
-
         connected = false;
         this.spin = ComPort;
         this.spin.NewLine = "\r\n";
@@ -70,8 +69,8 @@ class SerialRemote
         do
         {
   
-            spin.ReadTimeout = 500;
-            if (spin.BytesToRead > 100) spin.ReadExisting();
+            spin.ReadTimeout = 1000;
+            if (spin.BytesToRead > 200) { spin.ReadExisting(); Thread.Sleep(5); }
             //Debug.Print(spin.BytesToRead.ToString());
             long t = DateTime.Now.Ticks;
             byte[] frame = { 0, 0, 0, 0, 0 };
@@ -89,8 +88,8 @@ class SerialRemote
             } while (CheckByte != 10);
             do
             {
-                Thread.Sleep(2);
-            } while (this.spin.BytesToRead < 4);
+                Thread.Sleep(1);
+            } while (this.spin.BytesToRead < 5);
 
 
             //Console.Write(this.spin.BytesToRead);
@@ -106,7 +105,7 @@ class SerialRemote
                 w[3] = (frame[1] / 8) % 2;
                 DeadmanRightPressed = (frame[1] / 16) % 2 > 0;
                  DeadmanLeftPressed = (frame[1] / 32) % 2 > 0;
-                EstopPressed = !((frame[1] / 64) % 2 > 0);
+                EstopPressed = frame[1] <= 128 ; 
 
             }
             yRead = frame[1];
@@ -123,10 +122,17 @@ class SerialRemote
                 y[JoyStickRead] = yRead - 150; if (System.Math.Abs(yRead - 150) < 2) y[JoyStickRead] = 0;
                 x[JoyStickRead] = xRead - 150; if (System.Math.Abs(xRead - 150) < 2) x[JoyStickRead] = 0;
                 z[JoyStickRead] = zRead - 150; if (System.Math.Abs(zRead - 150) < 2) z[JoyStickRead] = 0;
+
+
             }
-
+            Debug.Print(spin.BytesToRead + "   X: " + x[0].ToString() + " Y: " + y[0].ToString() + " Z: " + z[0].ToString() +
+                            "  2" + "   X: " + x[1].ToString() + " Y: " + y[1].ToString() + " Z: " + z[1].ToString() +
+            
+                           "  3" + "   X: " + x[2].ToString() + " Y: " + y[2].ToString() + " Z: " + z[2].ToString() +
+            
+                           "  4" + "   X: " + x[3].ToString() + " Y: " + y[3].ToString() + " Z: " + z[3].ToString() + " LDEAD: " + DeadmanLeftPressed + " RDEAD: " + DeadmanRightPressed);
             sw = Stopwatch.StartNew();
-
+            
         } while (enabled);
 
 

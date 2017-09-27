@@ -4,7 +4,7 @@
     <PublishUrlHistory>B:\iBeams\|D:\</PublishUrlHistory>
     <InstallUrlHistory>\\MAINFRAME\RamDisk\iBeams\|\\Mainframe\RamDisk\</InstallUrlHistory>
     <SupportUrlHistory />
-    <UpdateUrlHistory />
+    <UpdateUrlHistory>\\mainframe\iBeams\ramdisk\|\\mainframe\ramdisk\</UpdateUrlHistory>
     <BootstrapperUrlHistory />
     <ErrorReportUrlHistory />
     <FallbackCulture>en-US</FallbackCulture>
