@@ -5,7 +5,6 @@
         xmlns:controls="clr-namespace:CustomControl"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
-        xmlns:l='clr-namespace:_treeListView' 
     
         xmlns:ddes="http://schemas.devdept.com/winfx/2008/xaml/control" xmlns:ddgr="http://schemas.devdept.com/winfx/2008/xaml/graphics" x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
@@ -25,9 +24,9 @@
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="9"/>
-                
+
         </Style>
-        
+
         <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
@@ -44,7 +43,7 @@
         <DropShadowEffect/>
     </Window.Effect>
 
-    <Grid>
+    <Grid Name="WindowGrid">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                 <GradientStop Color="#FF0E0E0E" Offset="1"/>
@@ -129,131 +128,55 @@
 
 
         </Grid>
-        <Grid x:Name="DataGrid_Prop" Grid.Row="2">
+        
+      
+            
+    <Grid  Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="500" />
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition  />
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="2">
+            <Grid Grid.Column="2" >
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="400" />
                     <RowDefinition Height="5" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" />
-
+               
+                <Grid Name="AxisGrid"  Grid.Row="0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   Margin="0,0,0,0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <controls:AxisControl x:Name="AX1" HorizontalAlignment="Stretch"  Grid.Row="0" Grid.Column="0" VerticalAlignment="Stretch" Margin="-3 -3,-3,-3"/>
+                    <controls:AxisControl x:Name="AX2" HorizontalAlignment="Stretch"  Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" Margin="-3,-3,-3,-3"/>
+                    <controls:AxisControl x:Name="AX3" HorizontalAlignment="Stretch"  Grid.Row="0" Grid.Column="2" VerticalAlignment="Stretch" Margin="-3,-3,-3,-3"/>
+                    <controls:AxisControl x:Name="AX4" HorizontalAlignment="Stretch"  Grid.Row="0" Grid.Column="3" VerticalAlignment="Stretch" Margin="-3, -3, -3, -3"/>
+                    <controls:AxisControl x:Name="AX5" HorizontalAlignment="Stretch"  Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" Margin="-3, -3, -3, -3"/>
+                    <controls:AxisControl x:Name="AX6" HorizontalAlignment="Stretch"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch" Margin="-3, -3, -3, -3"/>
+                    <controls:AxisControl x:Name="AX7" HorizontalAlignment="Stretch"  Grid.Row="1" Grid.Column="2" VerticalAlignment="Stretch" Margin="-3, -3, -3, -3"/>
+                    <controls:AxisControl x:Name="AX8" HorizontalAlignment="Stretch"  Grid.Row="1" Grid.Column="3" VerticalAlignment="Stretch" Margin="-3, -3, -3, -3"/>
+                    <controls:AxisControl x:Name="AX9"  HorizontalAlignment="Stretch"  Grid.Row="2" Grid.Column="0" VerticalAlignment="Stretch" Margin="-3, -3, -3, -3"/>
+                    <controls:AxisControl x:Name="AX10"  HorizontalAlignment="Stretch"  Grid.Row="2" Grid.Column="1" VerticalAlignment="Stretch" Margin="-3, -3, -3, -3"/>
+                    <controls:AxisControl x:Name="AX11" HorizontalAlignment="Stretch"  Grid.Row="2" Grid.Column="2" VerticalAlignment="Stretch" Margin="-3, -3, -3, -3"/>
+                    <controls:AxisControl x:Name="AX12" HorizontalAlignment="Stretch"  Grid.Row="2" Grid.Column="3" VerticalAlignment="Stretch" Margin="-3, -3, -3, -3"/>
+                   
+                </Grid>
 
             </Grid>
-            
+
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" />
-            <DataGrid Name="StatesGrid" HorizontalAlignment="Left" Height="431" Margin="10,10,0,0" VerticalAlignment="Top" Width="1124" Grid.ColumnSpan="3" AutoGenerateColumns="False" SelectionMode="Single" Background="Transparent" RowBackground="Transparent" TextBlock.Foreground="White"  >
-                <DataGrid.Columns>
-                    <DataGridTextColumn  Header="ID" x:Name="ID" Binding="{Binding StateID}" Width="0" Visibility="Hidden" HeaderStyle="{StaticResource myHeaderStyle}"/>
-                    <DataGridTextColumn  Header="State" Binding="{Binding StateName}" Width="100" HeaderStyle="{StaticResource myHeaderStyle}"/>
-                    <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" Width="200" TextBlock.LineStackingStrategy="BlockLineHeight"  HeaderStyle="{StaticResource myHeaderStyle}"/>
-                </DataGrid.Columns>
+             <Button Content="Store Selected AxisGroup Targets" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Height="46"  Grid.Column="0" Background="Black" Foreground="White" FontSize="16" ClickMode="Press" BorderBrush="White" Click="StoreAxisGrouState_Clicked" Grid.ColumnSpan="3" Margin="390,-66,415,535"/>
 
-                <DataGrid.RowDetailsTemplate>
-                    <DataTemplate>
-                        <DockPanel Background="{x:Null}" Tag="{Binding ID}" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}, Path=IsSelected}">
-                                                <Image DockPanel.Dock="Left" Source="{Binding ImageUrl}" Height="64" Margin="10" />
-                            <Grid>
-                                <Grid.ColumnDefinitions >
-                                    <ColumnDefinition Width="255" />
-                                    <ColumnDefinition Width="5" />
-                                    <ColumnDefinition Width="255" />
-                                    <ColumnDefinition Width="5" />
-                                    <ColumnDefinition Width="255" />
-                                    <ColumnDefinition Width="5" />
-                                    <ColumnDefinition Width="255" />
-                                </Grid.ColumnDefinitions>
-                                <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" />
-                                <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" />
-                                <GridSplitter Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" />
-                                <Grid Margin="0,10" Grid.Column="0">
-                                                        <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="50" />
-                                     <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="10" />
-                                    <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="10" />
-                                        <ColumnDefinition Width="100" />
-                                        <ColumnDefinition Width="100" />
-                                        <ColumnDefinition Width="10" />
-
-                                    </Grid.ColumnDefinitions>   
-                                                   
-                                                        <Grid.RowDefinitions>
-                                                                <RowDefinition Height="Auto" />
-                                                                <RowDefinition Height="Auto" />
-                                                                <RowDefinition Height="Auto" />
-                                                                 <RowDefinition Height="Auto" />
-
-                                    </Grid.RowDefinitions>
-
-                                    <TextBlock Text="Axis: " FontWeight="Bold" TextAlignment="Right" Style="{StaticResource TextBlockStyle}" HorizontalAlignment="Left" />
-                                    <TextBlock Text="TargetPosition: " FontWeight="Bold" Grid.Row="1" Style="{StaticResource TextBlockStyle}" HorizontalAlignment="Left"/>
-                                    <TextBlock Text="Max Speed: " FontWeight="Bold" Grid.Row="2" TextAlignment="Right" Style="{StaticResource TextBlockStyle}" />
-                                    <TextBlock Text="Accel: " FontWeight="Bold" Grid.Row="0" Grid.Column="3" TextAlignment="Right" Style="{StaticResource TextBlockStyle}"/>
-                                    <TextBlock Text="Deccel: " FontWeight="Bold" Grid.Row="1" Grid.Column="3" TextAlignment="Right" Style="{StaticResource TextBlockStyle}"/>
-                                    <TextBlock Text="MoveTime(est): " FontWeight="Bold" Grid.Row="2" Grid.Column="3" TextAlignment="Right" Style="{StaticResource TextBlockStyle}"/>
-                                    <TextBlock Text="{Binding moveTime1, Mode=OneWay}" Grid.Column="4" Grid.Row="2" IsEnabled="False"  Style="{StaticResource TextBlockStyle}"/>
-
-                                    <TextBox Text="{Binding Velocity1, Mode=OneWay}" Grid.Column="1" Grid.Row="2" IsEnabled="False" Style="{StaticResource TextBoxStyle}" />
-                                    <TextBox Text="{Binding TargetPosition1, Mode=OneWay}"  Grid.Column="1" Grid.Row="1" IsEnabled="False"  Style="{StaticResource TextBoxStyle}"/>
-                                    <TextBox Text="{Binding Acceleration1, Mode=OneWay}" Grid.Column="4" Grid.Row="0" IsEnabled="False"  Style="{StaticResource TextBoxStyle}"/>
-                                    <TextBox Text="{Binding Deceleration1, Mode=OneWay}" Grid.Column="4" Grid.Row="1" IsEnabled="False"  Style="{StaticResource TextBoxStyle}" />
-                                    <TextBox Text="{Binding AxisName1, Mode=OneWay}" Grid.Column="1"  Style="{StaticResource TextBoxStyle}" FontWeight="Normal"/>
-
-                                </Grid>
-                           
-                            <Grid Margin="0,10" Grid.Column="2">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="10" />
-                                    <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="10" />
-                                    <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="10" />
-
-                                </Grid.ColumnDefinitions>
-
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-
-                                </Grid.RowDefinitions>
-
-                                    <TextBlock Text="Axis: " FontWeight="Bold" Grid.Column="0" TextAlignment="Right" Style="{StaticResource TextBlockStyle}"/>
-                                    <TextBlock Text="TargetPosition: " FontWeight="Bold" Grid.Row="1" Style="{StaticResource TextBlockStyle}"/>
-                                    <TextBlock Text="Max Speed: " FontWeight="Bold" Grid.Row="2" TextAlignment="Right" Style="{StaticResource TextBlockStyle}" />
-                                    <TextBlock Text="Accel: " FontWeight="Bold" Grid.Row="0" Grid.Column="3" TextAlignment="Right" Style="{StaticResource TextBlockStyle}"/>
-                                    <TextBlock Text="Deccel: " FontWeight="Bold" Grid.Row="1" Grid.Column="3" TextAlignment="Right" Style="{StaticResource TextBlockStyle}"/>
-                                    <TextBlock Text="MvTime(est): " FontWeight="Bold" Grid.Row="2" Grid.Column="3" TextAlignment="Right" Style="{StaticResource TextBlockStyle}"/>
-                                    <TextBlock Text="{Binding moveTime2, Mode=OneWay}" Grid.Column="4" Grid.Row="2" IsEnabled="False"  Style="{StaticResource TextBlockStyle}"/>
-                                <TextBox Text="{Binding AxisName2, Mode=OneWay}" Grid.Column="1" Grid.Row="0" Style="{StaticResource TextBoxStyle}" FontWeight="Normal"/>
-
-                                    <TextBox Text="{Binding Velocity2, Mode=OneWay}" Grid.Column="1" Grid.Row="3" IsEnabled="False" Style="{StaticResource TextBoxStyle}"/>
-                                    <TextBox Text="{Binding TargetPosition2, Mode=OneWay}"  Grid.Column="1" Grid.Row="1" IsEnabled="False"  Style="{StaticResource TextBoxStyle}"/>
-                                    <TextBox Text="{Binding Acceleration2, Mode=OneWay}" Grid.Column="4" Grid.Row="0" IsEnabled="False"  Style="{StaticResource TextBoxStyle}"/>
-                                    <TextBox Text="{Binding Deceleration2, Mode=OneWay}" Grid.Column="4" Grid.Row="1" IsEnabled="False"  Style="{StaticResource TextBoxStyle}" />
-                                   
-
-
-                            </Grid>
-                            </Grid>
-                                
-                        </DockPanel>
-                    </DataTemplate>
-                </DataGrid.RowDetailsTemplate>
-            </DataGrid>
-            <Button Content="Store Selected AxisGroup Targets" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Height="46"  Grid.Column="0" Background="Black" Foreground="White" FontSize="16" ClickMode="Press" BorderBrush="White" Grid.Row="0" Click="StoreAxisGrouState_Clicked" Grid.ColumnSpan="3" Margin="390,-66,415,535"/>
 
 
         </Grid>
@@ -270,10 +193,10 @@
                 <ColumnDefinition Width="265" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <controls:AxisControl x:Name="AxisControl_1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextSize="10" Grid.Column="0" AxisNumber="1" Margin="0,-10,0,0" />
+            <!--<controls:AxisControl x:Name="AxisControl_1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextSize="10" Grid.Column="0" AxisNumber="1" Margin="0,-10,0,0" />
             <controls:AxisControl x:Name="AxisControl_2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextSize="10" Grid.Column="2" AxisNumber="2" Margin="0,-10,0,0"/>
             <controls:AxisControl x:Name="AxisControl_3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextSize="10" Grid.Column="4" AxisNumber="3" Margin="0,-10,0,0"/>
-            <controls:AxisControl x:Name="AxisControl_4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextSize="10" Grid.Column="6" AxisNumber="4" Margin="0,-10,0,0"/>
+            <controls:AxisControl x:Name="AxisControl_4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextSize="10" Grid.Column="6" AxisNumber="4" Margin="0,-10,0,0"/>-->
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" />
             <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" />
             <GridSplitter Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" />
@@ -310,7 +233,8 @@
             <Image x:Name ="JS4" Margin="54,0,63,0"   Stretch="Fill" Grid.Column="6" Opacity="0.5" Height="142" VerticalAlignment="Bottom"/>
             <Button Content="Button" HorizontalAlignment="Left" Height="83" Margin="0,69,0,0" VerticalAlignment="Top" Width="94" Click="closed"/>
         </Grid>
-
+      
+     
 
     </Grid>
 </Window>

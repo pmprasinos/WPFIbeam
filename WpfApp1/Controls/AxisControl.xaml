@@ -1,0 +1,69 @@
+﻿<UserControl
+    x:Class="CustomControl.AxisControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CustomControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" IsManipulationEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+    Name="_AxisControl" 
+   >
+
+    <GroupBox Header="{Binding AxisName}" HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch"  IsManipulationEnabled="True"  TextBlock.FontSize="9" Foreground="White" BorderBrush="{x:Null}" BorderThickness="0" TouchUp="AxisControl_Clicked" >
+
+        <Grid Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            <Rectangle x:Name="ShadeRectangle_Selected" Stretch="Fill" Grid.Row="1" Margin="0,0,0,0" Panel.ZIndex="100" Stroke="#FFB6B6B6" StrokeThickness="5"  RadiusX="20" RadiusY="20" >
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Stretch="Fill" Grid.Row="1" Margin="0,0,0,0" Panel.ZIndex="100" Stroke="#FFB6B6B6" StrokeThickness="4" RadiusX="20" RadiusY="20" Opacity=".5"/>
+
+
+            <Border BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                <Grid Margin="5,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="false">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                      
+                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="Axis:" Grid.Row="1" TextAlignment="Right" Foreground="White" />
+                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   Text="Status:" Grid.Row="2" TextAlignment="Right" Foreground="White"/>
+                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   Text="CurrentPosition:" Grid.Row="3" TextAlignment="Right" Foreground="White"/>
+                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Text="Max Speed:" Grid.Row="4" TextAlignment="Right" Foreground="White"/>
+                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Text="Acceleration:" Grid.Row="5" TextAlignment="Right" Foreground="White" />
+                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"    Text="Deceleration" Grid.Row="6" TextAlignment="Right" Foreground="White"/>
+                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"    Text="TargetPosition:" Grid.Row="7" TextAlignment="Right" Foreground="White"/>
+                    
+
+                     
+                        <TextBox x:Name="AxisNameTextBox" Text="{Binding AxisName,  UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="1" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" LostKeyboardFocus="AxisControlTextBox_LostKeyboardFocus"/>
+                        <TextBox x:Name ="AxisStatusTextBox"  Text="{Binding AxisStatus,  UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="2" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"/>
+                        <TextBox x:Name ="CurrentPositionTextBox" Text="{Binding CurrentPosition, UpdateSourceTrigger=Explicit}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="3" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}"  BorderBrush="{x:Null}" Foreground="White"/>
+                        <TextBox x:Name ="VelocityTextBox"  Text="{Binding Velocity, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="4" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}" BorderBrush="{x:Null}"  Foreground="White" GotKeyboardFocus="AxisControlTextBox_GotKeyboardFocus" LostFocus="AxisControlTextBox_LostKeyboardFocus" />
+                        <TextBox x:Name ="AccelTextBox"  Text="{Binding Acceleration, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="5" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}" BorderBrush="{x:Null}"  Foreground="White" GotKeyboardFocus="AxisControlTextBox_GotKeyboardFocus" LostKeyboardFocus="AxisControlTextBox_LostKeyboardFocus" />
+                        <TextBox x:Name ="DecelTextBox" Text="{Binding Deceleration, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="6" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}" BorderBrush="{x:Null}"  Foreground="White" GotKeyboardFocus="AxisControlTextBox_GotKeyboardFocus" LostKeyboardFocus="AxisControlTextBox_LostKeyboardFocus" />
+                    <TextBox x:Name ="TargetPositionTextBox"  Text="{Binding TargetPosition, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="7" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}" BorderBrush="{x:Null}"  Foreground="White" GotKeyboardFocus="AxisControlTextBox_GotKeyboardFocus" />
+
+                </Grid>
+
+
+            </Border>
+
+
+        </Grid>
+    </GroupBox>
+</UserControl>

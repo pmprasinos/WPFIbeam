@@ -10,11 +10,11 @@ none
 false
 CODE_ANALYSIS;DEBUG;TRACE
 C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\App.xaml
-4-415561919
+6551245707
 9105383279
-23666493487
+27347901309
 32311545729
-ADSQL\DesignControl.xaml;JoyStickSetup.xaml;MainWindow.xaml;NameState.xaml;
+Controls\AxisControl.xaml;JoyStickSetup.xaml;MainWindow.xaml;MoveSetup.xaml;NameState.xaml;UserControl1.xaml;
 
-True
+False
 

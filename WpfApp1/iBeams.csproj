@@ -30,7 +30,7 @@
     <PublisherName>P. Prasinos</PublisherName>
     <SuiteName>Theatre Automation</SuiteName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>99</ApplicationRevision>
+    <ApplicationRevision>102</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -176,20 +176,27 @@
     </ApplicationDefinition>
     <Compile Include="ADSClient.cs" />
     <Compile Include="ADSQL\ADSQL.cs" />
-    <Compile Include="ADSQL\DesignControl.xaml.cs">
-      <DependentUpon>DesignControl.xaml</DependentUpon>
+    <Compile Include="ADSQL\UpdateSQL.cs" />
+    <Compile Include="Controls\DesignControl.xaml.cs">
+      <DependentUpon>AxisControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Axis.cs" />
     <Compile Include="AxisGroup.cs" />
-    <Compile Include="CustomTreeListView\LevelToIndentConverter.cs" />
-    <Compile Include="CustomTreeListView\SpecialTextBox.cs" />
-    <Compile Include="CustomTreeListView\TreeListView.cs" />
+    <Compile Include="Controls\CustomTreeListView\LevelToIndentConverter.cs" />
+    <Compile Include="Controls\CustomTreeListView\SpecialTextBox.cs" />
+    <Compile Include="Controls\CustomTreeListView\TreeListView.cs" />
+    <Compile Include="MomSQLDataSet.cs">
+      <DependentUpon>MomSQLDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="MomSQLDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MomSQLDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="MomSQLedm.cs" />
+    <Compile Include="MoveSetup.xaml.cs">
+      <DependentUpon>MoveSetup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NameState.xaml.cs">
       <DependentUpon>NameState.xaml</DependentUpon>
     </Compile>
@@ -199,7 +206,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SerialRemote.cs" />
-    <Page Include="ADSQL\DesignControl.xaml">
+    <Compile Include="UserControl1.xaml.cs">
+      <DependentUpon>UserControl1.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Controls\AxisControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -223,7 +233,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MoveSetup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NameState.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

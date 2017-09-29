@@ -1,0 +1,34 @@
+﻿<Window x:Class="WpfApp1.MoveSetup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="MoveSetup" Background="#FF252222" BorderBrush="Black" WindowStyle="None" ResizeMode="NoResize" Foreground="White">
+    <Grid>
+        <TextBox HorizontalAlignment="Left" Height="32" Margin="285,253,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="64"/>
+        <TextBox HorizontalAlignment="Left" Height="32" Margin="285,308,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="64"/>
+        <TextBox HorizontalAlignment="Left" Height="32" Margin="285,364,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="64"/>
+        <TextBox HorizontalAlignment="Left" Height="32" Margin="146,422,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="105"/>
+        <Label Content="Acceleration" HorizontalAlignment="Left" Height="32" Margin="20,253,0,0" VerticalAlignment="Top" Width="121"/>
+        <Label Content="Deceleration" HorizontalAlignment="Left" Height="32" Margin="20,308,0,0" VerticalAlignment="Top" Width="121"/>
+        <Label Content="Max Move Speed" HorizontalAlignment="Left" Height="32" Margin="20,364,0,0" VerticalAlignment="Top" Width="121"/>
+        <Label Content="Label" HorizontalAlignment="Left" Height="32" Margin="20,422,0,0" VerticalAlignment="Top" Width="121"/>
+        <Label Content="s" HorizontalAlignment="Left" Height="32" Margin="354,253,0,0" VerticalAlignment="Top" Width="56"/>
+        <Label Content="s" HorizontalAlignment="Left" Height="32" Margin="354,308,0,0" VerticalAlignment="Top" Width="56" RenderTransformOrigin="0.56,2.688"/>
+        <Label Content="s" HorizontalAlignment="Left" Height="32" Margin="354,364,0,0" VerticalAlignment="Top" Width="56" RenderTransformOrigin="0.56,2.688"/>
+        <TextBox HorizontalAlignment="Left" Height="32" Margin="146,253,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="64"/>
+        <TextBox HorizontalAlignment="Left" Height="32" Margin="146,308,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="64"/>
+        <TextBox HorizontalAlignment="Left" Height="32" Margin="146,364,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="64"/>
+        <Label Content="mm/s^2" HorizontalAlignment="Left" Height="32" Margin="215,253,0,0" VerticalAlignment="Top" Width="56"/>
+        <Label Content="mm/s^2" HorizontalAlignment="Left" Height="32" Margin="215,308,0,0" VerticalAlignment="Top" Width="56" RenderTransformOrigin="0.56,2.688"/>
+        <Label Content="mm/s" HorizontalAlignment="Left" Height="32" Margin="215,364,0,0" VerticalAlignment="Top" Width="56" RenderTransformOrigin="0.56,2.688"/>
+        <TextBox x:Name="TextBoxName" HorizontalAlignment="Left" Height="39" TextWrapping="Wrap" Text="State_1" VerticalAlignment="Top" Width="388" FontSize="24" Margin="167,27,0,0" VerticalContentAlignment="Bottom"/>
+        <Label Content ="State Name:" Height="39" Margin="26,28,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="141" Foreground="#FFE2DEDE" FontSize="24"/>
+        <TextBox x:Name="TextBoxNotes" HorizontalAlignment="Left" Height="121" Margin="167,73,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="388"/>
+        <Label Content ="Notes:" Height="39" Margin="82,67,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="85" Foreground="#FFDEDBDB" FontSize="24"/>
+        <Button Content="Exit" HorizontalAlignment="Left" Height="71" Margin="555,445,0,0" VerticalAlignment="Top" Width="160" Click="Button_Click"/>
+
+    </Grid>
+</Window>

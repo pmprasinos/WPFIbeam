@@ -26,6 +26,7 @@ using System.Data;
 using System.Windows.Media;
 using System.Threading;
 using System.Configuration;
+using CustomControl;
 
 namespace WpfApp1
 {
@@ -37,7 +38,7 @@ namespace WpfApp1
         //Task BackTask;
         int tickCounter = 0;
         SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework");
-        SqlDataReader sda; DataTable dt;
+        SqlDataReader sda; DataTable dt = new DataTable();
         private Vector3D[][] IBeamTrans = new Vector3D[3][];
         private double[] KidPositions = new double[6];
         private const string EYESHOT_SERIAL = "ULTWPF-94GF-N1277-FNLR3-1PPHF";
@@ -61,6 +62,7 @@ namespace WpfApp1
         private int SelectedLayer = -1;
         bool ModeSelDisabled; bool t_Busy = false;
         bool UserInTextBox = false;
+        AxisControl[] axControl;
 
         public MainWindow() : base()
         {
@@ -80,7 +82,7 @@ namespace WpfApp1
                     AxisData[i].Foreground = System.Windows.Media.Brushes.White;
                 }
             }
-
+            axControl = new[]{ AX1, AX2, AX3, AX4, AX5, AX6, AX7, AX8, AX9, AX10, AX11, AX12 };
             viewPortLayout1.ToolBar.Visible = false;            //JoySticks[0].X = 20;
         }
 
@@ -95,7 +97,27 @@ namespace WpfApp1
 
         private void StatesGridTimer_tick(object myObject, EventArgs e)
         {
-            StatesGrid_Update();
+            UpdateSQL.Refresh();
+            int x = 0;
+            foreach(AxisControl AX in axControl)
+            {
+                if (UpdateSQL.ADT.Rows.Count > x)
+                {
+                    if (!AX.HasKeyBoardFocus)
+                    {
+                        AX.DataContext = UpdateSQL.ADT.Rows[x];
+                        AX.UpdateLayout();
+                    }
+                    else
+                    {
+                        Debug.Print("EAT SHIT");
+                    }
+                }
+                else AX.Visibility = Visibility.Hidden;
+                x++;
+            }
+
+            //StatesGrid_Update();
         }
             private void T_tick(object myObject, EventArgs e)
         {
@@ -104,7 +126,7 @@ namespace WpfApp1
             try
             {
                 t.Interval = 50;
-                if (disabled || t_Busy) { t.Interval = 10; return; }
+                if (disabled || t_Busy) { return; }
                 t_Busy = true;
                 tickCounter++;
 
@@ -130,8 +152,8 @@ namespace WpfApp1
                 }
                 t_Busy = false;
             }
-            catch { t_Busy = false; Debug.Print("ERROR"); }
-            finally { }
+            catch(Exception exe) { Debug.Print(exe.InnerException.ToString()); }
+            finally { t_Busy = false; }
             Debug.Print(loopCount.ToString() + "   " + s.ElapsedMilliseconds.ToString());
         }
 
@@ -200,7 +222,7 @@ namespace WpfApp1
             }
         }
 
-        static void MaximizeToSecondaryMonitor(Window window)
+       private void MaximizeToSecondaryMonitor(Window window)
         {
             System.Drawing.Point p = new System.Drawing.Point(-1000, 0);
             var secondaryScreen = System.Windows.Forms.Screen.FromPoint(p);
@@ -219,6 +241,11 @@ namespace WpfApp1
                     window.WindowState = WindowState.Maximized;
                 }
             }
+        
+         
+             // AX1.ItemsSource = UpdateSQL.ADT.Rows[0];
+
+
         }
 
         private void FullScreen(object sender, RoutedEventArgs e)
@@ -260,6 +287,11 @@ namespace WpfApp1
 
         }
 
+        private void Edit_State_Clicked(object sender, RoutedEventArgs e)
+        {
+            MoveSetup d = new MoveSetup();
+            d.ShowDialog();
+        }
 
         private void ViewPortLayout1_OnLoad(object sender, RoutedEventArgs e)
         {
@@ -409,7 +441,7 @@ namespace WpfApp1
             {
                 if (en.Selected && SelectedLayer != en.LayerIndex)
                 {
-
+                    
                     SelectedLayer = en.LayerIndex;
                     PopulateAxisInfo((SelectedLayer * 2) - 1, true);
                     PopulateAxisInfo(SelectedLayer * 2, false);
@@ -457,67 +489,75 @@ namespace WpfApp1
 
         private void PopulateAxisInfo(int AxisNum, bool clear = false)
         {
-            AxisControl_1.AxisNumber = 1 + ((SelectedLayer - 1) * 2);
-            AxisControl_2.AxisNumber = 2 + ((SelectedLayer - 1) * 2);
-            AxisControl_1.Refresh();
-            AxisControl_2.Refresh();
+            //AxisControl_1.AxisNumber = 1 + ((SelectedLayer - 1) * 2);
+           // AxisControl_2.AxisNumber = 2 + ((SelectedLayer - 1) * 2);
+           // AxisControl_1.Refresh();
+           // AxisControl_2.Refresh();
+       
         }
 
         SqlCommand scmd;
         private void StatesGrid_Update()
         {
+            if (MomCon.State != ConnectionState.Closed) return;
             String y = "";
             using (SqlConnection con = new SqlConnection(MomCon.ConnectionString))
             {
-                System.Data.DataRowView currentRow = (System.Data.DataRowView)StatesGrid.SelectedItem;
-                if (StatesGrid.SelectedCells.Count != 0) y = currentRow.Row.ItemArray[0].ToString();
+               // System.Data.DataRowView currentRow = (System.Data.DataRowView)StatesGrid.SelectedItem;
+              //  if (StatesGrid.SelectedCells.Count != 0) y = currentRow.Row.ItemArray[0].ToString();
                 MomCon.Open();
                 if (scmd == null) scmd = new SqlCommand("Exec momsql.dbo.GetStateData", MomCon);
                 sda = scmd.ExecuteReader();
-                if (dt == null) { dt = new DataTable("AxisControl"); StatesGrid.ItemsSource = dt.DefaultView; }
+              //  if (dt == null) { dt = new DataTable("AxisControl"); StatesGrid.ItemsSource = dt.DefaultView; }
                 dt.Clear();
                 dt.Load(sda);
-                StatesGrid.Items.Refresh();
+              //  StatesGrid.Items.Refresh();
                 MomCon.Close();
 
                 if (y == "") return;
                // StatesGrid.SelectAll();
             }
 
-            foreach (object item in StatesGrid.ItemsSource)
-            {
-                try
-                {
-                    DataRowView drv = (DataRowView)item;
-                    if (drv.Row.ItemArray[0].ToString() == y) StatesGrid.SelectedItem = item;
-                }
-                catch { }
-            }
+          //  foreach (object item in StatesGrid.ItemsSource)
+         //   {
+            //    try
+           //     {
+           //         DataRowView drv = (DataRowView)item;
+               //     if (drv.Row.ItemArray[0].ToString() == y) StatesGrid.SelectedItem = item;
+           //     }
+           //     catch { }
+          //  }
         }
 
         private void StoreAxisGrouState_Clicked(object sender, RoutedEventArgs e)
         {
-
+            UpdateSQL.Refresh();
+            if (SelectedLayer == -1) return;
             NameStateDialog nsd = new NameStateDialog();
             nsd.ShowDialog();
             double[] g = new double[] { SelectedLayer, KidPositions[SelectedLayer] };
             // if (nsd.SaveClicked) States.Add(nsd.NameResult, g);
             string[] row = new string[] { "THIS", "IS", "TEST" };
 
-            string CmdString = "MomSQL..StoreGroupState";
-
+            string CmdString = "Select * from Momsql..States where StateName = @statename";
             SqlCommand cmd = new SqlCommand(CmdString, MomCon);
-            cmd.CommandType = CommandType.StoredProcedure;
+
+           
+            try
+            {
+                MomCon.Open();
+                cmd.Parameters.AddWithValue("@StateName", nsd.NameResult);
+                if (cmd.ExecuteReader().HasRows) { MessageBox.Show("A STATE WIHT THIS NAME ALREADY EXISTS"); nsd.ShowDialog(); }
+                CmdString = "MomSQL..StoreGroupState";
+                cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@AxisGroupNum", SelectedLayer);
-            cmd.Parameters.AddWithValue("@StateName", nsd.NameResult);
+         
             cmd.Parameters.AddWithValue("@Notes", nsd.NotesResult);
 
 
             cmd.CommandTimeout = 1000;
 
-            try
-            {
-                MomCon.Open();
+         
                 cmd.ExecuteNonQuery();
             }
             catch { }

@@ -80,8 +80,6 @@ C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\x86\Debug\devDept.Graphics.W
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\x86\Debug\EntityFramework.xml
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\x86\Debug\EntityFramework.SqlServer.xml
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\x86\Debug\TwinCAT.Ads.xml
-C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\x86\Debug\ADSQL\DesignControl.baml
-C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\x86\Debug\ADSQL\DesignControl.g.cs
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\x86\Debug\JoyStickSetup.g.cs
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\x86\Debug\MainWindow.g.cs
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\x86\Debug\NameState.g.cs
@@ -101,4 +99,10 @@ C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\x86\Debug\Automater.exe.mani
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\x86\Debug\Automater.application
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\x86\Debug\Automater.exe
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\x86\Debug\Automater.pdb
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\x86\Debug\MoveSetup.g.cs
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\x86\Debug\MoveSetup.baml
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\x86\Debug\UserControl1.g.cs
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\x86\Debug\UserControl1.baml
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\x86\Debug\Controls\AxisControl.baml
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\x86\Debug\Controls\AxisControl.g.cs
 C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\x86\Debug\iBeams.csprojResolveAssemblyReference.cache
