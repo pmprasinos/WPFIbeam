@@ -14,7 +14,7 @@ class SerialRemote
                             //private  SerialPort spout; //to beckoff
 
     private DateTime lastRecieved = new DateTime(1900, 1, 1);
-
+    bool debug = false;
 
     private Stopwatch lw;
     private Stopwatch sw;
@@ -71,7 +71,7 @@ class SerialRemote
   
             spin.ReadTimeout = 1000;
             if (spin.BytesToRead > 200) { spin.ReadExisting(); Thread.Sleep(5); }
-            //Debug.Print(spin.BytesToRead.ToString());
+          
             long t = DateTime.Now.Ticks;
             byte[] frame = { 0, 0, 0, 0, 0 };
 
@@ -125,7 +125,7 @@ class SerialRemote
 
 
             }
-            Debug.Print(spin.BytesToRead + "   X: " + x[0].ToString() + " Y: " + y[0].ToString() + " Z: " + z[0].ToString() +
+           if(debug) Debug.Print(spin.BytesToRead + "   X: " + x[0].ToString() + " Y: " + y[0].ToString() + " Z: " + z[0].ToString() +
                             "  2" + "   X: " + x[1].ToString() + " Y: " + y[1].ToString() + " Z: " + z[1].ToString() +
             
                            "  3" + "   X: " + x[2].ToString() + " Y: " + y[2].ToString() + " Z: " + z[2].ToString() +

@@ -23,6 +23,7 @@ namespace WpfApp1
         public string NotesResult;
         public string NameResult;
         public bool SaveClicked;
+        public int JoyStickSelected = 1;
 
         public NameStateDialog()
         {
@@ -40,13 +41,26 @@ namespace WpfApp1
             SaveClicked = true;
             NotesResult = TextBoxNotes.Text;
             NameResult = TextBoxName.Text;
-            this.Close();
+            this.Hide();
         }
 
         private void CancelButtonClick(object sender, RoutedEventArgs e)
         {
             SaveClicked = false;
             this.Close();
+        }
+
+        private void RadioButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            RadioButton[] rbs = { RB0, RB1, RB2, RB3 };
+            RadioButton rb = sender as RadioButton;
+         
+                int y = int.Parse(rb.Tag.ToString());
+                foreach (RadioButton r in rbs) { r.IsChecked = false; r.IsThreeState = false; }
+                rbs[y].IsChecked = true;
+                JoyStickSelectLabel.Content = "Joystick_" + y.ToString();
+            JoyStickSelected = y;
+           
         }
     }
 }

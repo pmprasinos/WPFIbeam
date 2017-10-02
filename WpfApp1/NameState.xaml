@@ -5,14 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-         Title="Save State" Height="246.12" Width="546.305" Background="#FF252222" BorderBrush="Black" WindowStyle="None" ResizeMode="NoResize">
-    <Grid HorizontalAlignment="Left" Width="408">
-        <TextBox x:Name="TextBoxName" HorizontalAlignment="Left" Height="39" TextWrapping="Wrap" Text="State_1" VerticalAlignment="Top" Width="388" FontSize="24" Margin="151,10,-131,0" VerticalContentAlignment="Bottom"/>
+         Title="Save State" Height="309.088" Width="546.305" Background="#FF252222" BorderBrush="Black" WindowStyle="None" ResizeMode="NoResize">
+    <Grid HorizontalAlignment="Left" Width="546">
+        <TextBox x:Name="TextBoxName" HorizontalAlignment="Left" Height="39" TextWrapping="Wrap" Text="State_1" VerticalAlignment="Top" Width="388" FontSize="24" Margin="151,10,-131,0" VerticalContentAlignment="Bottom" TabIndex="0"/>
         <Label Content ="State Name:" Height="39" Margin="10,11,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="141" Foreground="#FFE2DEDE" FontSize="24"/>
-        <Button Content="Save" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="419,182,-131,0" Height="54" Background="{x:Null}" Foreground="#FFEEE8E8" Click="SaveButtonClick"/>
-        <Button Content="Cancel" HorizontalAlignment="Left" Margin="151,182,0,0" VerticalAlignment="Top" Width="123" Height="54" Background="{x:Null}" Foreground="#FFE2E0E0" Click="CancelButtonClick"/>
-        <TextBox x:Name="TextBoxNotes" HorizontalAlignment="Left" Height="121" Margin="151,56,-131,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="388"/>
+        <Button Content="Save" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="419,249,-131,0" Height="54" Background="{x:Null}" Foreground="#FFEEE8E8" Click="SaveButtonClick" TabIndex="3"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="151,249,0,0" VerticalAlignment="Top" Width="123" Height="54" Background="{x:Null}" Foreground="#FFE2E0E0" Click="CancelButtonClick" TabIndex="2"/>
+        <TextBox x:Name="TextBoxNotes" HorizontalAlignment="Left" Height="121" Margin="151,56,-131,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="388" TabIndex="1"/>
         <Label Content ="Notes:" Height="39" Margin="66,50,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="85" Foreground="#FFDEDBDB" FontSize="24"/>
+        <Viewbox  HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="150,50,100,75" Height="40" Width="40">
+            <RadioButton Name ="RB0" Tag="0" Click="RadioButton_Clicked" ></RadioButton>
+        </Viewbox>
+        <Viewbox  HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="200,50,100,75" Height="40" Width="40">
+            <RadioButton Name ="RB1" Tag="1" Click="RadioButton_Clicked" ></RadioButton>
+        </Viewbox>
+        <Viewbox  HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="250,50,100,75" Height="40" Width="40">
+            <RadioButton Name ="RB2" Tag="2" Click="RadioButton_Clicked" ></RadioButton>
+        </Viewbox>
+        <Viewbox  HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="300,50,100,75" Height="40" Width="40">
+            <RadioButton Name ="RB3" Tag="3" Click="RadioButton_Clicked" ></RadioButton>
+        </Viewbox>
+        <Label Content ="JoyStick:" Height="39" Margin="34,194,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="99" Foreground="#FFDEDBDB" FontSize="24"/>
+        <Label Name="JoyStickSelectLabel" Content ="None" Height="39" Margin="358,195,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="99" Foreground="#FFDEDBDB" FontSize="24"/>
 
     </Grid>
+
 </Window>

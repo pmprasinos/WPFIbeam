@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 
     public partial  class ADSQL
     {
-        public static SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework");
+      
         public static ADSClient Mom = new ADSClient("10.99.1.1.1.1", true, 20);
 
 
@@ -20,7 +20,10 @@ using System.Data.SqlClient;
 
         try
         {
-            SqlCommand cmd = new SqlCommand("Update MomSQL..Axis set targetPositon = @newValue Where AxisNumber = @axisNumber", MomCon);
+            using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+            { 
+
+                SqlCommand cmd = new SqlCommand("Update MomSQL..Axis set targetPositon = @newValue Where AxisNumber = @axisNumber", MomCon);
 
             switch (columnName.ToUpper())
             {
@@ -39,52 +42,59 @@ using System.Data.SqlClient;
                 case ("CURRENTPOSITION"):
                     cmd = new SqlCommand("Update MomSQL..Axis set currentPosition = @newValue Where AxisNumber = @axisNumber", MomCon);
                     break;
-                default:
+                    case ("IsActive"):
+                        cmd = new SqlCommand("Update MomSQL..Axis set IsActive = @newValue Where AxisNumber = @axisNumber", MomCon);
+                        break;
+                    default:
                     return false;
                     //throw new Exception("The column Name: " + columnName + " Was not defined");
             }
-
+          
             cmd.Parameters.AddWithValue("@columnName", columnName);
             cmd.Parameters.AddWithValue("@newValue", newValue);
             cmd.Parameters.AddWithValue("@axisNumber", axisNumber);
          
                 if (MomCon.State == ConnectionState.Closed) MomCon.Open();
-                return cmd.ExecuteNonQuery() == 1;
+          
+            return cmd.ExecuteNonQuery() == 1;
             }
+        }
             catch (SqlException ex)
             {
             if (!ignoreException) throw ex; else return false;
             }
-            finally
-            {
-          //  Debug.Print(columnName + "   " + newValue.ToString() + "   " + axisNumber.ToString() + "    " + st.ElapsedMilliseconds.ToString());
-                MomCon.Close();
-            }
+          
         }
 
-        public static object SqlReadAxis(int axisNumber, string columnName, bool ignoreException = false)
+    public static object SqlReadAxis(int axisNumber, string columnName, bool ignoreException = false)
+    {
+        Stopwatch st = Stopwatch.StartNew();
+        using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
         {
- Stopwatch st = Stopwatch.StartNew();
-        try
+            try
         {
            
-            SqlCommand cmd = new SqlCommand("Select * from MomSQL..Axis Where AxisNumber = @axisNumber", MomCon);
-            cmd.Parameters.AddWithValue("@axisNumber", axisNumber);
-        
+                SqlCommand cmd = new SqlCommand("Select * from MomSQL..Axis Where AxisNumber = @axisNumber", MomCon);
+                cmd.Parameters.AddWithValue("@axisNumber", axisNumber);
+
                 if (MomCon.State == ConnectionState.Closed) MomCon.Open();
-                SqlDataReader s = cmd.ExecuteReader();
-                s.Read();
-                return s[columnName];
+                using (SqlDataReader s = cmd.ExecuteReader())
+                {
+                    s.Read();
+                    return s[columnName];
+                }
+                    
             }
             catch (SqlException)
-            {
+        {
             if (!ignoreException) throw; else return false;
-            }
-            finally
-            {
-           // Debug.Print(columnName + "   " + axisNumber.ToString() + "    " + st.ElapsedMilliseconds.ToString());
+        }
+        finally
+        {
+            // Debug.Print(columnName + "   " + axisNumber.ToString() + "    " + st.ElapsedMilliseconds.ToString());
             MomCon.Close();
-            }
+        }
+    }
 
         }
 

@@ -12,7 +12,7 @@ namespace WpfApp1
         {
         }
 
-        public virtual DbSet<Axis> Axes { get; set; }
+      
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

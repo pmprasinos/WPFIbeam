@@ -37,16 +37,17 @@ namespace WpfApp1
     {
         //Task BackTask;
         int tickCounter = 0;
-        SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework");
-        SqlDataReader sda; DataTable dt = new DataTable();
+        string MomConStr = "data source = MOM0\\MOMSQL; initial catalog = MomSQL; MultipleActiveResultSets = True; user id = pprasinos; password = Wyman123-;";
+       DataTable dt = new DataTable();
         private Vector3D[][] IBeamTrans = new Vector3D[3][];
         private double[] KidPositions = new double[6];
         private const string EYESHOT_SERIAL = "ULTWPF-94GF-N1277-FNLR3-1PPHF";
         static System.Windows.Forms.Timer t = new System.Windows.Forms.Timer(); static System.Windows.Forms.Timer StatesGridTimer = new System.Windows.Forms.Timer();
         bool disabled = false; bool MomConnected = true; bool SerialConnected = true;
         double[] AxisSpeed = { 0, 0, 0, 0, 0, 0 };
+       // QueControl[] JoyStickDisp;
         ADSClient Mom;
-        List<AxisGroup> AxisData = new List<AxisGroup>();
+        //List<AxisGroup> AxisData = new List<AxisGroup>();
         /// <summary>
         /// 1=Live mode, 2 = Virtual Mode, 3 = Fault Active, 4 = Estop Active
         /// </summary>
@@ -72,18 +73,15 @@ namespace WpfApp1
             viewPortLayout1.Unlock(EYESHOT_SERIAL);
 
             if (!UserInTextBox) sr = null;
-
+           //  JoyStickDisp[4] = { QueControl_1, QueControl_2, QueControl_3, QueControl_4};
             for (int i = 0; i < 100; i++)
             {
                 if (i < JoySticks.Length) JoySticks[i] = new Point4D(0, 0, 0, 0);
-                if (i < 6)
-                {
-                    AxisData.Add(new AxisGroup("Axis_" + i, "Hoist", "10.0.0." + i + 1, 0, "3000", "0", "MM"));
-                    AxisData[i].Foreground = System.Windows.Media.Brushes.White;
-                }
+             
             }
             axControl = new[]{ AX1, AX2, AX3, AX4, AX5, AX6, AX7, AX8, AX9, AX10, AX11, AX12 };
             viewPortLayout1.ToolBar.Visible = false;            //JoySticks[0].X = 20;
+            StatesGrid_Update(QueGrid_Selection);
         }
 
 
@@ -91,7 +89,6 @@ namespace WpfApp1
         private void Joystick_Setup(object sender, RoutedEventArgs e)
         {
             JoyStickSetup js = new JoyStickSetup();
-
             js.ShowDialog();
         }
 
@@ -107,25 +104,26 @@ namespace WpfApp1
                     {
                         AX.DataContext = UpdateSQL.ADT.Rows[x];
                         AX.UpdateLayout();
+                        AX.AxisNumber = (int)UpdateSQL.ADT.Rows[x].ItemArray[1];
                     }
                     else
                     {
                         Debug.Print("EAT SHIT");
                     }
                 }
-                else AX.Visibility = Visibility.Hidden;
+               
                 x++;
             }
 
-            //StatesGrid_Update();
         }
             private void T_tick(object myObject, EventArgs e)
         {
             // if(BackTask !=null) if (!BackTask.IsCompleted) BackTask = null;
+        
             Stopwatch s = Stopwatch.StartNew();
             try
             {
-                t.Interval = 50;
+                t.Interval = 60;
                 if (disabled || t_Busy) { return; }
                 t_Busy = true;
                 tickCounter++;
@@ -144,7 +142,8 @@ namespace WpfApp1
 
                 loopCount++;
                 loopCount = loopCount % 100;
-                if (loopCount % 10 == 9) ModeSelect();
+                if (loopCount % 10 == 5) ModeSelect();
+                if(loopCount == 99) StatesGrid_Update(QueGrid_Selection);
                 if (LiveDisplay != 2)
                 {
                     if (Mom != null && sr != null && loopCount % 10 == 3) if (sr.DeadmanRightPressed || sr.DeadmanLeftPressed) Mom.WriteValue(Mom.DeadMan, true, "DEADMAN"); else if (loopCount % 10 == 3) Mom.WriteValue(Mom.DeadMan, false, "DEADMAN");
@@ -154,7 +153,7 @@ namespace WpfApp1
             }
             catch(Exception exe) { Debug.Print(exe.InnerException.ToString()); }
             finally { t_Busy = false; }
-            Debug.Print(loopCount.ToString() + "   " + s.ElapsedMilliseconds.ToString());
+           // Debug.Print(loopCount.ToString() + "   " + s.ElapsedMilliseconds.ToString());
         }
 
         void ConnectMom()
@@ -241,11 +240,6 @@ namespace WpfApp1
                     window.WindowState = WindowState.Maximized;
                 }
             }
-        
-         
-             // AX1.ItemsSource = UpdateSQL.ADT.Rows[0];
-
-
         }
 
         private void FullScreen(object sender, RoutedEventArgs e)
@@ -261,6 +255,7 @@ namespace WpfApp1
             t.Tick += new EventHandler(T_tick); StatesGridTimer.Tick += new EventHandler(StatesGridTimer_tick);
             JoyStick_Activate();
             UpdateCad(2);
+            StatesGrid_Update(QueGrid_Selection);
         }
 
         private void OpenCADFile()
@@ -272,9 +267,9 @@ namespace WpfApp1
             rfa.LoadingText = "iBeam";
             viewPortLayout1.DoWork(rfa);
             rfa.AddToSceneAsSingleObject(viewPortLayout1, "iBeamParent", 0);
-            rfa = new ReadSTL(new MemoryStream(Properties.Resources.Pulley), false);
-            viewPortLayout1.DoWork(rfa);
-            rfa.AddToSceneAsSingleObject(viewPortLayout1, "PulleyParent", 0);
+            //rfa = new ReadSTL(new MemoryStream(Properties.Resources.Pulley), false);
+            //viewPortLayout1.DoWork(rfa);
+            //rfa.AddToSceneAsSingleObject(viewPortLayout1, "PulleyParent", 0);
             // FileName = "C:\\Users\\Phil\\source\\repos\\WpfApp1\\WpfApp1\\obj\\3D-Grid-and-ZeroDeck-pit.stl";
             // rfa = new ReadSTL(FileName);
             // viewPortLayout1.DoWork(rfa);
@@ -297,28 +292,28 @@ namespace WpfApp1
         {
             if (disabled) return;
 
-            Entity s = (Entity)viewPortLayout1.Blocks["PulleyParent"].Entities[0];
-            s.Color = System.Drawing.Color.FromArgb(200, System.Drawing.Color.Aqua);
+            //Entity s = (Entity)viewPortLayout1.Blocks["PulleyParent"].Entities[0];
+            //s.Color = System.Drawing.Color.FromArgb(200, System.Drawing.Color.Aqua);
 
             for (int i = 0; i < 3; i++)
             {
                 Entity E = (Entity)viewPortLayout1.Blocks["iBeamParent"].Entities[0].Clone();
-                Entity P = (Entity)viewPortLayout1.Blocks["PulleyParent"].Entities[0].Clone();
+               // Entity P = (Entity)viewPortLayout1.Blocks["PulleyParent"].Entities[0].Clone();
 
                 E.Color = System.Drawing.Color.Black;
                 viewPortLayout1.Entities.Add(E, i + 1);
                 viewPortLayout1.Entities[(i * 2) + 1].Color = System.Drawing.Color.Black;
                 viewPortLayout1.Entities[(i * 2) + 1].Visible = true;
                 // P.GroupIndex = i + 1;
-                P.Rotate(Math.PI / 2, new Vector3D(0, 0, 1));
-                P.Rotate(Math.PI / 2, new Vector3D(0, -1, 0));
-                P.Translate(E.BoxMax.X, boxCenter(E).Y, E.BoxMax.Z - P.BoxMin.Z);
-                viewPortLayout1.Entities.Add(P, i + 1, System.Drawing.Color.AliceBlue);
-                P = (Entity)viewPortLayout1.Blocks["PulleyParent"].Entities[0].Clone();
-                P.Rotate(Math.PI / 2, new Vector3D(0, 0, 1));
-                P.Rotate(Math.PI / 2, new Vector3D(0, -1, 0));
-                P.Translate(E.BoxMin.X - E.BoxSize.Z, boxCenter(E).Y, E.BoxMin.Z + 300);
-                viewPortLayout1.Entities.Add(P, i + 1);
+               // P.Rotate(Math.PI / 2, new Vector3D(0, 0, 1));
+               // P.Rotate(Math.PI / 2, new Vector3D(0, -1, 0));
+               // P.Translate(E.BoxMax.X, boxCenter(E).Y, E.BoxMax.Z - P.BoxMin.Z);
+               // viewPortLayout1.Entities.Add(P, i + 1, System.Drawing.Color.AliceBlue);
+              //  P = (Entity)viewPortLayout1.Blocks["PulleyParent"].Entities[0].Clone();
+              //  P.Rotate(Math.PI / 2, new Vector3D(0, 0, 1));
+               // P.Rotate(Math.PI / 2, new Vector3D(0, -1, 0));
+              //  P.Translate(E.BoxMin.X - E.BoxSize.Z, boxCenter(E).Y, E.BoxMin.Z + 300);
+              //  viewPortLayout1.Entities.Add(P, i + 1);
                 IBeamTrans[i] = new Vector3D[2];
                 IBeamTrans[i][0] = new Vector3D(0, 0, 0);
                 IBeamTrans[i][1] = new Vector3D(0, 0, 0);
@@ -338,10 +333,10 @@ namespace WpfApp1
 
             //viewPortLayout1.Entities.Add(u);
             viewPortLayout1.Blocks["iBeamParent"].Entities[0].Visible = false;
-            viewPortLayout1.Blocks["PulleyParent"].Entities[0].Visible = false;
+            //viewPortLayout1.Blocks["PulleyParent"].Entities[0].Visible = false;
 
             Entity e0 = (Entity)viewPortLayout1.Blocks["iBeamParent"].Entities[0].Clone();
-            Entity P0 = (Entity)viewPortLayout1.Blocks["PulleyParent"].Entities[0].Clone();
+            //Entity P0 = (Entity)viewPortLayout1.Blocks["PulleyParent"].Entities[0].Clone();
             // Entity s0 = (Entity)viewPortLayout1.Blocks["Pit"].Entities[0].Clone();
 
             for (int k = 1; k < viewPortLayout1.Entities.Count; k++) if (viewPortLayout1.Entities[k].LayerIndex != 0) viewPortLayout1.Entities.RemoveAt(k);
@@ -350,8 +345,6 @@ namespace WpfApp1
             {
                 if (LiveDisplay == 1 && i == SelectedLayer - 1 && Mom != null)
                 {
-
-
                     ADSQL.SqlWriteAxis((i * 2) + 1, "LiveValues", true);
 
                     KidPositions[(i * 2)] = int.Parse(ADSQL.SqlReadAxis((i * 2) + 1, "CurrentPosition").ToString());
@@ -377,40 +370,40 @@ namespace WpfApp1
                     KidPositions[(i * 2) + 1] = int.Parse(ADSQL.SqlReadAxis((i * 2) + 2, "CurrentPosition").ToString());
                 }
                 Entity e = (Entity)e0.Clone();
-                Entity P = (Entity)P0.Clone();
+              //  Entity P = (Entity)P0.Clone();
                 e.Rotate(1.5708, new Vector3D(1, 0, 0));
                 if (e.BoxMax != null) e.Rotate(System.Math.Tan((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)), new Vector3D(0, 1), boxCenter(e));
                 e.Translate(0, 1000 * i, 0);
                 e.Color = System.Drawing.Color.Black;
                 e.Translate(0, 0, (KidPositions[i * 2] + KidPositions[i * 2 + 1]) / 2);
                 viewPortLayout1.Entities.Add(e, i + 1);
-                viewPortLayout1.Entities[(i * 2) + 0].Color = System.Drawing.Color.Black;
-                viewPortLayout1.Entities[(i * 2) + 0].Visible = true;
-                P.Rotate(Math.PI / 2, d);
-                P.Rotate(Math.PI / 2, new Vector3D(0, -1, 0));
+                //viewPortLayout1.Entities[(i * 2) + 0].Color = System.Drawing.Color.Black;
+                //viewPortLayout1.Entities[(i * 2) + 0].Visible = true;
+              //  P.Rotate(Math.PI / 2, d);
+               // P.Rotate(Math.PI / 2, new Vector3D(0, -1, 0));
 
-                if (KidPositions[i * 2] - KidPositions[(i * 2) + 1] < 0)
-                {
-                    if (e.BoxMax != null && P.BoxMax != null) P.Translate(e.BoxMax.X + (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMax.Z - P.BoxMin.Z);
-                }
-                else
-                {
-                    if (e.BoxMax != null && P.BoxMax != null) P.Translate(e.BoxMax.X - (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMin.Z + 300);
-                }
+                //if (KidPositions[i * 2] - KidPositions[(i * 2) + 1] < 0)
+                //{
+                //    if (e.BoxMax != null && P.BoxMax != null) P.Translate(e.BoxMax.X + (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMax.Z - P.BoxMin.Z);
+                //}
+                //else
+                //{
+                //    if (e.BoxMax != null && P.BoxMax != null) P.Translate(e.BoxMax.X - (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMin.Z + 300);
+                //}
 
-                viewPortLayout1.Entities.Add(P, i + 1, System.Drawing.Color.AliceBlue);
-                P = (Entity)viewPortLayout1.Blocks["PulleyParent"].Entities[0].Clone();
-                P.Rotate(Math.PI / 2, d);
-                P.Rotate(Math.PI / 2, new Vector3D(0, -1, 0));
-                if (KidPositions[i * 2] - KidPositions[(i * 2) + 1] < 0)
-                {
-                    if (e.BoxMax != null && P.BoxMax != null) P.Translate(e.BoxMin.X - (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMin.Z + 300);
-                }
-                else
-                {
-                    if (e.BoxMax != null && P.BoxMax != null) P.Translate(e.BoxMin.X + (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMax.Z - P.BoxMin.Z);
-                }
-                viewPortLayout1.Entities.Add(P, i + 1);
+                //viewPortLayout1.Entities.Add(P, i + 1, System.Drawing.Color.AliceBlue);
+             //   P = (Entity)viewPortLayout1.Blocks["PulleyParent"].Entities[0].Clone();
+             //   P.Rotate(Math.PI / 2, d);
+              //  P.Rotate(Math.PI / 2, new Vector3D(0, -1, 0));
+                //if (KidPositions[i * 2] - KidPositions[(i * 2) + 1] < 0)
+                //{
+                //    if (e.BoxMax != null && P.BoxMax != null) P.Translate(e.BoxMin.X - (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMin.Z + 300);
+                //}
+                //else
+                //{
+                //    if (e.BoxMax != null && P.BoxMax != null) P.Translate(e.BoxMin.X + (System.Math.Sin((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)) * e.BoxSize.Y), boxCenter(e).Y, e.BoxMax.Z - P.BoxMin.Z);
+                //}
+               // viewPortLayout1.Entities.Add(P, i + 1);
                 if (SelectedLayer != -1) PopulateAxisInfo((SelectedLayer * 2) - 1, false);
                 if (SelectedLayer != -1) PopulateAxisInfo(SelectedLayer * 2, false);
 
@@ -441,9 +434,13 @@ namespace WpfApp1
             {
                 if (en.Selected && SelectedLayer != en.LayerIndex)
                 {
-                    
+                    QueGrid_Selection = -1;
+                    this.SelectedQueTextBox.Text = "Unknown";
                     SelectedLayer = en.LayerIndex;
                     PopulateAxisInfo((SelectedLayer * 2) - 1, true);
+                    foreach (AxisControl ax in axControl) ax.IsActive = false;
+                    axControl[((SelectedLayer-1) * 2) + 1].IsActive = true;
+                    axControl[((SelectedLayer-1) * 2) ].IsActive = true;
                     PopulateAxisInfo(SelectedLayer * 2, false);
                 }
             }
@@ -489,82 +486,66 @@ namespace WpfApp1
 
         private void PopulateAxisInfo(int AxisNum, bool clear = false)
         {
-            //AxisControl_1.AxisNumber = 1 + ((SelectedLayer - 1) * 2);
-           // AxisControl_2.AxisNumber = 2 + ((SelectedLayer - 1) * 2);
-           // AxisControl_1.Refresh();
-           // AxisControl_2.Refresh();
-       
+           // AxisControl_1.AxisNumber = 1 + ((SelectedLayer - 1) * 2);
+            //AxisControl_2.AxisNumber = 2 + ((SelectedLayer - 1) * 2);
+            //AxisControl_1.Visibility = Visibility.Visible;
+            //AxisControl_2.Visibility = Visibility.Visible;
+
         }
 
-        SqlCommand scmd;
-        private void StatesGrid_Update()
+
+        private void StatesGrid_Update(int SelectedIndex)
         {
-            if (MomCon.State != ConnectionState.Closed) return;
-            String y = "";
-            using (SqlConnection con = new SqlConnection(MomCon.ConnectionString))
-            {
-               // System.Data.DataRowView currentRow = (System.Data.DataRowView)StatesGrid.SelectedItem;
-              //  if (StatesGrid.SelectedCells.Count != 0) y = currentRow.Row.ItemArray[0].ToString();
-                MomCon.Open();
-                if (scmd == null) scmd = new SqlCommand("Exec momsql.dbo.GetStateData", MomCon);
-                sda = scmd.ExecuteReader();
-              //  if (dt == null) { dt = new DataTable("AxisControl"); StatesGrid.ItemsSource = dt.DefaultView; }
-                dt.Clear();
-                dt.Load(sda);
-              //  StatesGrid.Items.Refresh();
-                MomCon.Close();
-
-                if (y == "") return;
-               // StatesGrid.SelectAll();
-            }
-
-          //  foreach (object item in StatesGrid.ItemsSource)
-         //   {
-            //    try
-           //     {
-           //         DataRowView drv = (DataRowView)item;
-               //     if (drv.Row.ItemArray[0].ToString() == y) StatesGrid.SelectedItem = item;
-           //     }
-           //     catch { }
-          //  }
-        }
-
-        private void StoreAxisGrouState_Clicked(object sender, RoutedEventArgs e)
-        {
-            UpdateSQL.Refresh();
-            if (SelectedLayer == -1) return;
-            NameStateDialog nsd = new NameStateDialog();
-            nsd.ShowDialog();
-            double[] g = new double[] { SelectedLayer, KidPositions[SelectedLayer] };
-            // if (nsd.SaveClicked) States.Add(nsd.NameResult, g);
-            string[] row = new string[] { "THIS", "IS", "TEST" };
-
-            string CmdString = "Select * from Momsql..States where StateName = @statename";
-            SqlCommand cmd = new SqlCommand(CmdString, MomCon);
-
-           
+            int i = SelectedIndex;
+            this.QueGrid.SelectionChanged -= QueGrid_SelectionChanged;
+            
+            int j = QueGrid.Items.Count;
             try
             {
-                MomCon.Open();
-                cmd.Parameters.AddWithValue("@StateName", nsd.NameResult);
-                if (cmd.ExecuteReader().HasRows) { MessageBox.Show("A STATE WIHT THIS NAME ALREADY EXISTS"); nsd.ShowDialog(); }
-                CmdString = "MomSQL..StoreGroupState";
-                cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@AxisGroupNum", SelectedLayer);
-         
-            cmd.Parameters.AddWithValue("@Notes", nsd.NotesResult);
+                using (SqlConnection MomCon = new SqlConnection(MomConStr))
+                {
 
+                    using (SqlCommand acmd = new SqlCommand("Exec momsql.dbo.GetStateData", MomCon))
+                    {
+                        dt.Clear();
+                        MomCon.Open();
+                        dt.Load(acmd.ExecuteReader());
+                        //QueGrid.Items.Refresh();
+                        QueGrid.ItemsSource = dt.DefaultView;
+                    }
+                    
+                        if (i != -1)
+                        {
+                            DataRowView g = (DataRowView)QueGrid.Items[i];
+                            string h = g.Row.ItemArray[0].ToString();
 
-            cmd.CommandTimeout = 1000;
+                            using (SqlCommand cmd = new SqlCommand("momsql..PullAxisTargets", MomCon))
+                            {
+                                cmd.Parameters.AddWithValue("@StateName", h);
+                                cmd.CommandType = CommandType.StoredProcedure;
+                                cmd.ExecuteNonQuery();
 
-         
-                cmd.ExecuteNonQuery();
+                            }
+                            foreach (AxisControl AX in axControl)
+                            {
+                                AX.SelectedQue = h;
+                            }
+                        this.SelectedQueTextBox.Text = h;
+                        }
+                      
+                        
+
+                        if (j == QueGrid.Items.Count) QueGrid.SelectedIndex = i;
+
+                        MomCon.Close();
+
+                    
+                }
             }
             catch { }
-            finally { MomCon.Close(); }
-
-
+            finally { this.QueGrid.SelectionChanged += QueGrid_SelectionChanged; }
         }
+
 
         private void UnhandeledEx(object sender, UnhandledExceptionEventArgs args)
         {
@@ -575,8 +556,8 @@ namespace WpfApp1
 
         private void closed(object sender, RoutedEventArgs e)
         {
-            Mom.WriteValue(Mom.MomControl, false, "MOMCONTROL");
-            this.Close();
+            // Mom.WriteValue(Mom.MomControl, false, "MOMCONTROL");
+            Application.Current.Shutdown();
         }
 
         private void ModeSelect()
@@ -614,7 +595,7 @@ namespace WpfApp1
                 ShadeRectangle1.Stroke = new SolidColorBrush(System.Windows.Media.Colors.Red);
                 ModeLabel.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Red);
                 ModeLabel.Content = "Console E-Stop active (Live)";
-                VirtualModeButton.Opacity = 80;
+                VirtualModeButton.Opacity = 20;
                 if (sr.EstopPressed) SafteyResetButton.Visibility = Visibility.Hidden;
 
             }
@@ -622,7 +603,7 @@ namespace WpfApp1
             for (int axs = 0; axs < 6; axs++)
             {
                 KidPositions[axs] = KidPositions[axs] + AxisSpeed[axs];
-                AxisData[axs].Position = AxisData[axs].Position + AxisSpeed[axs];
+          
             }
             if (LiveDisplay == 2)
             {
@@ -649,7 +630,6 @@ namespace WpfApp1
             }
             else if (LiveDisplay == 1)
             {
-
                 ShadeRectangle1.Stroke = new SolidColorBrush(System.Windows.Media.Colors.Gray);
                 ModeLabel.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Gray);
                 ModeLabel.Content = "Live mode Active";
@@ -721,7 +701,64 @@ namespace WpfApp1
         {
             TT.IsOpen = false;
         }
+        int QueGrid_Selection=-1;
 
+        private void QueGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            QueGrid_Selection = QueGrid.SelectedIndex;
+          
+            DataRowView dataRow = (DataRowView)QueGrid.SelectedItem;
+            //int h = int.Parse(dataRow.Row.ItemArray[2].ToString());
+            StatesGrid_Update(QueGrid_Selection);
+            
+        }
+
+        private void GenerateQueButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            NameStateDialog nsd = new NameStateDialog();
+            nsd.TextBoxName.Text = this.SelectedQueTextBox.Text;
+            nsd.ShowDialog();
+            string notesStr = nsd.NotesResult;
+
+            string CmdString = "Select * from Momsql..States where StateName = @statename";
+           
+
+            using (SqlConnection MomCon = new SqlConnection(MomConStr))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand(CmdString, MomCon);
+                    MomCon.Open();
+                    cmd.Parameters.AddWithValue("@StateName", nsd.NameResult);
+                    while(cmd.ExecuteReader().HasRows )
+                    {
+                        MomCon.Close();
+                        MessageBoxResult r = MessageBox.Show("A STATE WITH THIS NAME ALREADY EXISTS, WOULD YOU LIKE TO OVERWRITE?", "SAVE ERROR", MessageBoxButton.YesNoCancel);
+                        if (r == MessageBoxResult.Cancel) return;
+                        if (r == MessageBoxResult.OK) { MessageBox.Show("HAVENT DONE THAT YET, SORRY"); return; }
+                        nsd = new NameStateDialog();
+                        nsd.TextBoxNotes.Text = notesStr;
+                        nsd.ShowDialog();
+                        notesStr = nsd.NotesResult;
+                        cmd.Parameters["@StateName"].Value = nsd.NameResult;
+                        //nsd.TextBoxName.SelectAll();
+                        MomCon.Open();
+                    }
+                    cmd = new SqlCommand(CmdString, MomCon);
+                    cmd.CommandText = "MomSQL..StoreGroupState";
+                    cmd.Parameters.AddWithValue("@StateName", nsd.NameResult);
+                    cmd.Parameters.AddWithValue("@JoyStickNumber", nsd.JoyStickSelected);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                 
+                    cmd.Parameters.AddWithValue("@Notes", nsd.NotesResult);
+                    cmd.CommandTimeout = 100;
+                    cmd.ExecuteNonQuery();
+                }
+                catch { }
+                finally { MomCon.Close(); }
+                StatesGrid_Update(QueGrid_Selection);
+            }
+        }
     }
 
 

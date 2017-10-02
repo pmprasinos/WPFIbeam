@@ -17,10 +17,11 @@ namespace WpfApp1
        // static string CmdString;
         public static void Refresh()
         {
+            ta.Connection.Open();
             ta.ClearBeforeFill = true;
             ADT.Clear();
             ta.Fill(ADT);
-                if(ADT.Rows.Count < 6) ta.Fill(ADT);
+            ta.Connection.Close();
                 
         }
 

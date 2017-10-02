@@ -360,6 +360,8 @@ namespace WpfApp1 {
             
             private global::System.Data.DataColumn columnDefaultJoyStickIndex;
             
+            private global::System.Data.DataColumn columnIsActive;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public AxisDataTable() {
@@ -579,6 +581,14 @@ namespace WpfApp1 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn IsActiveColumn {
+                get {
+                    return this.columnIsActive;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -637,7 +647,8 @@ namespace WpfApp1 {
                         bool UserCanEdit, 
                         bool LiveValues, 
                         int Deceleration, 
-                        int DefaultJoyStickIndex) {
+                        int DefaultJoyStickIndex, 
+                        bool IsActive) {
                 AxisRow rowAxisRow = ((AxisRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID,
@@ -662,7 +673,8 @@ namespace WpfApp1 {
                         UserCanEdit,
                         LiveValues,
                         Deceleration,
-                        DefaultJoyStickIndex};
+                        DefaultJoyStickIndex,
+                        IsActive};
                 rowAxisRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowAxisRow);
                 return rowAxisRow;
@@ -708,6 +720,7 @@ namespace WpfApp1 {
                 this.columnLiveValues = base.Columns["LiveValues"];
                 this.columnDeceleration = base.Columns["Deceleration"];
                 this.columnDefaultJoyStickIndex = base.Columns["DefaultJoyStickIndex"];
+                this.columnIsActive = base.Columns["IsActive"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -759,6 +772,8 @@ namespace WpfApp1 {
                 base.Columns.Add(this.columnDeceleration);
                 this.columnDefaultJoyStickIndex = new global::System.Data.DataColumn("DefaultJoyStickIndex", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDefaultJoyStickIndex);
+                this.columnIsActive = new global::System.Data.DataColumn("IsActive", typeof(bool), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnIsActive);
                 this.columnID.AllowDBNull = false;
                 this.columnAxisName.MaxLength = 50;
                 this.columnAxisType.MaxLength = 50;
@@ -944,6 +959,8 @@ namespace WpfApp1 {
             private global::System.Data.DataColumn columnDeceleration;
             
             private global::System.Data.DataColumn columnDefaultJoyStickIndex;
+            
+            private global::System.Data.DataColumn columnIsActive;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
@@ -1164,6 +1181,14 @@ namespace WpfApp1 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn IsActiveColumn {
+                get {
+                    return this.columnIsActive;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1222,7 +1247,8 @@ namespace WpfApp1 {
                         string UserCanEdit, 
                         string LiveValues, 
                         string Deceleration, 
-                        string DefaultJoyStickIndex) {
+                        string DefaultJoyStickIndex, 
+                        string IsActive) {
                 AxisDataTableRow rowAxisDataTableRow = ((AxisDataTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID,
@@ -1247,7 +1273,8 @@ namespace WpfApp1 {
                         UserCanEdit,
                         LiveValues,
                         Deceleration,
-                        DefaultJoyStickIndex};
+                        DefaultJoyStickIndex,
+                        IsActive};
                 rowAxisDataTableRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowAxisDataTableRow);
                 return rowAxisDataTableRow;
@@ -1293,6 +1320,7 @@ namespace WpfApp1 {
                 this.columnLiveValues = base.Columns["LiveValues"];
                 this.columnDeceleration = base.Columns["Deceleration"];
                 this.columnDefaultJoyStickIndex = base.Columns["DefaultJoyStickIndex"];
+                this.columnIsActive = base.Columns["IsActive"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1344,6 +1372,8 @@ namespace WpfApp1 {
                 base.Columns.Add(this.columnDeceleration);
                 this.columnDefaultJoyStickIndex = new global::System.Data.DataColumn("DefaultJoyStickIndex", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDefaultJoyStickIndex);
+                this.columnIsActive = new global::System.Data.DataColumn("IsActive", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnIsActive);
                 this.ExtendedProperties.Add("Generator_TablePropName", "_AxisDataTable");
                 this.ExtendedProperties.Add("Generator_UserTableName", "AxisDataTable");
             }
@@ -1851,6 +1881,22 @@ namespace WpfApp1 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsActive {
+                get {
+                    try {
+                        return ((bool)(this[this.tableAxis.IsActiveColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'IsActive\' in table \'Axis\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAxis.IsActiveColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public bool IsAxisNumberNull() {
                 return this.IsNull(this.tableAxis.AxisNumberColumn);
             }
@@ -2111,6 +2157,18 @@ namespace WpfApp1 {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public void SetDefaultJoyStickIndexNull() {
                 this[this.tableAxis.DefaultJoyStickIndexColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsIsActiveNull() {
+                return this.IsNull(this.tableAxis.IsActiveColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetIsActiveNull() {
+                this[this.tableAxis.IsActiveColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -2498,6 +2556,22 @@ namespace WpfApp1 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string IsActive {
+                get {
+                    try {
+                        return ((string)(this[this.tableAxisDataTable.IsActiveColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'IsActive\' in table \'AxisDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAxisDataTable.IsActiveColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public bool IsIDNull() {
                 return this.IsNull(this.tableAxisDataTable.IDColumn);
             }
@@ -2771,6 +2845,18 @@ namespace WpfApp1 {
             public void SetDefaultJoyStickIndexNull() {
                 this[this.tableAxisDataTable.DefaultJoyStickIndexColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsIsActiveNull() {
+                return this.IsNull(this.tableAxisDataTable.IsActiveColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetIsActiveNull() {
+                this[this.tableAxisDataTable.IsActiveColumn] = global::System.Convert.DBNull;
+            }
         }
         
         /// <summary>
@@ -2989,10 +3075,11 @@ namespace WpfApp1.MomSQLDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("LiveValues", "LiveValues");
             tableMapping.ColumnMappings.Add("Deceleration", "Deceleration");
             tableMapping.ColumnMappings.Add("DefaultJoyStickIndex", "DefaultJoyStickIndex");
+            tableMapping.ColumnMappings.Add("IsActive", "IsActive");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[Axis] ([ID], [AxisNumber], [AxisName], [AxisType], [AdminMax], [AdminMin], [UserMax], [UserMin], [CurrentPosition], [TargetPosition], [Acceleration], [Velocity], [AxisGroup], [AxisGroupName], [IpAddress], [NetID], [AxisStatus], [Faulted], [FaultCode], [UserCanEdit], [LiveValues], [Deceleration], [DefaultJoyStickIndex]) VALUES (@ID, @AxisNumber, @AxisName, @AxisType, @AdminMax, @AdminMin, @UserMax, @UserMin, @CurrentPosition, @TargetPosition, @Acceleration, @Velocity, @AxisGroup, @AxisGroupName, @IpAddress, @NetID, @AxisStatus, @Faulted, @FaultCode, @UserCanEdit, @LiveValues, @Deceleration, @DefaultJoyStickIndex)";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO [Axis] ([ID], [AxisNumber], [AxisName], [AxisType], [AdminMax], [AdminMin], [UserMax], [UserMin], [CurrentPosition], [TargetPosition], [Acceleration], [Velocity], [AxisGroup], [AxisGroupName], [IpAddress], [NetID], [AxisStatus], [Faulted], [FaultCode], [UserCanEdit], [LiveValues], [Deceleration], [DefaultJoyStickIndex], [IsActive]) VALUES (@ID, @AxisNumber, @AxisName, @AxisType, @AdminMax, @AdminMin, @UserMax, @UserMin, @CurrentPosition, @TargetPosition, @Acceleration, @Velocity, @AxisGroup, @AxisGroupName, @IpAddress, @NetID, @AxisStatus, @Faulted, @FaultCode, @UserCanEdit, @LiveValues, @Deceleration, @DefaultJoyStickIndex, @IsActive)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@AxisNumber", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "AxisNumber", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -3017,6 +3104,7 @@ namespace WpfApp1.MomSQLDataSetTableAdapters {
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LiveValues", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LiveValues", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Deceleration", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Deceleration", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@DefaultJoyStickIndex", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "DefaultJoyStickIndex", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsActive", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "IsActive", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3032,7 +3120,9 @@ namespace WpfApp1.MomSQLDataSetTableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT ID, AxisNumber, AxisName, AxisType, AdminMax, AdminMin, UserMax, UserMin, CurrentPosition, TargetPosition, Acceleration, Velocity, AxisGroup, AxisGroupName, IpAddress, NetID, AxisStatus, Faulted, FaultCode, UserCanEdit, LiveValues, Deceleration, DefaultJoyStickIndex FROM dbo.Axis";
+            this._commandCollection[0].CommandText = @"SELECT        ID, AxisNumber, AxisName, AxisType, AdminMax, AdminMin, UserMax, UserMin, CurrentPosition, TargetPosition, Acceleration, Velocity, AxisGroup, AxisGroupName, IpAddress, NetID, AxisStatus, Faulted, FaultCode, 
+                         UserCanEdit, LiveValues, Deceleration, DefaultJoyStickIndex, IsActive
+FROM            Axis";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -3116,7 +3206,8 @@ namespace WpfApp1.MomSQLDataSetTableAdapters {
                     global::System.Nullable<bool> UserCanEdit, 
                     global::System.Nullable<bool> LiveValues, 
                     global::System.Nullable<int> Deceleration, 
-                    global::System.Nullable<int> DefaultJoyStickIndex) {
+                    global::System.Nullable<int> DefaultJoyStickIndex, 
+                    global::System.Nullable<bool> IsActive) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ID));
             if ((AxisNumber.HasValue == true)) {
                 this.Adapter.InsertCommand.Parameters[1].Value = ((int)(AxisNumber.Value));
@@ -3249,6 +3340,12 @@ namespace WpfApp1.MomSQLDataSetTableAdapters {
             }
             else {
                 this.Adapter.InsertCommand.Parameters[22].Value = global::System.DBNull.Value;
+            }
+            if ((IsActive.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[23].Value = ((bool)(IsActive.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[23].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
