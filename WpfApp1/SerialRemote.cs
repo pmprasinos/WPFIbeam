@@ -27,6 +27,7 @@ class SerialRemote
     public int[] y = { 0, 0, 0, 0 };
     public int[] z = { 0, 0, 0, 0 };
     public int[] w = { 0, 0, 0, 0 };
+    public int[] Lights = { 1, 1, 1, 1, 1, 1, 1, 1 };
     public bool DeadmanLeftPressed;
     public bool DeadmanRightPressed;
     public bool EstopPressed;
@@ -64,8 +65,9 @@ class SerialRemote
     private void Scan()
     {
         do { System.Threading.Thread.Sleep(100); } while (!spin.IsOpen);
+        int[] LastLights = Lights;
 
-        Thread.Sleep(2000);
+    Thread.Sleep(2000);
         do
         {
   
@@ -108,8 +110,8 @@ class SerialRemote
                 EstopPressed = frame[1] <= 128 ; 
 
             }
-            yRead = frame[1];
-            xRead = frame[2];
+            xRead = frame[1];
+            yRead = frame[2];
             zRead = frame[3];
             this.lastRecieved = DateTime.Now;
 
@@ -132,7 +134,8 @@ class SerialRemote
             
                            "  4" + "   X: " + x[3].ToString() + " Y: " + y[3].ToString() + " Z: " + z[3].ToString() + " LDEAD: " + DeadmanLeftPressed + " RDEAD: " + DeadmanRightPressed);
             sw = Stopwatch.StartNew();
-            
+
+            LastLights= Lights;
         } while (enabled);
 
 

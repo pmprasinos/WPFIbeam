@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-         Title="Save State" Height="309.088" Width="546.305" Background="#FF252222" BorderBrush="Black" WindowStyle="None" ResizeMode="NoResize">
+         Title="Save Que" Height="309.088" Width="546.305" Background="#FF252222" BorderBrush="Black" WindowStyle="None" ResizeMode="NoResize">
     <Grid HorizontalAlignment="Left" Width="546">
-        <TextBox x:Name="TextBoxName" HorizontalAlignment="Left" Height="39" TextWrapping="Wrap" Text="State_1" VerticalAlignment="Top" Width="388" FontSize="24" Margin="151,10,-131,0" VerticalContentAlignment="Bottom" TabIndex="0"/>
-        <Label Content ="State Name:" Height="39" Margin="10,11,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="141" Foreground="#FFE2DEDE" FontSize="24"/>
+        <TextBox x:Name="TextBoxName" HorizontalAlignment="Left" Height="39" TextWrapping="Wrap" Text="Que_1" VerticalAlignment="Top" Width="388" FontSize="24" Margin="151,10,-131,0" VerticalContentAlignment="Bottom" TabIndex="0"/>
+        <Label Content ="Que Name:" Height="39" Margin="10,11,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="141" Foreground="#FFE2DEDE" FontSize="24"/>
         <Button Content="Save" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="419,249,-131,0" Height="54" Background="{x:Null}" Foreground="#FFEEE8E8" Click="SaveButtonClick" TabIndex="3"/>
         <Button Content="Cancel" HorizontalAlignment="Left" Margin="151,249,0,0" VerticalAlignment="Top" Width="123" Height="54" Background="{x:Null}" Foreground="#FFE2E0E0" Click="CancelButtonClick" TabIndex="2"/>
         <TextBox x:Name="TextBoxNotes" HorizontalAlignment="Left" Height="121" Margin="151,56,-131,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="388" TabIndex="1"/>

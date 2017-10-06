@@ -10,7 +10,7 @@
     
    >
     <UserControl.Resources>
-       
+
         <Style x:Key="RoundedButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -26,7 +26,7 @@
     </UserControl.Resources>
 
 
-    <GroupBox  HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch"  IsManipulationEnabled="True"  TextBlock.FontSize="9" Foreground="White" BorderBrush="{x:Null}" BorderThickness="0"  Background="Transparent" >
+    <GroupBox  HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch"  IsManipulationEnabled="True"  TextBlock.FontSize="9" Foreground="White" BorderBrush="{x:Null}" BorderThickness="0"  Background="Transparent" Visibility="{Binding Path=IsActive, Converter={StaticResource BoolToVisConverter}}">
 
         <Grid Margin="3,3,3,3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"  >
 
@@ -52,20 +52,18 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
-          
-
                     </Grid.RowDefinitions>
 
 
-                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="State:" Grid.Row="1" TextAlignment="Right" Foreground="White"  />
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="Que:" Grid.Row="1" TextAlignment="Right" Foreground="White"  />
                     <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   Text="# Of Axis:" Grid.Row="2" TextAlignment="Right" Foreground="White"  />
                     <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   Text="Notes:" Grid.Row="3" TextAlignment="Right" Foreground="White"  />
                     <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   Text="TrimFactor:" Grid.Row="4" TextAlignment="Right" Foreground="White"  />
-                    <TextBox x:Name="QueNameTextBox" Text="{Binding QueName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="1" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"  />
-                    <TextBox x:Name ="AxisQuantityTextBox"  Text="{Binding AxisQuantity, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="2" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"  />
-                    <TextBox x:Name ="NotesTextBox" Text="{Binding Notes, UpdateSourceTrigger=Explicit}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="3" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}"  BorderBrush="{x:Null}" Foreground="White"  />
-                    <TextBox x:Name ="TrimFactorTextBox"  Text="{Binding TrimFactor, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="4" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}" BorderBrush="{x:Null}"  Foreground="White"   />
-                    <Button Content="Remove" HorizontalAlignment="Stretch"  Margin="30,0,50,0" Grid.Row="8" Grid.RowSpan="1" VerticalAlignment="Stretch"  Grid.ColumnSpan="3" Style="{StaticResource RoundedButtonStyle}" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" />
+                    <TextBox x:Name="QueNameTextBox"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="1" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"  />
+                    <TextBox x:Name ="AxisQuantityTextBox"    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="2" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"  />
+                    <TextBox x:Name ="NotesTextBox"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="3" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}"  BorderBrush="{x:Null}" Foreground="White"  />
+                    <TextBox x:Name ="TrimFactorTextBox"   VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="4" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}" BorderBrush="{x:Null}"  Foreground="White"   />
+                    <Button Content="Remove" HorizontalAlignment="Stretch"  Margin="30,0,50,0" Grid.Row="8" Grid.RowSpan="1" VerticalAlignment="Stretch"  Grid.ColumnSpan="3" Style="{StaticResource RoundedButtonStyle}" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" Click="RemoveButton_Clicked" />
 
                 </Grid>
 

@@ -17,11 +17,17 @@ namespace WpfApp1
        // static string CmdString;
         public static void Refresh()
         {
-            ta.Connection.Open();
-            ta.ClearBeforeFill = true;
-            ADT.Clear();
-            ta.Fill(ADT);
-            ta.Connection.Close();
+            try
+            {
+                if (ta.Connection.State != ConnectionState.Open) ta.Connection.Open();
+
+                ta.ClearBeforeFill = true;
+                //ADT.Clear();
+                ta.Fill(ADT);
+
+            }
+            finally { ta.Connection.Close(); }
+           
                 
         }
 

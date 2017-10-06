@@ -55,7 +55,7 @@
             <RowDefinition Height="11"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="11"/>
-            <RowDefinition Height="82"/>
+            <RowDefinition Height="102"/>
             <RowDefinition Height="11"/>
             <RowDefinition Height="140"/>
         </Grid.RowDefinitions>
@@ -159,21 +159,10 @@
                         <RowDefinition Height="20" />
                         <RowDefinition Height="20" />
                     </Grid.RowDefinitions>
-                    <controls:AxisControl x:Name="AX1" HorizontalAlignment="Stretch"  Grid.Row="0" Grid.Column="0" VerticalAlignment="Stretch" Margin="0 0,0,0" />
-                    <controls:AxisControl x:Name="AX2" HorizontalAlignment="Stretch"  Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" Margin="0,0,0,0" />
-                    <controls:AxisControl x:Name="AX3" HorizontalAlignment="Stretch"  Grid.Row="0" Grid.Column="2" VerticalAlignment="Stretch" Margin="0,0,0,0" />
-                    <controls:AxisControl x:Name="AX4" HorizontalAlignment="Stretch"  Grid.Row="0" Grid.Column="3" VerticalAlignment="Stretch" Margin="0,0,0,0" />
-                    <controls:AxisControl x:Name="AX5" HorizontalAlignment="Stretch"  Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" Margin="0,0,0,0" />
-                    <controls:AxisControl x:Name="AX6" HorizontalAlignment="Stretch"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch" Margin="0,0,0,0" />
-                    <controls:AxisControl x:Name="AX7" HorizontalAlignment="Stretch"  Grid.Row="1" Grid.Column="2" VerticalAlignment="Stretch" Margin="0,0,0,0" Visibility="Hidden"/>
-                    <controls:AxisControl x:Name="AX8" HorizontalAlignment="Stretch"  Grid.Row="1" Grid.Column="3" VerticalAlignment="Stretch" Margin="0,0,0,0" Visibility="Hidden"/>
-                    <controls:AxisControl x:Name="AX9"  HorizontalAlignment="Stretch"  Grid.Row="2" Grid.Column="0" VerticalAlignment="Stretch" Margin="0,0,0,0" Visibility="Hidden"/>
-                    <controls:AxisControl x:Name="AX10"  HorizontalAlignment="Stretch"  Grid.Row="2" Grid.Column="1" VerticalAlignment="Stretch" Margin="0,0,0,0" Visibility="Hidden"/>
-                    <controls:AxisControl x:Name="AX11" HorizontalAlignment="Stretch"  Grid.Row="2" Grid.Column="2" VerticalAlignment="Stretch" Margin="0,0,0,0" Visibility="Hidden"/>
-                    <controls:AxisControl x:Name="AX12" HorizontalAlignment="Stretch"  Grid.Row="2" Grid.Column="3" VerticalAlignment="Stretch" Margin="0,0,0,0" Visibility="Hidden"/>
+                         
 
-                    <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" Text="SELECTED QUE: " TextAlignment="Right"/>
-                    <TextBlock Name="SelectedQueTextBox" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="SELECTED QUE: " TextAlignment="Left"/>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" Text="SELECTED QUE: " TextAlignment="Right" Foreground="White"/>
+                    <TextBlock Name="SelectedQueTextBox" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="SELECTED QUE: " TextAlignment="Left" Foreground="White"/>
                 </Grid>
                 <Button Content="Generate Que" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Grid.Column="2" Background="Black" Foreground="White" FontSize="16" ClickMode="Press" BorderBrush="White" Click="GenerateQueButton_Clicked" Margin="0,0,0,0"/>
 
@@ -181,7 +170,8 @@
 
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" />
             <DataGrid HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Name="QueGrid" SelectionChanged="QueGrid_SelectionChanged"/>
-            <CheckBox Name ="PlayQuesCheckBox" Content="Show Mode" Margin="0,444,53,24" HorizontalAlignment="Right" Width="158"/>
+            <CheckBox Name ="QueMode" Content="Que Mode" Margin="0,444,53,24" HorizontalAlignment="Right" Width="158" Click="QueModeCheckBox_Clicked"/>
+            <TextBlock Name="TextBlock1" HorizontalAlignment="Left" Margin="30,405,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="34" Width="297"/>
 
 
         </Grid>
@@ -198,10 +188,7 @@
                 <ColumnDefinition Width="265" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <controls:QueControl x:Name="QueControl_1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextSize="10" Grid.Column="0"  Margin="0,0,0,0" Visibility="Visible" />
-            <controls:QueControl x:Name="QueControl_2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextSize="10" Grid.Column="2"  Margin="0,0,0,0" Visibility="Visible"/>
-            <controls:QueControl x:Name="QueControl_3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextSize="10" Grid.Column="4"  Margin="0,0,0,0" Visibility="Visible"/>
-            <controls:QueControl x:Name="QueControl_4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextSize="10" Grid.Column="6"  Margin="0,0,0,0" Visibility="Visible"/>
+           
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" />
             <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" />
             <GridSplitter Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" />

@@ -29,7 +29,7 @@
     <PublisherName>P. Prasinos</PublisherName>
     <SuiteName>Theatre Automation</SuiteName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>120</ApplicationRevision>
+    <ApplicationRevision>161</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -158,11 +158,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="TwinCAT.Ads, Version=4.2.132.0, Culture=neutral, PublicKeyToken=180016cd49e5e8c3, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\TwinCAT\AdsApi\.NET\v4.0.30319\TwinCAT.Ads.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -173,19 +168,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ADSClient.cs" />
     <Compile Include="ADSQL\ADSQL.cs" />
     <Compile Include="ADSQL\UpdateSQL.cs" />
-    <Compile Include="Controls\DesignControl.xaml.cs">
+    <Compile Include="Controls\AxisControl.xaml.cs">
       <DependentUpon>AxisControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Axis.cs" />
-    <Compile Include="AxisGroup.cs" />
-    <Compile Include="Controls\CustomTreeListView\LevelToIndentConverter.cs" />
-    <Compile Include="Controls\CustomTreeListView\SpecialTextBox.cs" />
-    <Compile Include="Controls\CustomTreeListView\TreeListView.cs" />
     <Compile Include="Controls\QueControl.xaml.cs">
       <DependentUpon>QueControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JoyStickSelecter.xaml.cs">
+      <DependentUpon>JoyStickSelecter.xaml</DependentUpon>
     </Compile>
     <Compile Include="MomSQLDataSet.cs">
       <DependentUpon>MomSQLDataSet.xsd</DependentUpon>
@@ -216,6 +208,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\QueControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JoyStickSelecter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -335,17 +331,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <PublishFile Include="TwinCAT.Ads">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
