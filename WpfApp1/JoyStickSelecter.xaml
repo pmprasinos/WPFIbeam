@@ -5,7 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="Select JoyStick" Height="140" Width="585" WindowStyle="None" Background="Black">
+        Title="Select JoyStick" Height="208.91" Width="585" WindowStyle="None" Background="Black" WindowStartupLocation="CenterOwner" PreviewMouseDown="JSSelector_PreviewMouseDown">
+    <Window.Resources>
+        <Style x:Key="RoundedButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="8"  BorderThickness="1" Padding="2" Margin="-19,-2,-29,0" RenderTransformOrigin="0.427,0.55" Background="#FF3E3E3E" BorderBrush="Black">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+    </Window.Resources>
+
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
@@ -13,17 +28,18 @@
                 <GradientStop Color="#FF4B4B4B" Offset="0.373"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <Viewbox  HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="140" Width="140">
+        <Viewbox  HorizontalAlignment="Left" VerticalAlignment="Top" Height="140" Width="140">
             <RadioButton Name ="RB0" Tag="0" Click="RadioButtonjs_Clicked" ></RadioButton>
         </Viewbox>
-        <Viewbox  HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="150,0,0,0" Height="140" Width="140">
+        <Viewbox  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,0,0,0" Height="140" Width="140">
             <RadioButton Name ="RB1" Tag="1" Click="RadioButtonjs_Clicked" ></RadioButton>
         </Viewbox>
-        <Viewbox  HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="300,0,0,0" Height="140" Width="140">
+        <Viewbox  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="300,0,0,0" Height="140" Width="140">
             <RadioButton Name ="RB2" Tag="2" Click="RadioButtonjs_Clicked" ></RadioButton>
         </Viewbox>
-        <Viewbox  HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="450,0,0,0" Height="140" Width="140">
+        <Viewbox  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,0,0,0" Height="140" Width="140">
             <RadioButton Name ="RB3" Tag="3" Click="RadioButtonjs_Clicked" ></RadioButton>
         </Viewbox>
+        <Button Content="Skip Joystick" HorizontalAlignment="Stretch" Margin="20,140,30,0" VerticalAlignment="Top"  Height="52" Style="{StaticResource RoundedButtonStyle}" Foreground="White" FontSize="36" VerticalContentAlignment="Center" Click="Button_Click"/>
     </Grid>
 </Window>

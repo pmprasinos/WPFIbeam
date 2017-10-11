@@ -258,7 +258,18 @@ namespace CustomControl
         public bool IsSelected
         {
             get { return bool.Parse(GetValue(IsSelectedProperty).ToString()); }
-            set { SetValue(IsSelectedProperty, value); if (!IsSelected) { this.ShadeRectangle_Selected.Visibility = Visibility.Hidden; } else { this.ShadeRectangle_Selected.Visibility = Visibility.Visible; } }
+            set { SetValue(IsSelectedProperty, value);
+                if (!IsSelected)
+                {
+                    this.ShadeRectangle_Selected.Visibility = Visibility.Hidden;
+                    this.RemoveButton.Visibility = Visibility.Hidden;
+                } else
+                {
+                    this.ShadeRectangle_Selected.Visibility = Visibility.Visible;
+                    this.RemoveButton.Visibility = Visibility.Visible;
+                    if (queControl) this.RemoveButton.Content = "Remove From Cue"; else this.RemoveButton.Content = "Remove From Selection";
+                }
+            }
             }
 
         public static readonly DependencyProperty IsActiveProperty =
@@ -295,9 +306,16 @@ namespace CustomControl
         {
             this.HasKeyBoardFocus = false;
             System.Windows.Controls.TextBox t = (System.Windows.Controls.TextBox)sender;
-         
+
+            if (SelectedQue != "" && SelectedQue != null)
+            {
+                ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text, false, SelectedQue);
+            }
+            else
+            {
                 ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text);
-            
+            }
+
 
         }
 
@@ -306,7 +324,14 @@ namespace CustomControl
             this.HasKeyBoardFocus = false;
             System.Windows.Controls.TextBox t = (System.Windows.Controls.TextBox)sender;
            
+            if(SelectedQue != "" && SelectedQue !=null)
+            {
+                ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text, false, SelectedQue);
+            }
+            else
+            {
                 ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text);
+            }               
            
         }
 
@@ -333,13 +358,7 @@ namespace CustomControl
                 this.AssignedJoyStick = js.SelectedJoyStick;
 
             }
-            else
-            { this.IsSelected = !this.IsSelected;
-                PushSelection();
-            }
-
             if (isDragging) return;
-          
         }
 
         public void PushSelection()
@@ -390,15 +409,23 @@ namespace CustomControl
                     }
                 }
             }
-            else this.IsSelected = false;
+            else { this.IsSelected = false; this.ShadeRectangle_Selected.Visibility = Visibility.Hidden; }
         }
 
         private void AxisTextbox_KeyDown(object sender, KeyEventArgs e)
         {
             System.Windows.Controls.TextBox t = (System.Windows.Controls.TextBox)sender;
-            if (e.Key == Key.Enter && !queControl)
+            if (e.Key == Key.Enter )
             {
-                ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text);
+                if (SelectedQue != "" && SelectedQue != null)
+                {
+                    ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text, false, SelectedQue);
+                }
+                else
+                {
+                    ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text);
+                }
+                this.RemoveButton.Focus();
             }
         }
     }

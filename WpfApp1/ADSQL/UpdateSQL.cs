@@ -12,21 +12,26 @@ namespace WpfApp1
     public static class UpdateSQL
     {
 
-        static MomSQLDataSetTableAdapters.AxisTableAdapter ta = new MomSQLDataSetTableAdapters.AxisTableAdapter();
-        public static MomSQLDataSet.AxisDataTable ADT = ta.GetData();
+
+        public static MomSQLDataSet.AxisDataTable ADT;
        // static string CmdString;
         public static void Refresh()
         {
             try
             {
-                if (ta.Connection.State != ConnectionState.Open) ta.Connection.Open();
+                using (MomSQLDataSetTableAdapters.AxisTableAdapter ta = new MomSQLDataSetTableAdapters.AxisTableAdapter())
+                {
+                     ta.Connection.Open();
+                    ADT = ta.GetData();
+                    ta.ClearBeforeFill = true;
+                    //ADT.Clear();
+                    ta.Fill(ADT);
+                    ta.Connection.Close();
 
-                ta.ClearBeforeFill = true;
-                //ADT.Clear();
-                ta.Fill(ADT);
+                }
 
             }
-            finally { ta.Connection.Close(); }
+            finally {  }
            
                 
         }

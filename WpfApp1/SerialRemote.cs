@@ -27,12 +27,14 @@ class SerialRemote
     public int[] y = { 0, 0, 0, 0 };
     public int[] z = { 0, 0, 0, 0 };
     public int[] w = { 0, 0, 0, 0 };
-    public int[] Lights = { 1, 1, 1, 1, 1, 1, 1, 1 };
+    public int[] Lights = { 8, 8, 8, 8, 1, 1, 1, 1,1  }; //JS1, JS2, JS3, JS4, DML, DMR, ESL, ESR
+
     public bool DeadmanLeftPressed;
     public bool DeadmanRightPressed;
     public bool EstopPressed;
     public int ScreenStateCommand = 72;
     public bool ErrorState = false;
+    int[] LastLights = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
     Task RefTask;
 
@@ -40,20 +42,16 @@ class SerialRemote
 
     public SerialRemote(ref SerialPort ComPort)
     {
+       
         connected = false;
         this.spin = ComPort;
         this.spin.NewLine = "\r\n";
         this.spin.RtsEnable = true;
         this.spin.DtrEnable = true;
-        //this.spin.WriteBufferSize = 20;
-        //this.spin.ReadBufferSize = 20;
-        //	this.spin.ReadTimeout = 6000;
-        //this.spin.WriteTimeout = 6000;
         lw = new Stopwatch();
         sw = new Stopwatch();
         sw.Start();
         lw.Start();
-
 
     }
     public void start()
@@ -65,9 +63,7 @@ class SerialRemote
     private void Scan()
     {
         do { System.Threading.Thread.Sleep(100); } while (!spin.IsOpen);
-        int[] LastLights = Lights;
-
-    Thread.Sleep(2000);
+        System.Threading.Thread.Sleep(1000);
         do
         {
   
@@ -129,13 +125,22 @@ class SerialRemote
             }
            if(debug) Debug.Print(spin.BytesToRead + "   X: " + x[0].ToString() + " Y: " + y[0].ToString() + " Z: " + z[0].ToString() +
                             "  2" + "   X: " + x[1].ToString() + " Y: " + y[1].ToString() + " Z: " + z[1].ToString() +
-            
                            "  3" + "   X: " + x[2].ToString() + " Y: " + y[2].ToString() + " Z: " + z[2].ToString() +
-            
                            "  4" + "   X: " + x[3].ToString() + " Y: " + y[3].ToString() + " Z: " + z[3].ToString() + " LDEAD: " + DeadmanLeftPressed + " RDEAD: " + DeadmanRightPressed);
             sw = Stopwatch.StartNew();
 
-            LastLights= Lights;
+  
+            for(int x = 0; x < Lights.Length-1; x++)
+            {
+                if(Lights[x] != LastLights[x])
+                {
+                    char[] sendByte = { (char)((x * 16) + Lights[x]) };
+                    spin.Write(sendByte,0,1);
+                    Thread.Sleep(1);
+                    spin.Write(sendByte, 0, 1);
+                    LastLights[x] = Lights[x];
+                }
+            }
         } while (enabled);
 
 

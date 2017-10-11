@@ -27,7 +27,8 @@ namespace CustomControl
         public int AxisIndex;
         public int QueNumber;
         public bool IsAxis;
-       
+        public int JoyStickIndex;
+
         public QueControl()
         {
             this.InitializeComponent();
@@ -40,12 +41,12 @@ namespace CustomControl
             get { return (int)GetValue(AxisQuantityProperty); }
             set { SetValue(AxisQuantityProperty, value); }
         }
-        
+
         // Using a DependencyProperty as the backing store for TextSize.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AxisQuantityProperty =
             DependencyProperty.Register("AxisQuantity", typeof(int), typeof(QueControl), new PropertyMetadata(0));
 
-     
+
 
         public double TrimFactor
         {
@@ -75,38 +76,41 @@ namespace CustomControl
         {
             get { return GetValue(QueNameProperty).ToString(); }
             set
-            {   if (GetValue(QueNameProperty).ToString() == value.ToString() || value.ToString().Length<3 ) return;
+            { if (GetValue(QueNameProperty).ToString() == value.ToString() || value.ToString().Length < 3) return;
                 SetValue(QueNameProperty, value);
                 if (value.ToString().Contains("iBeamHoist")) IsAxis = true;
-                    using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+                using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+                {
+                    string cmdstr = "MOMSQL.dbo.GetQueData";
+                    if (this.IsAxis) cmdstr = "Select AxisName as QueName, AxisType as QueNotes, ID as QueSortID, AxisStatus as QueStatus, '1' as AxisQuantity, 'LOAD' as Load from momsql..axis where AxisName = @QueName";
+                    using (SqlCommand CMD = new SqlCommand(cmdstr, MomCon))
                     {
-                        string cmdstr = "MOMSQL.dbo.GetQueData";
-                    if (this.IsAxis) cmdstr = "Select AxisName as QueName, AxisType as QueNotes, 1 as TrimFactor, '1' as AxisQuantity, 'LOAD' as Load from momsql..axis where AxisName = @QueName";
-                        using (SqlCommand CMD = new SqlCommand(cmdstr, MomCon))
-                        {
-                            CMD.Parameters.AddWithValue("@QueName", this.QueName);
-                            MomCon.Open();
+                        CMD.Parameters.AddWithValue("@QueName", this.QueName);
+                        MomCon.Open();
                         if (!this.IsAxis) CMD.CommandType = CommandType.StoredProcedure;
-                           using (SqlDataReader sdr= CMD.ExecuteReader())
-                            {
-                               if(sdr.HasRows)
+                        using (SqlDataReader sdr = CMD.ExecuteReader())
+                        {
+                            if (sdr.HasRows)
                             {
                                 sdr.Read();
 
                                 QueNameTextBox.Text = sdr["QueName"].ToString();
                                 NotesTextBox.Text = sdr["QueNotes"].ToString();
                                 AxisQuantityTextBox.Text = sdr["AxisQuantity"].ToString();
+                                StatusTextBox.Text = sdr["QueStatus"].ToString();
+                                QueSortID = sdr["QueSortID"].ToString();
+                                
                                 this.IsActive = true;
                             }
-                            else { QueNameTextBox.Clear(); NotesTextBox.Clear(); AxisQuantityTextBox.Clear(); TrimFactorTextBox.Clear(); this.IsActive = false; }
-                                                             
-                           }
-                           MomCon.Close();
-                    }
-                    }
+                            else { QueNameTextBox.Clear(); NotesTextBox.Clear(); AxisQuantityTextBox.Clear(); this.IsActive = false; }
 
-                
-              
+                        }
+                        MomCon.Close();
+                    }
+                }
+
+
+
             }
         }
         // Using a DependencyProperty as the backing store for StateName.  This enables animation, styling, binding, etc...
@@ -114,9 +118,26 @@ namespace CustomControl
             DependencyProperty.Register("QueName", typeof(string), typeof(QueControl), new PropertyMetadata(default(string)));
 
 
+        public string QueSortID
+        {
+            get { return (string)GetValue(QueSortIDProperty); }
+            set { SetValue(QueSortIDProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for queSortID.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty QueSortIDProperty =
+            DependencyProperty.Register("QueSortID", typeof(string), typeof(QueControl), new PropertyMetadata(default(string)));
 
 
-      
+        public string queStatus
+        {
+            get { return (string)GetValue(QueStatusProperty); }
+            set { SetValue(QueStatusProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for queStatus.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty QueStatusProperty =
+            DependencyProperty.Register("queStatus", typeof(string), typeof(QueControl), new PropertyMetadata(default(string)));
 
         // Using a DependencyProperty as the backing store for LiveValues.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsSelectedProperty =
@@ -148,8 +169,8 @@ namespace CustomControl
         }
         public void ClearQueControl()
         {
-            this.QueName = ""; this.TrimFactor = 0; QueNameTextBox.Clear(); NotesTextBox.Clear(); AxisQuantityTextBox.Clear(); TrimFactorTextBox.Clear(); this.IsActive = false; this.IsAxis = false;
-            this.QueNotes = "CLEAR";
+            this.QueName = ""; this.TrimFactor = 0; QueNameTextBox.Clear(); NotesTextBox.Clear(); AxisQuantityTextBox.Clear();  this.IsActive = false; this.IsAxis = false;
+             this.AxisIndex = -1; this.QueNotes = "CLEAR";
         }
         // Using a DependencyProperty as the backing store for LiveValues.  This enables animation, styling, binding, etc...
 

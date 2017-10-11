@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\Debug\
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\Debug\
 WpfApp1
 none
 false
 CODE_ANALYSIS;TRACE;DEBUG
-C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\App.xaml
-4-415561919
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\App.xaml
+8-1239184713
 9105383279
-23985159759
-32-1092443709
-ADSQL\DesignControl.xaml;JoyStickSetup.xaml;MainWindow.xaml;NameState.xaml;
+231554868006
+31-1556676673
+Controls\AxisControl.xaml;Controls\QueControl.xaml;JoyStickSelecter.xaml;JoyStickSetup.xaml;MainWindow.xaml;MoveSetup.xaml;NameState.xaml;UserControl1.xaml;
 
-False
+True
 

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-         Title="Save Que" Height="309.088" Width="546.305" Background="#FF252222" BorderBrush="Black" WindowStyle="None" ResizeMode="NoResize">
+         Title="Save Que" Height="309.088" Width="546.305" Background="#FF252222" BorderBrush="Black" WindowStyle="None" ResizeMode="NoResize" ContentRendered="NameStateWindow_ContentRendered" WindowStartupLocation="CenterOwner">
     <Grid HorizontalAlignment="Left" Width="546">
         <TextBox x:Name="TextBoxName" HorizontalAlignment="Left" Height="39" TextWrapping="Wrap" Text="Que_1" VerticalAlignment="Top" Width="388" FontSize="24" Margin="151,10,-131,0" VerticalContentAlignment="Bottom" TabIndex="0"/>
         <Label Content ="Que Name:" Height="39" Margin="10,11,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="141" Foreground="#FFE2DEDE" FontSize="24"/>

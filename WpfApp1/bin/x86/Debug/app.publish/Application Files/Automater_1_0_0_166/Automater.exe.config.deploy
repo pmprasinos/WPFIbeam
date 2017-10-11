@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
+  
   <configSections>
     <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
     <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false"/>
@@ -33,9 +34,5 @@
       </dependentAssembly>
     </assemblyBinding>
   </runtime>
-  <connectionStrings>
-    <add name="MomSQLedm" connectionString="data source=MOM1;initial catalog=MomSQL;user id=pprasinos;password=Wyman123-;MultipleActiveResultSets=True;App=EntityFramework" providerName="System.Data.SqlClient"/>
-    <add name="WpfApp1.Properties.Settings.ConnString" connectionString="Data Source=CONSOLE1/MomSQL;UserName='PrasinosApps', Password='Flyhouse1234'"/>
-    <add name="WpfApp1.Properties.Settings.MomSQLConnectionString" connectionString="Data Source=CONSOLE11;Initial Catalog=MomSQL;Persist Security Info=True;User ID=PrasinosApps;Password=flyhouse1234" providerName="System.Data.SqlClient"/>
-  </connectionStrings>
+ 
 </configuration>

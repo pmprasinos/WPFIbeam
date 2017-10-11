@@ -32,5 +32,15 @@ namespace WpfApp1
             SelectedJoyStick = int.Parse(rb.Tag.ToString());
             this.Close();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void JSSelector_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

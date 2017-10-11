@@ -120,7 +120,6 @@ C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\Debug\devDept.Geometry.v9.dl
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\Debug\devDept.Graphics.Wpf.v9.dll
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\Debug\EntityFramework.dll
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\Debug\EntityFramework.SqlServer.dll
-C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\Debug\TwinCAT.Ads.dll
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\Debug\devDept.Eyeshot.Control.Wpf.v9.xml
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\Debug\devDept.Eyeshot.Dicom.Wpf.v9.xml
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\Debug\devDept.Eyeshot.Kinect.Wpf.v9.xml
@@ -128,15 +127,11 @@ C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\Debug\devDept.Geometry.v9.xm
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\Debug\devDept.Graphics.Wpf.v9.xml
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\Debug\EntityFramework.xml
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\Debug\EntityFramework.SqlServer.xml
-C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\Debug\TwinCAT.Ads.xml
-C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\Debug\ADSQL\DesignControl.baml
-C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\Debug\ADSQL\DesignControl.g.cs
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\Debug\JoyStickSetup.g.cs
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\Debug\MainWindow.g.cs
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\Debug\NameState.g.cs
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\Debug\App.g.cs
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\Debug\Automater_Content.g.cs
-C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\Debug\Automater_MarkupCompile.cache
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\Debug\Automater_MarkupCompile.lref
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\Debug\JoyStickSetup.baml
@@ -152,3 +147,13 @@ C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\Debug\Automater.exe
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\obj\Debug\Automater.pdb
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\Debug\Resources\Error.png
 C:\Users\Phil\Documents\GitHub\WPFiBeam\WpfApp1\bin\Debug\Resources\EmptyJoyStick.png
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\Debug\Controls\AxisControl.baml
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\Debug\Controls\QueControl.baml
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\Debug\Controls\AxisControl.g.cs
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\Debug\Controls\QueControl.g.cs
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\Debug\JoyStickSelecter.g.cs
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\Debug\MoveSetup.g.cs
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\Debug\UserControl1.g.cs
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\Debug\JoyStickSelecter.baml
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\Debug\MoveSetup.baml
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\Debug\UserControl1.baml

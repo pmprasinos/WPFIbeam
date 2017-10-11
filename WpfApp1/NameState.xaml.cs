@@ -23,7 +23,7 @@ namespace WpfApp1
         public string NotesResult;
         public string NameResult;
         public bool SaveClicked;
-        public int JoyStickSelected = 1;
+        public int JoyStickSelected = -1; 
 
         public NameStateDialog()
         {
@@ -61,6 +61,13 @@ namespace WpfApp1
                 JoyStickSelectLabel.Content = "Joystick_" + y.ToString();
             JoyStickSelected = y;
            
+        }
+
+        private void NameStateWindow_ContentRendered(object sender, EventArgs e)
+        {
+            RadioButton[] rbs = { RB0, RB1, RB2, RB3 };
+           if(JoyStickSelected != -1) rbs[JoyStickSelected].IsChecked = true;
+          
         }
     }
 }

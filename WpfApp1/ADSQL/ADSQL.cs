@@ -11,10 +11,10 @@ using System.Data.SqlClient;
 public partial class ADSQL
 {
 
-  //  public static ADSClient Mom = new ADSClient("10.99.1.1.1.1", true, 20);
-   static string MomConStr = "data source = MOM0\\MOMSQL; initial catalog = MomSQL; MultipleActiveResultSets = True; user id = pprasinos; password = Wyman123-;";
+    //  public static ADSClient Mom = new ADSClient("10.99.1.1.1.1", true, 20);
+    static string MomConStr = "data source = MOM0\\MOMSQL; initial catalog = MomSQL; MultipleActiveResultSets = True; user id = pprasinos; password = Wyman123-;";
 
-    public static bool SqlWriteAxis(int axisNumber, string columnName, object newValue, bool ignoreException = false)
+    public static bool SqlWriteAxis(int axisNumber, string columnName, object newValue, bool ignoreException = false, string queName = "")
     {
         Stopwatch st = Stopwatch.StartNew();
 
@@ -46,13 +46,13 @@ public partial class ADSQL
                         cmd = new SqlCommand("Update MomSQL..Axis set currentPosition = @newValue Where AxisNumber = @axisNumber", MomCon);
                         break;
                     case ("ISACTIVE"):
-                        if(int.Parse(newValue.ToString())>0) cmd = new SqlCommand("Update MomSQL..Axis set IsActive = @newValue Where AxisNumber = @axisNumber", MomCon);
+                        if (int.Parse(newValue.ToString()) > 0) cmd = new SqlCommand("Update MomSQL..Axis set IsActive = @newValue Where AxisNumber = @axisNumber", MomCon);
                         if (int.Parse(newValue.ToString()) == 0) cmd = new SqlCommand("Update MomSQL..Axis set IsActive = 0, TargetPosition = CurrentPosition", MomCon);
                         break;
                     case ("AXISSTATUS"):
                         cmd = new SqlCommand("Update MomSQL..Axis set AxisStatus = @newValue Where AxisNumber = @axisNumber", MomCon);
                         break;
-                       
+
                     default:
                         return false;
                         //throw new Exception("The column Name: " + columnName + " Was not defined");
@@ -61,10 +61,22 @@ public partial class ADSQL
                 cmd.Parameters.AddWithValue("@columnName", columnName);
                 cmd.Parameters.AddWithValue("@newValue", newValue);
                 cmd.Parameters.AddWithValue("@axisNumber", axisNumber);
+                cmd.CommandType = CommandType.Text;
 
                 if (MomCon.State == ConnectionState.Closed) MomCon.Open();
 
-                return cmd.ExecuteNonQuery() == 1;
+
+                if (queName != null && queName != "")
+                {
+                    cmd.ExecuteNonQuery();
+                    cmd = new SqlCommand("Update momsql..ques set " + columnName + " = @newValue Where QueName = @QueName and AxisNum = @AxisNumber", MomCon);
+                    cmd.Parameters.AddWithValue("@newValue", newValue);
+                    cmd.Parameters.AddWithValue("@AxisNumber", axisNumber);
+                    cmd.Parameters.AddWithValue("@QueName", queName);
+                   
+                    return cmd.ExecuteNonQuery() == 1;
+                }
+                else return cmd.ExecuteNonQuery() == 1;
             }
         }
         catch (SqlException ex)
@@ -85,7 +97,45 @@ public partial class ADSQL
                 acmd.Parameters.AddWithValue("@TrimFactor", TrimFactor);
                 MomCon.Open();
                 acmd.ExecuteNonQuery();
-                Debug.Print("TargetsWritten");
+                MomCon.Close();
+            
+            }
+        }
+    }
+
+    public static void ExecuteJog(int AxisNumber, int TrimFactor, int JogSpeed, float JogAccel, int JogPosition)
+    {
+        using (SqlConnection MomCon = new SqlConnection(MomConStr))
+        {
+            using (SqlCommand acmd = new SqlCommand("momsql.dbo.ExeCuteJog", MomCon))
+            {
+                acmd.CommandType = CommandType.StoredProcedure;
+                acmd.Parameters.AddWithValue("@AxisNumber", AxisNumber);
+                acmd.Parameters.AddWithValue("@TrimFactor", TrimFactor);
+                acmd.Parameters.AddWithValue("@JogAccel", JogAccel);
+                acmd.Parameters.AddWithValue("@JogSpeed", JogSpeed);
+                acmd.Parameters.AddWithValue("@RelativeMoveDist", JogPosition);
+                MomCon.Open();
+                acmd.ExecuteNonQuery();
+                MomCon.Close();
+
+            }
+        }
+    }
+
+    public static int QueWatchDog(string queName, int TrimFactor)
+    {
+        using (SqlConnection MomCon = new SqlConnection(MomConStr))
+        {
+            using (SqlCommand acmd = new SqlCommand("momsql.dbo.QueWatchDog", MomCon))
+            {
+                acmd.CommandType = CommandType.StoredProcedure;
+                acmd.Parameters.AddWithValue("@QueName", queName);
+                acmd.Parameters.AddWithValue("@TrimFactor", TrimFactor);
+                MomCon.Open();
+
+                return acmd.ExecuteNonQuery();
+                MomCon.Close();
             }
         }
     }
@@ -96,8 +146,8 @@ public partial class ADSQL
         using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
         {
             try
-        {
-           
+            {
+
                 SqlCommand cmd = new SqlCommand("Select * from MomSQL..Axis Where AxisNumber = @axisNumber", MomCon);
                 cmd.Parameters.AddWithValue("@axisNumber", axisNumber);
 
@@ -107,21 +157,49 @@ public partial class ADSQL
                     s.Read();
                     return s[columnName];
                 }
-                    
+
             }
             catch (SqlException)
-        {
-            if (!ignoreException) throw; else return false;
+            {
+                if (!ignoreException) throw; else return false;
+            }
+            finally
+            {
+                // Debug.Print(columnName + "   " + axisNumber.ToString() + "    " + st.ElapsedMilliseconds.ToString());
+                MomCon.Close();
+            }
         }
-        finally
-        {
-            // Debug.Print(columnName + "   " + axisNumber.ToString() + "    " + st.ElapsedMilliseconds.ToString());
-            MomCon.Close();
-        }
+
+
     }
 
-        }
+    public static object SqlReadQue(String QueName, string columnName, bool ignoreException = false)
+    {
+        Stopwatch st = Stopwatch.StartNew();
+        using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+        {
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand("Select * from MomSQL..Ques Where QueName = @queName", MomCon))
+                {
+                    cmd.Parameters.AddWithValue("@QueName", QueName);
+                    MomCon.Open();
+                    using (SqlDataReader s = cmd.ExecuteReader())
+                    {
+                        s.Read();
+                        if (s[columnName].ToString() == "") return "";
+                        return s[columnName];
+                    }
 
-  
+                }
+            }
+            catch (SqlException)
+            {
+                if (!ignoreException) throw; else return false;
+            }
+            finally { MomCon.Close(); }
+
+            }
+    }
 }
 
