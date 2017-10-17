@@ -141,9 +141,10 @@ namespace WpfApp1
 
         private void InitQueControl()
         {
+            JoyStickGrid.Children.Clear();
             for (int i = 0; i < 4; i++)
             {
-                JoyStickGrid.Children.Remove(qControl[i]);
+                             
                 qControl[i] = null;
                 QueControl QC = new QueControl();
                 QC.JoyStickIndex = i;
@@ -156,10 +157,12 @@ namespace WpfApp1
 
         private void InitAxisControl()
         {
+            
             for (int i = 0; i < 6; i++)
             {
                 AxisGrid.Children.Remove(axControl[i]);
                 axControl[i] = null;
+
                 AxisControl AX = new AxisControl();
                 AX.Name = "AX" + (i + 1).ToString();
                 axControl[i] = AX;
@@ -273,13 +276,15 @@ namespace WpfApp1
                     }
                     else if(sr != null) if ((sr.DeadmanRightPressed || sr.DeadmanLeftPressed) && qControl[x].QueNameTextBox.Text.Contains("iBeamHoist"))
                     {
-                              //  if (sr.DeadmanRightPressed || sr.DeadmanLeftPressed) ADSQL.SqlWriteAxis(1, "isActive", true);
+                                //  if (sr.DeadmanRightPressed || sr.DeadmanLeftPressed) ADSQL.SqlWriteAxis(1, "isActive", true);
                                 //TextBlock1.Text = "JS: " + JoySticks[x].Y.ToString() + "  " + JoySticks[x].X.ToString() + "  " + JoySticks[x].Z.ToString();
-                                Debug.Print("AXIS: " + qControl[x].AxisIndex.ToString());
-                                Debug.Print("JOYSTICK:  " +(3 * JoySticks[x].Y).ToString());
-                               // Debug.Print("POSITION: " +KidPositions[qControl[x].AxisIndex].ToString());
-                               Debug.Print("TARGET: " + int.Parse(Math.Round((5 * JoySticks[x].Y) + KidPositions[qControl[x].AxisIndex]).ToString()).ToString());
-                                ADSQL.ExecuteJog(qControl[x].AxisIndex + 1, Math.Abs(int.Parse(sr.y[x].ToString())), int.Parse(JogSpeedTextBox.Text),float.Parse(JogAccelTextBox.Text), int.Parse(sr.y[x].ToString()) * 5);
+                                // Debug.Print("AXIS: " + qControl[x].AxisIndex.ToString());
+                                //Debug.Print("JOYSTICK:  " +(3 * JoySticks[x].Y).ToString());
+                                // Debug.Print("POSITION: " +KidPositions[qControl[x].AxisIndex].ToString());
+                                //Debug.Print("TARGET: " + int.Parse(Math.Round((5 * JoySticks[x].Y) + KidPositions[qControl[x].AxisIndex]).ToString()).ToString());
+                                int p = int.Parse(sr.y[x].ToString()) * 5;
+                              
+                               if (! ADSQL.ExecuteJog(qControl[x].QueName, Math.Abs(int.Parse(sr.y[x].ToString())), int.Parse(JogSpeedTextBox.Text),float.Parse(JogAccelTextBox.Text), p)) MessageBox.Show("EAT SHIT");
                     }else  if (sr != null) if ((sr.DeadmanRightPressed || sr.DeadmanLeftPressed) && qControl[x].IsActive)
                     {
                           ADSQL.QueWatchDog(qControl[x].QueName, Math.Abs(int.Parse(sr.y[x].ToString()) + 100));

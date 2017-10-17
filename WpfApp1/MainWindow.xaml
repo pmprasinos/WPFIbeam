@@ -162,8 +162,7 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
+
                     </Grid.RowDefinitions>
 
 
@@ -172,7 +171,7 @@
                     <TextBlock HorizontalAlignment="Left" Height="28" Margin="187,2,0,0" TextWrapping="Wrap" Text="Jog Speed(mm/s):" VerticalAlignment="Top" Width="130" TextAlignment="Center" FontSize="16" />
                     <TextBox Name ="JogAccelTextBox" HorizontalAlignment="Left" Height="28" Margin="194,0,0,0" TextWrapping="Wrap" Text="2" VerticalAlignment="Top" Width="48" FontSize="16" Grid.Column="1"/>
                     <TextBlock HorizontalAlignment="Left" Height="28" Margin="90,2,0,0" TextWrapping="Wrap" Text="Jog Accel(s):" VerticalAlignment="Top" Width="104" TextAlignment="Center" FontSize="16" Grid.Column="1" />
-                    <Button Name="QueModeButton" Content="Toggle Que Mode" HorizontalAlignment="Left" Height="28" Margin="10,2,0,0" VerticalAlignment="Top" Width="164" Click="QueModeButton_Click" />
+                    <Button x:Name="QueModeButton" Grid.Row ="0" Content="Toggle Que Mode" HorizontalAlignment="Left" Margin="10,-2,0,2" VerticalAlignment="Stretch" Width="164" Click="QueModeButton_Click" Visibility="Visible"/>
                 </Grid>
 
 
@@ -190,9 +189,9 @@
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" RenderTransformOrigin="0.504,0.6" />
                 <DataGrid  Grid.Row ="0" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Name="QueGrid" SelectionChanged="QueGrid_SelectionChanged" Background="{x:Null}" Foreground="White" TextBlock.Foreground="White" RowStyle ="{StaticResource DataGridCellStyle}" EnableRowVirtualization="False" SelectionMode="Single" CanUserAddRows="False" ColumnHeaderStyle="{StaticResource myHeaderStyle}" AutoGenerateColumns="False" />
                 <TextBlock HorizontalAlignment="Left" Margin="6,20,0,0" TextWrapping="Wrap" Text="Selected Cue: " Width="89" Foreground="White" RenderTransformOrigin="0.429,-0.617" Grid.Row="2" Height="30" VerticalAlignment="Top"/>
-                <TextBox Name="SelectedQueTextBox" HorizontalAlignment="Left" Height="22" Margin="81,0,0,179" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Bottom" Width="262" Background="{x:Null}" BorderBrush="#FF090A0C" Foreground="White" Grid.Row="2" AcceptsReturn="True" TextChanged="QueText_Changed"/>
+                <TextBox Name="SelectedQueTextBox" HorizontalAlignment="Left" Height="22" Margin="81,0,0,179" TextWrapping="Wrap" Text="Que Name" VerticalAlignment="Bottom" Width="262" Background="{x:Null}" BorderBrush="#FF090A0C" Foreground="White" Grid.Row="2" AcceptsReturn="True" TextChanged="QueText_Changed"/>
                 <TextBlock HorizontalAlignment="Left" Margin="40,80,0,0" TextWrapping="Wrap" Text="Notes:" Width="44" Foreground="White"  Grid.Row="2" Height="30" VerticalAlignment="Top"/>
-                <TextBox Name="SelectedQueNotesTextBox" HorizontalAlignment="Left" Grid.Row ="2" Height="75" Margin="81,80,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="262" MaxLines="50" Foreground="White" Background="{x:Null}" BorderBrush="Black" AcceptsReturn="True" TextChanged="QueText_Changed"/>
+                <TextBox Name="SelectedQueNotesTextBox" HorizontalAlignment="Left" Grid.Row ="2" Height="75" Margin="81,80,0,0" TextWrapping="Wrap" Text="Que Notes" VerticalAlignment="Top" Width="262" MaxLines="50" Foreground="White" Background="{x:Null}" BorderBrush="Black" AcceptsReturn="True" TextChanged="QueText_Changed"/>
 
                 <Viewbox  HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="80,0,0,0" Height="65" Width="65" Grid.Row="2">
                     <RadioButton Name ="RB0" Tag="0" Click="JSSelecterRB_Clicked"  />
@@ -209,8 +208,8 @@
 
                 <TextBlock HorizontalAlignment="Left" Height="30" Margin="28,160,0,0" TextWrapping="Wrap" Text="JoyStick:" VerticalAlignment="Top" Width="78" Foreground="White"  Grid.Row="2"/>
                 <TextBlock HorizontalAlignment="Left" Height="30" Margin="34,50,0,0" TextWrapping="Wrap" Text="Sort ID:" VerticalAlignment="Top" Width="90" Foreground="White"  Grid.Row="2"/>
-                <TextBox Name="SelectedQueSortIDTextBox" HorizontalAlignment="Left" Height="22" Margin="81,50,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="262" Background="{x:Null}" Foreground="White" BorderBrush="Black" Grid.Row="2" TextChanged="QueText_Changed"/>
-                <Button Name="SaveQueButton" Content="Save Cue"  Grid.Row ="3" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Background="Black" Foreground="White" FontSize="16" ClickMode="Press" BorderBrush="White" Click="GenerateQueButton_Clicked" Margin="0,0,0,0" Height="39" />
+                <TextBox Name="SelectedQueSortIDTextBox" HorizontalAlignment="Left" Height="22" Margin="81,50,0,0" TextWrapping="Wrap" Text="Sorting Order ID" VerticalAlignment="Top" Width="262" Background="{x:Null}" Foreground="White" BorderBrush="Black" Grid.Row="2" TextChanged="QueText_Changed"/>
+                <Button Name="SaveQueButton" Content="Save Cue"  Grid.Row ="3" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Background="Black" Foreground="White" FontSize="16" ClickMode="Press" BorderBrush="White" Click="GenerateQueButton_Clicked" Margin="0,0,0,0" Height="39" />
 
             </Grid>
 

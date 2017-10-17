@@ -103,20 +103,21 @@ public partial class ADSQL
         }
     }
 
-    public static void ExecuteJog(int AxisNumber, int TrimFactor, int JogSpeed, float JogAccel, int JogPosition)
+    public static bool ExecuteJog(string AxisName, int TrimFactor, int JogSpeed, float JogAccel, int JogPosition)
     {
         using (SqlConnection MomCon = new SqlConnection(MomConStr))
         {
             using (SqlCommand acmd = new SqlCommand("momsql.dbo.ExeCuteJog", MomCon))
             {
                 acmd.CommandType = CommandType.StoredProcedure;
-                acmd.Parameters.AddWithValue("@AxisNumber", AxisNumber);
+                acmd.Parameters.AddWithValue("@AxisName", AxisName);
                 acmd.Parameters.AddWithValue("@TrimFactor", TrimFactor);
                 acmd.Parameters.AddWithValue("@JogAccel", JogAccel);
                 acmd.Parameters.AddWithValue("@JogSpeed", JogSpeed);
                 acmd.Parameters.AddWithValue("@RelativeMoveDist", JogPosition);
                 MomCon.Open();
-                acmd.ExecuteNonQuery();
+                int j = acmd.ExecuteNonQuery();
+                return j == 1;
                 MomCon.Close();
 
             }

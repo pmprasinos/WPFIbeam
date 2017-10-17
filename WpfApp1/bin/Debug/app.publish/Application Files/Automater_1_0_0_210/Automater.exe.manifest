@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="Automater.exe" version="1.0.0.210" publicKeyToken="0e71c26ad4259c5f" language="neutral" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="SaferVenue.ico" asmv2:publisher="P. Prasinos" co.v1:suiteName="Theatre Automation" asmv2:product="Automater" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="Automater" version="1.0.0.0" publicKeyToken="9D9BF72C0D89EE0E" language="neutral" processorArchitecture="msil" />
+    <commandLine file="Automater.exe" parameters="" />
+  </entryPoint>
+  <co.v1:useManifestForTrust xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the 
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward 
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Aga.Controls.dll" size="23552">
+      <assemblyIdentity name="Aga.Controls" version="1.0.0.0" publicKeyToken="B1D788D229EB5990" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>VWSOPt1NS9vbxVxMIOgLNPaaKKZWmcYtnemk34XNEDI=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Automater.exe" size="622008">
+      <assemblyIdentity name="Automater" version="1.0.0.0" publicKeyToken="9D9BF72C0D89EE0E" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>CE5QCQKAMgkq1fiR+k6HDGXTUX2FTsXmB2I5yWBTYbI=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="devDept.Eyeshot.Control.Wpf.v9.dll" size="3858432">
+      <assemblyIdentity name="devDept.Eyeshot.Control.Wpf.v9" version="9.0.473.0" publicKeyToken="5385D83D2FB4D7D9" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>ZNJ9Xa4Pya15vG9MOrzYzXbxT9nLdTQbHC2IYT5v4tY=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="devDept.Eyeshot.Control.Wpf.x86.v9.dll" size="152064">
+      <assemblyIdentity name="devDept.Eyeshot.Control.Wpf.x86.v9" version="9.0.417.0" publicKeyToken="5385D83D2FB4D7D9" language="neutral" processorArchitecture="x86" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>X1OtoUX++Nf8ngmloDcUGSYXMKk7YPjJMFmkL/91DpA=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="devDept.Eyeshot.Dicom.Wpf.v9.dll" size="435200">
+      <assemblyIdentity name="devDept.Eyeshot.Dicom.Wpf.v9" version="9.0.473.0" publicKeyToken="5385D83D2FB4D7D9" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>sy2Whlw4FucZnG/jhZ2PKucnleIJTnagbO9NFDfNkPg=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="devDept.Eyeshot.Kinect.Wpf.v9.dll" size="25088">
+      <assemblyIdentity name="devDept.Eyeshot.Kinect.Wpf.v9" version="9.0.473.0" publicKeyToken="5385D83D2FB4D7D9" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>7Wcchcs+/jAv+T0y8HEemSrdZXzJ5/p+c49c3bNlEYQ=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="devDept.Geometry.v9.dll" size="172544">
+      <assemblyIdentity name="devDept.Geometry.v9" version="9.0.473.0" publicKeyToken="5385D83D2FB4D7D9" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>242xGWBC8nhuNb6zS6ee7bjXZEKZ8mRDsd4JH1/Y9yI=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="devDept.Graphics.Wpf.v9.dll" size="3898368">
+      <assemblyIdentity name="devDept.Graphics.Wpf.v9" version="9.0.473.0" publicKeyToken="5385D83D2FB4D7D9" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>B9NY3AFtmz2jOCzBwY+c4uvR8iB6q/P6pmRmb/Okv2w=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DmcLib.Wpf.dll" size="68096">
+      <assemblyIdentity name="DmcLib.Wpf" version="2.0.0.45" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>hDPzNuh4AP168gtb+DCjIRssF3SzV2PsapEI13HiLik=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="EntityFramework.dll" size="5196496">
+      <assemblyIdentity name="EntityFramework" version="6.0.0.0" publicKeyToken="B77A5C561934E089" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>7W69dJBS+QGPZplnGuVGmt7fCGz4sb1CVrvpxOf2/wU=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="EntityFramework.SqlServer.dll" size="621264">
+      <assemblyIdentity name="EntityFramework.SqlServer" version="6.0.0.0" publicKeyToken="B77A5C561934E089" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>ob9snjgg6D9D6fIN19mwozYqkxRvCv4LEzAYXi1RsMs=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="Automater.exe.config" size="1878">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>pCID1s2y9P+Ue6kFQPnY8yGZ/yuHiVWQFOJFUesXqjQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="CAD\iBeam.stl" size="23897">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>vuXkYTQ4bFGg96rQvFz4osijwk5zR98Lj4Q5BHeVSXg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="CAD\Pulley.stl" size="68084">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>1AZF//ho8bHVFpL8UrLK+trNntvwh4Gw4sOPcCAKSjo=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Down.png" size="786">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ra3LpS50C67MfOkfP2OREzwtlM4lrZb5lMZhZATAFdM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\EmptyJoyStick.png" size="12878">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>gcq/KoPxLIYicaYrdKCDpMtm5xrN7jJlUl/33bJSCxI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Error.png" size="34688">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>pVrnk5Gh1mLNs7iTqr4lCqnn9nbCCDi27xEVRarP1gI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Left.png" size="827">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>SLgi6YCYq6gDw5fjwMcSP5GvQ0FbiomgNHdcU+9Mag0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Right.png" size="956">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>t/HaejjbfBsJaVIopvM7WbCsLUDBntNGF9K3GoW7tC4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Twist.png" size="4890">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>WirHcLBjVbTiaZdnNDreJrQel7V24FTToTO+2QsB5Xo=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Up.png" size="800">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ZvWZIQ0VlnZoXyrzP7bkPQn05VWhLy8xSR7nQkvKmP8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SaferVenue.ico" size="154558">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>P6mVS3BTS7UCpc684mLpoImcYg0eSXR5Yy6Kc11X+sw=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=MAINFRAME\Phil" issuerKeyHash="d07d5db1a974febe44e9704f3856605b48352aee" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>4qIs7/NhQ7nOD7LsfSeae1mW42108QbVN4EDi/LY0RY=</DigestValue></Reference></SignedInfo><SignatureValue>bH5v/KzZp4cc0rk6iFRJAgkXisQHstXtaQEGrO3qWuUiN3pK7w/9Kv00zq3/kkTgox0mQIRdZb3PXP6UhzslPwoyZL23cGMC42pgETcIjnwJzvtLGx4dkTjGZSLvkSR2eWf+Ffiv/eH64+OF9tKX2Txy+vttSRRdZwXZ3T7e2ho=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>5QMXOBhhpCGN+qekqDNhXYkW/N3ZVFnxrLu8tMT6QNnnc9OpjJLhOEphLnCOaZsqhkXyAJu10MZirUxUCJqf2rqrhPl/j8E/OH+bG2JiWD8mT7JKS9hjqBOpxyqZFQGTotOXr/ySCLcyb/sOClUm9+XR9rgKy6cSORJX2EjA4hk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="16d1d8f28b038137d506f1746de396597b9a277decb20fceb94361f3ef2ca2e2" Description="" Url=""><as:assemblyIdentity name="Automater.exe" version="1.0.0.210" publicKeyToken="0e71c26ad4259c5f" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=MAINFRAME\Phil</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>jubZzHBn5I+3jKCTPBZul7XQpBv+YOT4upArJ0ibuKQ=</DigestValue></Reference></SignedInfo><SignatureValue>JLslZKMZy+mYKA3o+/quKUssZ1uEhnG++exUQPQZ+NbuSW4VQ5LDJBawwLcqXmPhITQpfsGO5ANgjYRsFHCLVsW45C2Z2LCA13MDRK1lYY2VOxHui49B4ahUdUi5GsUHwFjw/NG4zmVs2t/SR46izNmEwAAKZm9TnkyVu+dBJF0=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>5QMXOBhhpCGN+qekqDNhXYkW/N3ZVFnxrLu8tMT6QNnnc9OpjJLhOEphLnCOaZsqhkXyAJu10MZirUxUCJqf2rqrhPl/j8E/OH+bG2JiWD8mT7JKS9hjqBOpxyqZFQGTotOXr/ySCLcyb/sOClUm9+XR9rgKy6cSORJX2EjA4hk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB0TCCATqgAwIBAgIQKFZdCIQ0+4hMFibAOM4X1TANBgkqhkiG9w0BAQsFADAnMSUwIwYDVQQDHhwATQBBAEkATgBGAFIAQQBNAEUAXABQAGgAaQBsMB4XDTE3MDkxMzE3MTYzOFoXDTE4MDkxMzIzMTYzOFowJzElMCMGA1UEAx4cAE0AQQBJAE4ARgBSAEEATQBFAFwAUABoAGkAbDCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA5QMXOBhhpCGN+qekqDNhXYkW/N3ZVFnxrLu8tMT6QNnnc9OpjJLhOEphLnCOaZsqhkXyAJu10MZirUxUCJqf2rqrhPl/j8E/OH+bG2JiWD8mT7JKS9hjqBOpxyqZFQGTotOXr/ySCLcyb/sOClUm9+XR9rgKy6cSORJX2EjA4hkCAwEAATANBgkqhkiG9w0BAQsFAAOBgQC9PeFwD606ezWulIYMN5sxFSgmAEhb52lG4efJNxwZLeEsXNsOTWQVnJfscZCLoiKDs5Qm5JVKAa0RoE1d5nw8pbGAk+Oa1cshOqIb3a94/KR3b8s/Yep9xihrW4Jb521ZX6HYkBOvcHta4GyzelFJi9wDvo2Y5HGr7BbE53JMfg==</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
