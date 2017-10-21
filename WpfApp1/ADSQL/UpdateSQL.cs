@@ -12,7 +12,6 @@ namespace WpfApp1
     public static class UpdateSQL
     {
 
-
         public static MomSQLDataSet.AxisDataTable ADT;
        // static string CmdString;
         public static void Refresh()

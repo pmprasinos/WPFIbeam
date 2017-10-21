@@ -49,8 +49,11 @@ public partial class ADSQL
                         if (int.Parse(newValue.ToString()) > 0) cmd = new SqlCommand("Update MomSQL..Axis set IsActive = @newValue Where AxisNumber = @axisNumber", MomCon);
                         if (int.Parse(newValue.ToString()) == 0) cmd = new SqlCommand("Update MomSQL..Axis set IsActive = 0, TargetPosition = CurrentPosition", MomCon);
                         break;
-                    case ("AXISSTATUS"):
-                        cmd = new SqlCommand("Update MomSQL..Axis set AxisStatus = @newValue Where AxisNumber = @axisNumber", MomCon);
+                    case ("FAULTED"):
+                        cmd = new SqlCommand("Update MomSQL..Axis set Faulted = @newValue Where AxisNumber = @axisNumber", MomCon);
+                        break;
+                    case ("FAULTCODE"):
+                        cmd = new SqlCommand("Update MomSQL..Axis set FaultCode = @newValue Where AxisNumber = @axisNumber", MomCon);
                         break;
 
                     default:

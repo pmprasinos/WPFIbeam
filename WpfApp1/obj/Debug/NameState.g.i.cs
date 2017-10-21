@@ -108,7 +108,7 @@ namespace WpfApp1 {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Automater;component/namestate.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Automater_QA;component/namestate.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\NameState.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

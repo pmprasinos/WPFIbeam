@@ -80,9 +80,8 @@ namespace WpfApp1
         {
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandeledEx);
             InitializeComponent();
+           JogAccelTextBox.Visibility = Visibility.Hidden;
            
-           
-            
             ErrorIcon.Visibility = Visibility.Hidden;
             viewPortLayout1.Unlock(EYESHOT_SERIAL);
 
@@ -176,7 +175,6 @@ namespace WpfApp1
         {
             if (!(bool)QueMode)
             {         
-
                 for (int axs = 0; axs < 6; axs++)
                 {
                     KidPositions[axs] = KidPositions[axs] + AxisSpeed[axs];
@@ -240,22 +238,24 @@ namespace WpfApp1
 
         private void T_tick(object myObject, EventArgs e)
         {
-          
 
+            
            Stopwatch s = Stopwatch.StartNew();
             try
             {
                ConnectSerial();
             if (sr == null) return;
- 
-                t.Interval = 30;
+                JSPositions();
+                t.Interval = 40;
                 if (disabled || t_Busy) { return; }
+                ModeSelect();
                 t_Busy = true;
                 tickCounter++;
-                if (sr.EstopPressed && LiveDisplay != 2)
+                if (sr.EstopPressed)
                 {
-                    ADSQL.SqlWriteAxis(1, "AxisStatus", "FAULT"); ShadeRectangle1.Stroke = new SolidColorBrush(System.Windows.Media.Colors.Red);
+                    ADSQL.SqlWriteAxis(1, "Faulted", 1); ShadeRectangle1.Stroke = new SolidColorBrush(System.Windows.Media.Colors.Red);
                 }
+              //  if(Convert.ToInt16(ADSQL.SqlReadAxis(1, "Faulted"))!=0) ShadeRectangle1.Stroke = new SolidColorBrush(System.Windows.Media.Colors.Red);
                 // t.Stop();
                 //  ConnectMom();
 
@@ -268,7 +268,7 @@ namespace WpfApp1
               
                 for (int x = 0; x < 4; x++)
                 {
-                    if (qControl[x].IsActive) sr.Lights[x] = 5; else sr.Lights[x] = 7;
+                  //  if (qControl[x].IsActive) sr.Lights[x] = 5; else sr.Lights[x] = 7;
                     if (sr !=null)if ((sr.DeadmanRightPressed || sr.DeadmanLeftPressed) && qControl[x].IsActive && sr.w[x]==1)
                     {
                             if (qControl[x].IsActive) sr.Lights[x] = 3;
@@ -350,7 +350,7 @@ namespace WpfApp1
             viewPortLayout1.Layers.Add(new Layer("0")); viewPortLayout1.Layers.Add(new Layer("1")); viewPortLayout1.Layers.Add(new Layer("2")); viewPortLayout1.Layers.Add(new Layer("3"));
             OpenCADFile();
             t = new System.Windows.Forms.Timer();
-            t.Interval = 2000; StatesGridTimer.Interval = 100; StatesGridTimer.Start();
+            t.Interval = 2000; StatesGridTimer.Interval = 120; StatesGridTimer.Start();
             t.Start();
             t.Tick += new EventHandler(T_tick); StatesGridTimer.Tick += new EventHandler(StatesGridTimer_tick);
             JoyStick_Activate();
@@ -587,7 +587,7 @@ if (JoyStickAssignment != -1)
         private void ResetSaftey(object sender, RoutedEventArgs e)
         {
             t.Enabled = false;
-            ADSQL.SqlWriteAxis(1, "AxisStatus", "RESET");
+            ADSQL.SqlWriteAxis(1, "FaultCode", 2);
             VirtualModeButton.Opacity = 20;
             SafteyResetButton.Visibility = Visibility.Hidden;
             ModeLabel.Content = "Resetting Saftey System...";
@@ -710,7 +710,18 @@ if (JoyStickAssignment != -1)
                 QuesGrid_Update(QueGrid_Selection);
             }
         }
-       
+       void JSPositions()
+        {
+            Slider1V.Value = JoySticks[0].X;
+            Slider2V.Value = JoySticks[1].X;
+            Slider3V.Value = JoySticks[2].X;
+            Slider4V.Value = JoySticks[3].X;
+            Slider1H.Value = JoySticks[0].Y;
+            Slider2H.Value = JoySticks[1].Y;
+            Slider3H.Value = JoySticks[2].Y;
+            Slider4H.Value = JoySticks[3].Y;
+
+        }
         void ConnectSerial()
         {
             //string s = (string)ErrorIcon.ToolTip;
@@ -752,7 +763,7 @@ if (JoyStickAssignment != -1)
                     ModeSelDisabled = true;
                    
 
-                    if ((string)ADSQL.SqlReadAxis(1, "AxisStatus") =="FAULT" && LiveDisplay != 2) LiveDisplay = 3;
+                    if (Convert.ToInt16(ADSQL.SqlReadAxis(1, "Faulted")) != 0 && LiveDisplay != 2) LiveDisplay = 3;
                     if (sr.EstopPressed && LiveDisplay != 2) LiveDisplay = 4;
                   
 

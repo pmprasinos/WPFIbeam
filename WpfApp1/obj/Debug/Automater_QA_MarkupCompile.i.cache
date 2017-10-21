@@ -1,4 +1,4 @@
-﻿Automater
+﻿Automater_QA
 
 
 winexe
@@ -12,9 +12,9 @@ CODE_ANALYSIS;TRACE;DEBUG
 C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\App.xaml
 8-1239184713
 9105383279
-191463784253
-31-1556676673
+231554868006
+31-3615591
 Controls\AxisControl.xaml;Controls\QueControl.xaml;JoyStickSelecter.xaml;JoyStickSetup.xaml;MainWindow.xaml;MoveSetup.xaml;NameState.xaml;UserControl1.xaml;
 
-False
+True
 

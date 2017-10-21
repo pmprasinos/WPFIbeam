@@ -131,7 +131,7 @@ namespace CustomControl {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Automater;component/controls/axiscontrol.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Automater_QA;component/controls/axiscontrol.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\Controls\AxisControl.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

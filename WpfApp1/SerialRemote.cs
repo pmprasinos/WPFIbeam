@@ -103,6 +103,7 @@ class SerialRemote
                 w[3] = (frame[1] / 8) % 2;
                 DeadmanRightPressed = (frame[1] / 16) % 2 > 0;
                  DeadmanLeftPressed = (frame[1] / 32) % 2 > 0;
+                if (DeadmanLeftPressed || DeadmanRightPressed) { ADSQL.SqlWriteAxis(1, "STATUS", "FAULT"); Thread.Sleep(200); }
                 EstopPressed = frame[1] <= 128 ; 
 
             }

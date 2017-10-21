@@ -19,78 +19,88 @@ namespace AdsWriter
         // public static ADSClient Mom; //= new ADSClient("10.99.1.1.1.1", true, 20);
         // public static AdSqlAxis[] KidAxis = new AdSqlAxis[6];
         static DataRowCollection AxisRows;
+        static int t_Kid  = 0;
 
-        public static void Main(string[] args)
+        static bool GlobalEstop;
+        static ADSClient Mom;
+
+
+            public static void Main(string[] args)
         {
+            Console.WriteLine("VERSION 7");
            
-
-                bool[] isActive = new bool[6];
+            bool[] isActive = new bool[6];
                 int[] DeadCounter = new int[6];
                
                     try
                     {
-                        int InstanceCount = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length;
+                AxisRows = (DataRowCollection)ADSQL.SqlPullAxis();
+              
+                System.Timers.Timer tSaftey = new System.Timers.Timer();
+                tSaftey.Elapsed += new System.Timers.ElapsedEventHandler(tSaftey_Tick);
+                tSaftey.Interval = 100; 
+
+                int InstanceCount = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length;
                         if (InstanceCount > 2) return;
-                    if (InstanceCount > 1) do {  InstanceCount = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length; Thread.Sleep(200); } while (InstanceCount > 1);
-                            if (InstanceCount > 1) Thread.Sleep(5000);
-                        Console.Write("STARTING CONNECTION TO MOM...");
+                             
+                     
+                if (InstanceCount > 1) do { InstanceCount = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length; Thread.Sleep(200); } while (InstanceCount > 1);
 
-                        ADSClient Mom = new ADSClient(new TwinCAT.Ads.AmsAddress("10.99.1.1.1.1", 851).NetId.ToString(), true, 6);
-                        Console.Write("DONE");
-                        Stopwatch j = Stopwatch.StartNew();
+                if (InstanceCount > 1) Thread.Sleep(5000);
+                Console.Write("STARTING CONNECTION TO MOM...");
+
+                Mom = new ADSClient(new TwinCAT.Ads.AmsAddress("10.99.1.1.1.1", 851).NetId.ToString(), 6);
+                tSaftey.Start();
+                Console.Write("DONE");
+                System.Timers.Timer tSlow = new System.Timers.Timer();
+                tSlow.Elapsed += new System.Timers.ElapsedEventHandler(T_tick);
+
+                Stopwatch j = Stopwatch.StartNew();
                         int loopCount = 0;
-                    
+                tSlow.Enabled = true;
+                tSlow.Interval = 100;
+                Thread.Sleep(100);
+                tSlow.AutoReset = true;
+                tSlow.Start();
 
-                        do
+                do
                         {
-
-          
-                            loopCount++; Debug.Print(loopCount.ToString());
-                            if (loopCount > 0) { Console.WriteLine(loopCount.ToString() + "   " + j.ElapsedMilliseconds.ToString()); j = Stopwatch.StartNew(); }
+                    AxisRows = (DataRowCollection)ADSQL.SqlPullAxis();
+                    loopCount++; Debug.Print(loopCount.ToString());
+                           // if (loopCount > 0) { Console.WriteLine(loopCount.ToString() + "   " + j.ElapsedMilliseconds.ToString()); j = Stopwatch.StartNew(); }
                             Mom.WriteValue(Mom.TimeOutSwitch, false);
-                            AxisRows = (DataRowCollection)ADSQL.SqlPullAxis();
-                            Thread.Sleep(50);
-                            
-                            bool GlobalReset = (string)ADSQL.SqlReadAxis(1, "AxisStatus")=="RESET";
-                        
-                        if ((string)ADSQL.SqlReadAxis(1, "AxisStatus") == "FAULT") Mom.WriteValue(Mom.GlobalEstop, true);
-                       
-                        
-
-                        if (GlobalReset)
-                        {
-                            Mom.WriteValue(Mom.FaultReset, true);
-                        }
- bool GlobalEstop = (int)Mom.ReadValue(Mom.GlobalEstop) > 0;
-
-                        for (int x = 1; x <= 6; x++)
+                          
+                   
+                    for (int x = 1; x <= 6; x++)
                             {
-                            if (GlobalReset)
-                            {
-                                ADSQL.SqlWriteAxis(x, "AxisStatus", "OK");
-                            }
-
-                            string FaultStatus = (string)ADSQL.SqlReadAxis(x, "AxisStatus");
-                           
+                        Thread.Sleep(5);
+        
                             if (loopCount > 200) loopCount = 0;
                              
-                              
                                 bool QueStarted = (bool)ADSQL.SqlReadAxis(x, "QueStarted");
-                            if (QueStarted) { Mom.Kids[x - 1].MomControl = 0; ADSQL.SqlWriteAxis(x, "QueStarted", false); }
-                            bool thisActive = (bool)ADSQL.SqlReadAxis(x, "IsActive");
+                            if (QueStarted) {
+                                                Mom.Kids[x - 1].ModeAccel = (int)ADSQL.SqlReadAxis(x, "Acceleration");
+                                                Mom.Kids[x - 1].ModeDecel = (int)ADSQL.SqlReadAxis(x, "Deceleration");
+                            Mom.Kids[x - 1].ModeVel = (int)ADSQL.SqlReadAxis(x, "Velocity");
+                            ADSQL.SqlWriteAxis(x, "QueStarted", 0);
+                        } else
+                        {
+                            var isthis = ADSQL.SqlReadAxis(x, "IsActive");
+                        bool thisActive = (bool)ADSQL.SqlReadAxis(x, "IsActive");
                             int KidCurrent = Mom.Kids[x - 1].CurrentPosition;
                             ADSQL.SqlWriteAxis(x, "CurrentPosition", KidCurrent);
                             int KidTarget;
 
-                            if (thisActive)
+                            if (thisActive || isActive[x - 1])
                                 {
-                                    ADSQL.SqlWriteAxis(x, "IsActive", 0);
-                                    Mom.Kids[x - 1].DeadManPressed = 1;
+                            Console.WriteLine("ISACTIVE: " + x);
+                            
+                                  if(!GlobalEstop)  Mom.Kids[x - 1].DeadManPressed = 1;
                                 KidTarget = Mom.Kids[x - 1].TargetPosition;
                                 int KidSqlTarget = (int)ADSQL.SqlReadAxis(x, "TargetPosition");
-
-                                int scaler = Math.Abs(KidCurrent - KidSqlTarget) / 5;
-                                Debug.Print(scaler.ToString());
+                                ADSQL.SqlWriteAxis(x, "IsActive", false);
+                                //int scaler = Math.Abs(KidCurrent - KidSqlTarget) / 5;
+                                //Debug.Print(scaler.ToString());
                                 Mom.Kids[x - 1].ScalingInt = (int)ADSQL.SqlReadAxis(x, "TrimFactor"); ;
 
 
@@ -100,75 +110,128 @@ namespace AdsWriter
                                 if (isActive[x - 1] == thisActive && !thisActive)
                                 {
                                     DeadCounter[x - 1]++;
-                                    if (DeadCounter[x - 1] > 3 && DeadCounter[x - 1] < 5) Mom.Kids[x - 1].DeadManPressed = 0;
+                                    if (DeadCounter[x - 1] > 3 && DeadCounter[x - 1] < 5)
+                                    {
+                                        Console.WriteLine("DEADMAN0");
+                                        Mom.Kids[x - 1].DeadManPressed = 0;
+                                        Mom.Kids[x - 1].TargetPosition = Mom.Kids[x - 1].CurrentPosition;
+                                    }
                                 }
                                 else DeadCounter[x - 1] = 0;
-                               
-
-
-                           
-
-                                int KidAccel = Mom.Kids[x - 1].ModeAccel;
-                                int KidDecel = Mom.Kids[x - 1].ModeDecel;
-                                int KidVel = Mom.Kids[x - 1].ModeVel;
-
-                                int KidSqlDecel = (int)ADSQL.SqlReadAxis(x, "Deceleration");
-                                int KidSqlAccel = (int)ADSQL.SqlReadAxis(x, "Acceleration");
-                                int KidSqlVel = (int)ADSQL.SqlReadAxis(x, "Velocity");
-                                bool JogMode = (bool)ADSQL.SqlReadAxis(x, "JogMode");
-                                if (JogMode)
-                                {
-
-                                    int accelRate = (int)((int)ADSQL.SqlReadAxis(x, "JogSpeed") / (double)ADSQL.SqlReadAxis(x, "JogAccel"));
-                                   
-                                    KidSqlAccel = accelRate;
-                                    if (accelRate < 400) accelRate = 400;
-                                    KidSqlDecel = accelRate;
-                                    KidSqlVel = (int)ADSQL.SqlReadAxis(x, "JogSpeed");
-                                }
-
-                                if (KidSqlAccel != KidAccel) Mom.Kids[x - 1].ModeAccel = KidSqlAccel;
-                                if (KidSqlDecel != KidDecel) Mom.Kids[x - 1].ModeDecel = KidSqlDecel;
-                                if (KidSqlVel != KidVel) Mom.Kids[x - 1].ModeVel = KidSqlVel;
-                            
-                        
-
-                            
-                                if (isActive[x - 1])
-                                {
-                                   
-                                    
-                                    
-
-                                }
-                                else 
-                                {
-                                    KidTarget = KidCurrent;
-                                    Mom.Kids[x - 1].TargetPosition = Mom.Kids[x - 1].CurrentPosition;
-                                }
-
-                            if (Mom.Kids[x - 1].MomControl == 0) ADSQL.SqlWriteAxis(x, "AxisStatus", "OFFLINE"); else if (GlobalEstop && !GlobalReset) ADSQL.SqlWriteAxis(x, "AxisStatus", "FAULT");
-
-
-
-                               
-                                if (QueStarted) Mom.Kids[x - 1].MomControl = 1;
+                          
                             isActive[x - 1] = thisActive;
                         }
-                           
+                    }
+                  
 
-                        } while (true);
+                } while (true);
                     }
                     catch
                     {
                         Thread.Sleep(20000); Console.WriteLine("Error");
                         Environment.Exit(0);
+                    }             
+            }
 
-                    }
-              
+        static void tSaftey_Tick(object myObject, EventArgs e)
+            {
+            int s = Convert.ToInt16(ADSQL.SqlRead("SELECT Faulted From Axis Where AxisNumber = 1"));
+            if (s == 1)
+            {
+                if (GlobalEstop)
+                {
+                    Mom.WriteValue(Mom.GlobalEstop, true);
+                    Console.WriteLine("ESTOPACTIVATED");
+                    ((System.Timers.Timer)myObject).Interval = 300;
+                }
+                else
+                {
+                    for (int x = 0; x < 6; x++) Mom.Kids[x].DeadManPressed = 0;
+                    ((System.Timers.Timer)myObject).Interval = 100;
+                }
+                GlobalEstop = true;
+                
+               // return;
+            }else
+            {
+                
+                GlobalEstop = (int)Mom.ReadValue(Mom.GlobalEstop) > 0;
+                if (GlobalEstop) ADSQL.SqlWrite("UPDATE MOMSQL..AXIS SET FAULTED = 1 where AxisNumber = 1");
+            }
+            s = Convert.ToInt16(ADSQL.SqlRead("SELECT FaultCode From Axis Where AxisNumber = 1"));
+            if (s ==2)
+            {
+               
+                Mom.WriteValue(Mom.FaultReset, true);
+                ADSQL.SqlWrite("Update MOMSQL..axis set FaultCode = 0, Faulted = 0"); Console.WriteLine("SAFTEYRESET");
+                Thread.Sleep(100);
+                return;
+            }
 
-          
+            if(AxisRows != null)
+            {
+                for (int x = 0; x < 6; x++)
+                {
+                    long CheckInt = (long)ADSQL.SqlReadAxis(x + 1, "StatusWord");
+                    bool SoftDown = (CheckInt % 32768) / 16384 > 0;
+                    bool SoftUp = (CheckInt % 16384) / 8192 > 0;
+                    bool HardDown = (CheckInt % 8192)/ 4096 > 0;
+                    bool HardUp = (CheckInt % 4096) / 2048 > 0;
+                    bool Ultimate = (CheckInt % 2048) / 1024 > 0;
+                    bool kidEstopPressed = (CheckInt % 1024) / 512 > 0;
+                    bool mcByPass = (CheckInt % 256) / 128 > 0;
+                    bool VoltageEnabled = (CheckInt % 64) / 32 > 0;
+                    bool SafeyTrip = (CheckInt % 16) / 8 > 0;
+                    ////                  BOOL_TO_UDINT(KIDAXIS.modeTargetPos = gvl_iNDEX.Admin_MIN) * 16384 +
+                    //BOOL_TO_UDINT(KIDAXIS.modeTargetPos = gvl_iNDEX.Admin_Max) * 8192 +
+                    //BOOL_TO_UDINT(gvl_sAFE_io.bLimit_Hard_Down) * 4096 +
+                    //BOOL_TO_UDINT(gvl_sAFE_io.bLimit_Hard_uP) * 2048 +
+                    //BOOL_TO_UDINT(gvl_sAFE_io.bLimiT_uLTIMATE) * 1024 +
+                    //                                        BOOL_TO_UDINT(NOT GVL_Safe_IO.bES_Local_Status) * 512 +
+                    //                                        BOOL_TO_UDINT(momControl) * 128 +
+                    //                                        BOOL_TO_UDINT(GVL_Safe_IO.bSlack_Line) * 64 +
+                    //                                        
+                    //                                        BOOL_TO_UDINT(GVL_PLC.bComTimeOutError) * 16 +
+                    //                                        BOOL_TO_UDINT(SafteyTripped) * 8 +
+                    //                                        BOOL_TO_UDINT(Hard_Limit_Tripped) * 4 +
+                    //                                        BOOL_TO_UDINT(LeaveEnabled) * 2 +
+                    //                                        BOOL_TO_UDINT(NOT HeartBeat);
+                }
+            }
            
+     
+        }
+
+         static void T_tick(object myObject, EventArgs e)
+        {
+            if (GlobalEstop) return;
+            ((System.Timers.Timer)myObject).AutoReset = true;
+            ((System.Timers.Timer)myObject).Interval = 100;
+            if (t_Kid > 5) t_Kid = 0;
+            t_Kid++;
+            int x = t_Kid;
+            int KidAccel = Mom.Kids[x - 1].ModeAccel;
+            Thread.Sleep(2);
+            int KidDecel = Mom.Kids[x - 1].ModeDecel;
+            Thread.Sleep(2);
+            int KidVel = Mom.Kids[x - 1].ModeVel;
+            Thread.Sleep(2);
+            int KidSqlDecel = (int)ADSQL.SqlReadAxis(x, "Deceleration");
+            Thread.Sleep(2);
+            int KidSqlAccel = (int)ADSQL.SqlReadAxis(x, "Acceleration");
+            Thread.Sleep(2);
+            int KidSqlVel = (int)ADSQL.SqlReadAxis(x, "Velocity");
+            Thread.Sleep(2);
+          
+
+            if (KidSqlAccel != KidAccel) Mom.Kids[x - 1].ModeAccel = KidSqlAccel;
+            Thread.Sleep(2);
+            if (KidSqlDecel != KidDecel && Math.Abs(Mom.Kids[x-1].CurrentVelocity) <10) Mom.Kids[x - 1].ModeDecel = KidSqlDecel;
+            Thread.Sleep(2);
+            if (KidSqlVel != KidVel) Mom.Kids[x - 1].ModeVel = KidSqlVel;
+            Thread.Sleep(2);
+            Console.WriteLine(x);
+            ADSQL.SqlWriteAxis(x, "StatusWord", Mom.Kids[x - 1].StatusWord);
         }
 
         public static class ADSQL
@@ -196,7 +259,13 @@ namespace AdsWriter
                         case ("ACCELERATION"):
                             cmd = new SqlCommand("Update MomSQL..Axis set ACCELERATION = @newValue Where AxisNumber = @axisNumber", MomCon);
                             break;
+                        case ("DECELERATION"):
+                            cmd = new SqlCommand("Update MomSQL..Axis set DeCELERATION = @newValue Where AxisNumber = @axisNumber", MomCon);
+                            break;
                         case ("VELOCITY"):
+                            cmd = new SqlCommand("Update MomSQL..Axis set VELOCITY = @newValue Where AxisNumber = @axisNumber", MomCon);
+                            break;
+                        case ("CURRENTVELOCITY"):
                             cmd = new SqlCommand("Update MomSQL..Axis set VELOCITY = @newValue Where AxisNumber = @axisNumber", MomCon);
                             break;
                         case ("CURRENTPOSITION"):
@@ -205,11 +274,14 @@ namespace AdsWriter
                         case ("ISACTIVE"):
                             cmd = new SqlCommand("Update MomSQL..Axis set IsActive = @newValue Where AxisNumber = @axisNumber", MomCon);
                             break;
-                        case ("AXISSTATUS"):
-                         cmd = new SqlCommand("Update MomSQL..Axis set AxisStatus = @newValue Where AxisNumber = @axisNumber", MomCon);
+                        case ("Faulted"):
+                         cmd = new SqlCommand("Update MomSQL..Axis set Faulted = @newValue Where AxisNumber = @axisNumber", MomCon);
                             break;
                         case ("QUESTARTED"):
                             cmd = new SqlCommand("Update MomSQL..Axis set QUESTARTED = @newValue Where AxisNumber = @axisNumber", MomCon);
+                            break;
+                        case ("STATUSWORD"):
+                            cmd = new SqlCommand("Update MomSQL..Axis set STATUSWORD = @newValue Where AxisNumber = @axisNumber", MomCon);
                             break;
                         default:
                             return false;
@@ -222,7 +294,9 @@ namespace AdsWriter
             MomCon.Open();
                     bool res;
                     try { res =cmd.ExecuteNonQuery() == 1; }
-                    catch { Thread.Sleep(1); res = cmd.ExecuteNonQuery() == 1; }
+                    catch {
+                        Console.WriteLine("Error encountered writing " + newValue.ToString() + " To Column " + columnName.ToString() + " on Axis " + axisNumber.ToString());
+                        Thread.Sleep(1); res = cmd.ExecuteNonQuery() == 1; }
 
 
 
@@ -239,26 +313,42 @@ namespace AdsWriter
                 SqlDataReader s;
                 using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
                 {
-                    SqlCommand cmd = new SqlCommand("Select * from MomSQL..Axis", MomCon);
-                    try
-                    {
-                        if (MomCon.State == ConnectionState.Closed) MomCon.Open();
-                        s = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-                        //s.Read();
-                        DataTable dt = new DataTable();
-                        dt.Load(s);
-                        return dt.Rows;
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw ex;
-                    }
-                   
+                    using (SqlCommand cmd = new SqlCommand("Select * from MomSQL..Axis", MomCon))
+                        {
+                            if (MomCon.State == ConnectionState.Closed) MomCon.Open();
+                            s = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                            //s.Read();
+                            DataTable dt = new DataTable();
+                            dt.Load(s);
+                            return dt.Rows;
+                        }
                 }
                 return s;
             }
+            public static object SqlRead(string CmdString)
+            {
+                using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+                {
+                    using (SqlCommand cmd = new SqlCommand(CmdString, MomCon))
+                    {
+                        if (MomCon.State == ConnectionState.Closed) MomCon.Open();
+                        return cmd.ExecuteScalar();
+                    }
+                }
+            }
 
-    
+            public static object SqlWrite(string CmdString)
+            {
+                using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+                {
+                    using (SqlCommand cmd = new SqlCommand(CmdString, MomCon))
+                    {
+                        if (MomCon.State == ConnectionState.Closed) MomCon.Open();
+                        return cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+
             public static object SqlReadAxis(int AxisNumber, string columnName)
             {
                         return AxisRows[AxisNumber-1][columnName];
@@ -266,58 +356,7 @@ namespace AdsWriter
 
         }
 
-        public class AdSqlAxis
-        {
-            string TableName;
-            string ColumnName;
-
-
-            AxisParam ID;
-            AxisParam AxisNumber;
-            AxisParam AxisName;
-            AxisParam AxisType;
-            AxisParam AdminMax;
-            AxisParam AdminMin;
-            AxisParam UserMax;
-            AxisParam UserMin;
-           AxisParam CurrentPosition;
-           public AxisParam TargetPosition;
-            AxisParam Acceleration;
-            AxisParam Velocity;
-            AxisParam AxisGroup;
-            AxisParam AxisGroupName;
-            AxisParam IpAddress;
-            AxisParam NetID;
-            AxisParam AxisStatus;
-            AxisParam Faulted;
-            AxisParam FaultCode;
-            AxisParam UserCanEdit;
-
-            public AdSqlAxis(int AxisNum, ADSClient Mom)
-            {
-                //AxisParam ID = new AxisParam(AxisNum, "ID", 1000, 0);
-                //AxisParam AxisNumber = new AxisParam(AxisNum, "AxisNumber", 1000, 0);
-                //AxisParam AxisName = new AxisParam(AxisNum, "AxisName", 1000, 0);
-               // AxisParam AxisType = new AxisParam(AxisNum, "AxisType", 1000, 0);
-               // AxisParam AdminMax = new AxisParam(AxisNum, "AdminMax", 1000, 0);
-                //AxisParam AdminMin = new AxisParam(AxisNum, "AdminMin", 1000, 0);
-                //AxisParam UserMax = new AxisParam(AxisNum, "UserMax", 1000, 0);
-                //AxisParam UserMin = new AxisParam(AxisNum, "UserMin", 1000, 0);
-                AxisParam CurrentPosition = new AxisParam(AxisNum, "CurrentPosition", 1000, 0, Mom);
-                AxisParam TargetPosition = new AxisParam(AxisNum, "TargetPosition", 1000, 0, Mom);
-               // AxisParam Acceleration = new AxisParam(AxisNum, "Acceleration", 1000, 0);
-                //AxisParam Velocity = new AxisParam(AxisNum, "Velocity", 1000, 0);
-                //AxisParam AxisGroup = new AxisParam(AxisNum, "AxisGroup", 1000, 0);
-                //AxisParam AxisGroupName = new AxisParam(AxisNum, "AxisGroupName", 1000, 0);
-               // AxisParam IpAddress = new AxisParam(AxisNum, "IpAddress", 1000, 0);
-               // AxisParam NetID = new AxisParam(AxisNum, "NetID", 1000, 0);
-               // AxisParam AxisStatus = new AxisParam(AxisNum, "AxisStatus", 1000, 0);
-              //  AxisParam Faulted = new AxisParam(AxisNum, "Faulted", 1000, 0);
-             //   AxisParam FaultCode = new AxisParam(AxisNum, "FaultCode", 1000, 0);
-                //AxisParam UserCanEdit = new AxisParam(AxisNum, "UserCanEdit", 1000, 0);
-            }
-
-        }
+       
 
         public class AxisParam
         {
@@ -373,7 +412,9 @@ namespace AdsWriter
                 else if (ColumnName.ToUpper() == "CURRENTPOSITION") currentValue = Mom.Kids[AxisNum].CurrentPosition;
                 else if (ColumnName.ToUpper() == "FAULTED") currentValue = Mom.ReadValue(Mom.GlobalEstop);
                 else if (ColumnName.ToUpper() == "ACCELERATION") currentValue = Mom.Kids[AxisNum].ModeAccel;
+                else if (ColumnName.ToUpper() == "DECELERATION") currentValue = Mom.Kids[AxisNum].ModeDecel;
                 else if (ColumnName.ToUpper() == "VELOCITY") currentValue = Mom.Kids[AxisNum].ModeVel;
+                else if (ColumnName.ToUpper() == "STATUSWORD") currentValue = Mom.Kids[AxisNum].StatusWord;
                 else currentValue = ADSQL.SqlReadAxis(axisNum, ColumnName);
                 return currentValue;
             }

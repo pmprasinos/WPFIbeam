@@ -22,16 +22,7 @@ namespace AdsWriter
         public int PosVel;
         //public int MotCmd;
         //public int StartBit;
-        public int CurX;
-        public int CurY;
-        public int CurSpeed;
-        public int DeadMan;
-        public int DeadMan2;
-        public int EStop;
-        public int GantryTargetWindow;
-        public int Gantry1BeaconNumber;
-        public int Gantry2BeaconNumber;
-        public bool IsBeckhoff;
+   
         public int TimeOutSwitch;
         public int MomControl;
         public int FaultReset;
@@ -68,59 +59,19 @@ namespace AdsWriter
             throw new KeyNotFoundException("No pending operations with the ID: " + ID.ToString() + "were found");
         }
 
-        public enum Parameter : int
-        {
-            GantryBeaconNumber,
-            GantryTargetWindow,
-            /// <summary> Target X position in user units </summary>
-            TargetX,
-            /// <summary> Target Y position in user units </summary>
-            TargetY,
-            /// <summary> Maximum acceleration for move </summary>
-            PosAccel,
-            /// <summary> Maximum decceleration for move </summary>
-            //PosDecel,
-            /// <summary> Maximum velocity for move </summary>
-            PosVel,
-            /// <summary> Motion command (motion type) </summary>
-            //MotCmd,
-            /// <summary> Start bit to initiate move </summary>
-            //StartBit,
-            /// <summary> AMC Slave position </summary>
-            CurPos,
-            /// <summary> Current speed </summary>
-            CurSpeed,
-
-            DeadMan,
-
-            DeadMan2,
-
-            Estop,
-
-            TimeOutSwitch,
-
-            FaultReset,
-            ScreenPower,
-        };
-
-
-        public ADSClient(String AMSAddress, Boolean IsBeckhoff, int NumberOfKids)
+        public ADSClient(String AMSAddress,  int NumberOfKids)
         {
             Client.Timeout = 1000;
             AmsAddress g = new AmsAddress(AMSAddress, 851);
             try
             {
                 Client.Connect(AMSAddress, 851);
-                // TcAdsSymbolInfoLoader ld = Client.CreateSymbolInfoLoader();
-
                 TimeOutSwitch = Client.CreateVariableHandle("MAIN.TimeOutSwitch");
-                DeadMan = Client.CreateVariableHandle("MAIN.Joystick1DeadMan");
+                //DeadMan = Client.CreateVariableHandle("MAIN.Joystick1DeadMan");
                 FaultReset = Client.CreateVariableHandle("Main.GlobalReset");
                 GlobalEstop = Client.CreateVariableHandle("Main.GlobalEstopActive");
-                //MomControl = Client.CreateVariableHandle("MAIN.Execute");
-                Connected = true;
-                // TcADSSI = Client.CreateSymbolInfoLoader().GetSymbols(true);
-                //    ROS = Client.CreateSymbolLoader(TwinCAT.SymbolsLoadMode.Flat).Symbols;
+                MomControl = Client.CreateVariableHandle("MAIN.Execute");
+                Connected = true;              
             }
             catch
             {
@@ -134,46 +85,16 @@ namespace AdsWriter
             {
                 Kids[x - 1] = new AdsKid(Client, x);
             }
-
-            //   TcAdsSymbolInfoCollection ADSSI = Client.CreateSymbolInfoLoader().GetSymbols(false);
-            // DeviceInfo DI = Client.ReadDeviceInfo();
-            //StateInfo SI = Client.ReadState();
-
-
-
-
-
-            this.IsBeckhoff = IsBeckhoff;
-
-
-            ParamHandles = new int[]
-            {
-               TargetX,
-               TargetY,
-               PosAccel,
-			   //PosDecel,
-			   PosVel,
-			   //MotCmd,
-			   //StartBit,
-			   CurX,
-               CurY,
-               CurSpeed
-            };
-
         }
-
-
+        
 
         public object ReadValue(int ParamAddress)
         {
-
             object g;
             TcAdsClient Kid = (TcAdsClient)this.Client;
-
             //hard coded types, will have better array solution moving forward:
-            if (ParamAddress == this.CurX || ParamAddress == this.CurY || ParamAddress == this.PosAccel)
+            if ( ParamAddress == this.PosAccel)
             {
-
                 g = Double.Parse(Kid.ReadAny(ParamAddress, typeof(int)).ToString());
             }
             else if (ParamAddress == this.TargetX || ParamAddress == this.TargetY)
@@ -182,11 +103,9 @@ namespace AdsWriter
             }
             else
             {
-
                 g = int.Parse(Kid.ReadAny(ParamAddress, typeof(int)).ToString());
                 //g = int.Parse(Kid.ReadAny(ParamAddress, typeof(Single)).ToString());
             }
-
             return g;
         }
 
@@ -211,26 +130,18 @@ namespace AdsWriter
         {
             try
             {
-                if (IsBeckhoff)
-                {
-
                     TcAdsClient Kid = (TcAdsClient)this.Client;
-
                     if (bool.Parse(newValue.ToString()) == true) newValue = 1;
                     if (bool.TryParse(newValue.ToString(), out bool b) && b == false) newValue = 0;
 
                     if (int.Parse(newValue.ToString()) == 1 || int.Parse(newValue.ToString()) == 0)
                     {
-
                         Kid.WriteAny(paramAddress, byte.Parse(newValue.ToString())); 
                     }
                     else
                     {
-                        if (paramAddress == Gantry1BeaconNumber || paramAddress == Gantry2BeaconNumber || paramAddress == Joystick1SelectedScreenber || paramAddress == Joystick2SelectedScreenber) { Kid.WriteAny(paramAddress, short.Parse(newValue.ToString())); }
-                        else { Kid.WriteAny(paramAddress, int.Parse(newValue.ToString())); }
+                         Kid.WriteAny(paramAddress, int.Parse(newValue.ToString())); 
                     }
-                }
-
                 return true;
             }
             catch
@@ -238,64 +149,68 @@ namespace AdsWriter
                 return false;
             }
         }
-
-
-        /// <summary>
-        /// Asyncronus write adds the write operation to PendingOps list 
-        /// </summary>
-        /// <param name="ID"></param>
-        /// <param name="ParamAddress"></param>
-        //public void WriteValue(int ID, int ParamAddress, Object newValue)
-        //{
-        //	Task<bool> t = Task.Run(() =>
-        //	{
-        //		return WriteValue(ParamAddress, newValue);
-        //	}
-        //	);
-
-        //	object[] d = new object[] { ID, ParamAddress, t };
-        //	PendingOps.Add(d);
-        //}
-
-        public void Move()
-        {
-            if (IsBeckhoff)
-            {
-                TcAdsClient Kid = (TcAdsClient)this.Client;
-            }
-        }
-
-        private static byte[] ValueToBytes(int value, bool Is32Bit = true)
-        {
-            byte[] g = BitConverter.GetBytes(value);
-            Array.Reverse(g);
-            if (Is32Bit == false) { g = new byte[2] { g[2], g[3] }; }
-            return g;
-        }
-
-        private static void OnResponseData(ushort id, byte unit, byte function, byte[] data)
-        {
-            //Console.WriteLine(data[1]);
-
-            // do stuff, store response data to list?
-        }
-
     }
 
     public class AdsKid
     {
-     
-        
-        public int MinAge = 50; //MinAge is the minimum time elapsed between reading positions (the maximum refresh rate time constant)
+        public bool Connected = false;
+        public TcAdsClient Mom;
+        private System.Diagnostics.Stopwatch LastPolled = new System.Diagnostics.Stopwatch();
+        private int kidIndex;
+
+        public AdsKid(TcAdsClient MOM, int KidIndex)
+        {
+            LastPolled.Start();
+            if (!Connected) try
+                {
+                    this.Mom = MOM;
+                    this.kidIndex = KidIndex;
+                    TargetPosAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].targetpos_FromMom_Raw");
+                    CurrentPosAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].HomedPosition_toMom");
+                    CurrentVelocityAddr = Mom.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].Speed");
+                    ModeVelAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].ModeVel_FromMom");
+                    ModeAccelAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].ModeAccel_FromMom");
+                    ModeDecelAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].ModeDecel_FromMom");
+                    DeadManPressedAddr = Mom.CreateVariableHandle("MAIN.Kid[" + KidIndex + "].RMT_DeadManPressed");
+                    ScalingIntAddr = Mom.CreateVariableHandle("MAIN.Kid[" + KidIndex + "].ScalingNumber");
+                    MomControlAddr = Mom.CreateVariableHandle("MAIN.Kid[" + KidIndex + "].CheckIn.MomControl");
+                    StatusWordAddr = Mom.CreateVariableHandle("MAIN.Kid[" + KidIndex + "].UpdateWord_ToMom");
+                    
+                    string checkStr = MOM.ReadAny(TargetPosAddr, typeof(int)).ToString();
+                    //  TcAdsSymbolInfoLoader tcl = MOM.CreateSymbolInfoLoader();
+                    // TcAdsSymbolInfo tci = tcl.FindSymbol("MAIN.Kid[" + KidIndex + "].SCALINGINT");
+                    currentPosition = int.Parse(MOM.ReadAny(CurrentPosAddr, typeof(int)).ToString());
+                    targetPosition = currentPosition;
+                    Connected = true;
+                }
+                catch
+                {
+
+                    Connected = false;
+                    throw;
+                }
+        }
+
+       // public int MinAge = 50; //MinAge is the minimum time elapsed between reading positions (the maximum refresh rate time constant)
+
         private int TargetPosAddr { get; set; }
         private int targetPosition;
-
         public int TargetPosition
         {
             get
             { targetPosition = (int)Mom.ReadAny(TargetPosAddr, typeof(int)); return targetPosition; }
             set
             { targetPosition = value; if (Connected) Mom.WriteAny(TargetPosAddr, int.Parse(value.ToString())); }
+        }
+
+        private int CurrentVelocityAddr { get; set; }
+        private int currentVelocity;
+        public int CurrentVelocity
+        {
+            get
+            { currentVelocity = (int)Mom.ReadAny(CurrentVelocityAddr, typeof(int)); return currentVelocity; }
+            set
+            { currentVelocity = value;  }
         }
 
         private int CurrentPosAddr { get; set; }
@@ -357,7 +272,7 @@ namespace AdsWriter
             get
             { return deadManPressed ; }
             set
-            { deadManPressed = Convert.ToInt32(value); if (Connected) { Mom.WriteAny(DeadManPressedAddr, Byte.Parse(value.ToString())); Console.WriteLine("WROTE: " + value.ToString()); } }
+            { deadManPressed = Convert.ToInt32(value); if (Connected) { Mom.WriteAny(DeadManPressedAddr, Byte.Parse(value.ToString())); Console.WriteLine(kidIndex.ToString() + "  WROTE: " + value.ToString()); } }
         }
 
 
@@ -378,45 +293,19 @@ namespace AdsWriter
             get
             { return scalingInt; }
             set
-            { scalingInt = int.Parse(value.ToString()); if (Connected) { Mom.WriteAny(ScalingIntAddr, short.Parse(value.ToString())); Console.WriteLine("WROTE: " + value.ToString()); } }
+            { scalingInt = int.Parse(value.ToString()); if (Connected) { Mom.WriteAny(ScalingIntAddr, short.Parse(value.ToString())); Console.WriteLine(kidIndex.ToString() + " Scaling WROTE: " + value.ToString()); } }
         }
 
-
-        public bool Connected = false;
-        
-        public TcAdsClient Mom;
-        private System.Diagnostics.Stopwatch LastPolled = new System.Diagnostics.Stopwatch();
-        private int kidIndex;
-
-        public AdsKid(TcAdsClient MOM, int KidIndex)
+        private int StatusWordAddr { get; set; }
+        private long statusWord;
+        public long StatusWord
         {
-            LastPolled.Start();
-            if (!Connected) try
-                {
-                    this.Mom = MOM;
-                    this.kidIndex = KidIndex;
-                    TargetPosAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].targetpos_FromMom_Raw");
-                    CurrentPosAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].HomedPosition_toMom");
-                    ModeVelAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].ModeVel_FromMom");
-                    ModeAccelAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].ModeAccel_FromMom");
-                    ModeDecelAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].ModeDecel_FromMom");
-                    DeadManPressedAddr = Mom.CreateVariableHandle("MAIN.Kid[" + KidIndex + "].RMT_DeadManPressed");
-                    ScalingIntAddr = Mom.CreateVariableHandle("MAIN.Kid[" + KidIndex + "].ScalingNumber");
-                    MomControlAddr = Mom.CreateVariableHandle("MAIN.Kid[" + KidIndex + "].CheckIn.MomControl");
-                    string checkStr = MOM.ReadAny(TargetPosAddr, typeof(int)).ToString();
-                  //  TcAdsSymbolInfoLoader tcl = MOM.CreateSymbolInfoLoader();
-                   // TcAdsSymbolInfo tci = tcl.FindSymbol("MAIN.Kid[" + KidIndex + "].SCALINGINT");
-                    currentPosition = int.Parse(MOM.ReadAny(CurrentPosAddr, typeof(int)).ToString());
-                    targetPosition = currentPosition;
-                    Connected = true;
-                }
-                catch
-                {
-
-                    Connected = false;
-                    throw;
-                }
-
+            get
+            { statusWord = (long)Mom.ReadAny(StatusWordAddr, typeof(long)); Console.WriteLine("STATUS: " + statusWord.ToString()); return statusWord;  }
+            set
+            { statusWord = long.Parse(value.ToString()); if (Connected) { Mom.WriteAny(StatusWordAddr, long.Parse(value.ToString()));  } }
         }
+
+       
     }
 }
