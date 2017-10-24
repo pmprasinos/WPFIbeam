@@ -68,7 +68,7 @@ namespace WpfApp1 {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Automater_QA;component/movesetup.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Automater_QA1;component/movesetup.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\MoveSetup.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

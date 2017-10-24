@@ -63,11 +63,11 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="11"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="1000"/>
             <RowDefinition Height="11"/>
             <RowDefinition Height="142"/>
             <RowDefinition Height="11"/>
-            <RowDefinition Height="140"/>
+            <RowDefinition Height="0"/>
         </Grid.RowDefinitions>
         <TextBlock FontSize="55" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"><Run Text="Top"/></TextBlock>
         <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" Background="Black" />
@@ -188,9 +188,9 @@
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" RenderTransformOrigin="0.504,0.6" />
                 <DataGrid  Grid.Row ="0" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Name="QueGrid" SelectionChanged="QueGrid_SelectionChanged" Background="{x:Null}" Foreground="White" TextBlock.Foreground="White" RowStyle ="{StaticResource DataGridCellStyle}" EnableRowVirtualization="False" SelectionMode="Single" CanUserAddRows="False" ColumnHeaderStyle="{StaticResource myHeaderStyle}" AutoGenerateColumns="False" />
                 <TextBlock HorizontalAlignment="Left" Margin="6,20,0,0" TextWrapping="Wrap" Text="Selected Cue: " Width="89" Foreground="White" RenderTransformOrigin="0.429,-0.617" Grid.Row="2" Height="30" VerticalAlignment="Top"/>
-                <TextBox Name="SelectedQueTextBox" HorizontalAlignment="Left" Height="22" Margin="81,0,0,179" TextWrapping="Wrap" Text="Que Name" VerticalAlignment="Bottom" Width="262" Background="{x:Null}" BorderBrush="#FF090A0C" Foreground="White" Grid.Row="2" AcceptsReturn="True" TextChanged="QueText_Changed"/>
+                <TextBox Name="SelectedQueTextBox" HorizontalAlignment="Left" Height="22" Margin="81,0,0,179" TextWrapping="Wrap" Text="Que Name" VerticalAlignment="Bottom" Width="262" Background="{x:Null}" BorderBrush="#FF090A0C" Foreground="White" Grid.Row="2" AcceptsReturn="True" TextChanged="QueText_Changed" TabIndex="100"/>
                 <TextBlock HorizontalAlignment="Left" Margin="40,80,0,0" TextWrapping="Wrap" Text="Notes:" Width="44" Foreground="White"  Grid.Row="2" Height="30" VerticalAlignment="Top"/>
-                <TextBox Name="SelectedQueNotesTextBox" HorizontalAlignment="Left" Grid.Row ="2" Height="75" Margin="81,80,0,0" TextWrapping="Wrap" Text="Que Notes" VerticalAlignment="Top" Width="262" MaxLines="50" Foreground="White" Background="{x:Null}" BorderBrush="Black" AcceptsReturn="True" TextChanged="QueText_Changed"/>
+                <TextBox Name="SelectedQueNotesTextBox" HorizontalAlignment="Left" Grid.Row ="2" Height="75" Margin="81,80,0,0" TextWrapping="Wrap" Text="Que Notes" VerticalAlignment="Top" Width="262" MaxLines="50" Foreground="White" Background="{x:Null}" BorderBrush="Black" AcceptsReturn="True" TextChanged="QueText_Changed" TabIndex="102"/>
 
                 <Viewbox  HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="80,0,0,0" Height="65" Width="65" Grid.Row="2">
                     <RadioButton Name ="RB0" Tag="0" Click="JSSelecterRB_Clicked"  />
@@ -207,7 +207,7 @@
 
                 <TextBlock HorizontalAlignment="Left" Height="30" Margin="28,160,0,0" TextWrapping="Wrap" Text="JoyStick:" VerticalAlignment="Top" Width="78" Foreground="White"  Grid.Row="2"/>
                 <TextBlock HorizontalAlignment="Left" Height="30" Margin="34,50,0,0" TextWrapping="Wrap" Text="Sort ID:" VerticalAlignment="Top" Width="90" Foreground="White"  Grid.Row="2"/>
-                <TextBox Name="SelectedQueSortIDTextBox" HorizontalAlignment="Left" Height="22" Margin="81,50,0,0" TextWrapping="Wrap" Text="Sorting Order ID" VerticalAlignment="Top" Width="262" Background="{x:Null}" Foreground="White" BorderBrush="Black" Grid.Row="2" TextChanged="QueText_Changed"/>
+                <TextBox Name="SelectedQueSortIDTextBox" HorizontalAlignment="Left" Height="22" Margin="81,50,0,0" TextWrapping="Wrap" Text="Sorting Order ID" VerticalAlignment="Top" Width="262" Background="{x:Null}" Foreground="White" BorderBrush="Black" Grid.Row="2" TextChanged="QueText_Changed" TabIndex="101"/>
                 <Button Name="SaveQueButton" Content="Save Cue"  Grid.Row ="3" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Background="Black" Foreground="White" FontSize="16" ClickMode="Press" BorderBrush="White" Click="GenerateQueButton_Clicked" Margin="0,0,0,0" Height="39" />
 
             </Grid>
@@ -272,7 +272,7 @@
                     </TransformGroup>
                 </Slider.RenderTransform>
             </Slider>
-            <Slider Name="Slider2V" HorizontalAlignment="Left" Height="31" Margin="191,60,0,0" VerticalAlignment="Top" Width="127" RenderTransformOrigin="0.6,0.75" Grid.ColumnSpan="3" Grid.Column="2">
+            <Slider Name="Slider2V" HorizontalAlignment="Left" Height="31" Margin="191,60,0,0" VerticalAlignment="Top" Width="127" RenderTransformOrigin="0.6,0.75" Grid.ColumnSpan="3" Grid.Column="2" Maximum="100" Minimum="-100">
                 <Slider.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -305,7 +305,7 @@
             <Slider Name="Slider3H" Grid.Column="4" HorizontalAlignment="Left" Height="29" Margin="43,10,0,0" VerticalAlignment="Top" Width="185" Maximum="100" Minimum="-100"/>
             <Slider Name="Slider4H" Grid.Column="6" HorizontalAlignment="Left" Height="29" Margin="48,10,0,0" VerticalAlignment="Top" Width="185" Maximum="100" Minimum="-100"/>
             <Slider Name="Slider2H" Grid.Column="2" HorizontalAlignment="Left" Height="29" Margin="44,10,0,0" VerticalAlignment="Top" Width="185" RenderTransformOrigin="0.524,0.759" Maximum="100" Minimum="-100"/>
-            <Slider Name="Slider1H" HorizontalAlignment="Left" Height="29" Margin="39,10,0,0" VerticalAlignment="Top" Width="185" Maximum="100" Minimum="-100"/>
+            <Slider Name="Slider1H" Grid.Column="0" Margin="39,10,0,0" VerticalAlignment="Top" Width="185" Maximum="100" Minimum="-100"/>
         </Grid>
 
 

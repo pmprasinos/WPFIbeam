@@ -254,14 +254,14 @@ namespace AdsWriter
             { modeDecel = value; if (Connected) Mom.WriteAny(ModeDecelAddr, int.Parse(value.ToString())); }
         }
 
-        private int IsLiveAddr { get; set; }
+  
         private int isLive;
         public int IsLive
         {
             get
             { return isLive; }
             set
-            { isLive = value; if (Connected) Mom.WriteAny(IsLiveAddr, int.Parse(value.ToString())); }
+            { isLive = value;  }
         }
 
 

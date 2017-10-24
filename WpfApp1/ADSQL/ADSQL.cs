@@ -14,7 +14,7 @@ public partial class ADSQL
     //  public static ADSClient Mom = new ADSClient("10.99.1.1.1.1", true, 20);
     static string MomConStr = "data source = MOM0\\MOMSQL; initial catalog = MomSQL; MultipleActiveResultSets = True; user id = pprasinos; password = Wyman123-;";
 
-    public static bool SqlWriteAxis(int axisNumber, string columnName, object newValue, bool ignoreException = false, string queName = "")
+    public static bool SqlWriteAxis(int axisNumber, string columnName, object newValue, bool ignoreException = false,  string queName = "")
     {
         Stopwatch st = Stopwatch.StartNew();
 
@@ -55,6 +55,7 @@ public partial class ADSQL
                     case ("FAULTCODE"):
                         cmd = new SqlCommand("Update MomSQL..Axis set FaultCode = @newValue Where AxisNumber = @axisNumber", MomCon);
                         break;
+                   
 
                     default:
                         return false;

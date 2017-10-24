@@ -20,7 +20,7 @@ namespace CustomControl
 {
     public partial class AxisControl : System.Windows.Controls.UserControl
     {
-        public UpdateSourceTrigger UpdateSourceTrigger { get; set; }
+        //public UpdateSourceTrigger UpdateSourceTrigger { get; set; }
         protected bool isDragging;
         private Point clickPosition;
         public bool queControl;
@@ -36,7 +36,7 @@ namespace CustomControl
             this.AssignedJoyStick = -1;
            
             //DataContext = this;
-            this.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            //this.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             //this.ShadeRectangle_Selected.Visibility = Visibility.Hidden;
             this.MouseLeftButtonDown += new MouseButtonEventHandler(Control_MouseLeftButtonDown);
             this.MouseLeftButtonUp += new MouseButtonEventHandler(Control_MouseLeftButtonUp);
@@ -95,10 +95,6 @@ namespace CustomControl
             if (sender == draggable) draggable.ReleaseMouseCapture();
 
             DraggedPosition = new Point(0, 0);
-
-
-
-
             CheckClick(sender, e);
 
         }
@@ -181,7 +177,7 @@ namespace CustomControl
         public int Acceleration
         {
             get { return (int)GetValue(AccelerationProperty); }
-            set { ADSQL.SqlWriteAxis(AxisNumber, "ACCELERATION", value); SetValue(AccelerationProperty, value); }
+            set {  SetValue(AccelerationProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Acceleration.  This enables animation, styling, binding, etc...
@@ -194,7 +190,7 @@ namespace CustomControl
         public int Deceleration
         {
             get { return (int)GetValue(DecelerationProperty); }
-            set { ADSQL.SqlWriteAxis(AxisNumber, "DECELERATION", value); SetValue(DecelerationProperty, value); }
+            set {  SetValue(DecelerationProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Deceleration.  This enables animation, styling, binding, etc...
@@ -207,7 +203,7 @@ namespace CustomControl
         public int Velocity
         {
             get { return (int)GetValue(VelocityProperty); }
-            set { ADSQL.SqlWriteAxis(AxisNumber, "VELOCITY", value); SetValue(VelocityProperty, value); }
+            set {  SetValue(VelocityProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Velocity.  This enables animation, styling, binding, etc...
@@ -238,10 +234,6 @@ namespace CustomControl
         // Using a DependencyProperty as the backing store for TextSize.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TextSizeProperty =
             DependencyProperty.Register("TextSize", typeof(int), typeof(AxisControl), new PropertyMetadata(0));
-
-
-
-
 
         public bool LiveValues
         {
@@ -304,12 +296,12 @@ namespace CustomControl
 
         private void AxisControlTextBox_LostKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-            this.HasKeyBoardFocus = false;
+           // this.HasKeyBoardFocus = false;
             System.Windows.Controls.TextBox t = (System.Windows.Controls.TextBox)sender;
 
             if (SelectedQue != "" && SelectedQue != null)
             {
-                ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text, false, SelectedQue);
+             //   ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text);
             }
             else
             {
@@ -321,12 +313,12 @@ namespace CustomControl
 
         private void AxisControlTextBox_LostKeyboardFocus(object sender, RoutedEventArgs e)
         {
-            this.HasKeyBoardFocus = false;
+          //  this.HasKeyBoardFocus = false;
             System.Windows.Controls.TextBox t = (System.Windows.Controls.TextBox)sender;
            
             if(SelectedQue != "" && SelectedQue !=null)
             {
-                ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text, false, SelectedQue);
+              //  ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text);
             }
             else
             {
@@ -418,8 +410,7 @@ namespace CustomControl
             if (e.Key == Key.Enter )
             {
                 if (SelectedQue != "" && SelectedQue != null)
-                {
-                    ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text, false, SelectedQue);
+                {            
                 }
                 else
                 {

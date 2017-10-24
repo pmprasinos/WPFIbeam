@@ -84,7 +84,7 @@ namespace WpfApp1 {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Automater_QA;component/joystickselecter.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Automater_QA1;component/joystickselecter.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\JoyStickSelecter.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
