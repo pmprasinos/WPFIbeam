@@ -9,7 +9,7 @@
         xmlns:ddes="http://schemas.devdept.com/winfx/2008/xaml/control" xmlns:ddgr="http://schemas.devdept.com/winfx/2008/xaml/graphics" x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
         WindowStyle ="None"
-        Title="MainWindow"  Loaded="FullScreen" PreviewMouseDown="viewportLayout1_OnPreviewMouseDown"  AllowsTransparency="True" d:DesignWidth="1080" d:DesignHeight="1920" >
+        Title="MainWindow"  Loaded="FullScreen"  AllowsTransparency="True" d:DesignWidth="1080" d:DesignHeight="1920" >
     <Window.Resources>
 
         <Style x:Key="myHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
@@ -63,7 +63,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="11"/>
-            <RowDefinition Height="1000"/>
+            <RowDefinition Height="1400"/>
             <RowDefinition Height="11"/>
             <RowDefinition Height="142"/>
             <RowDefinition Height="11"/>
@@ -79,50 +79,6 @@
                     <BlurEffect Radius="10"/>
                 </Rectangle.Effect>
             </Rectangle>
-            <ddes:ViewportLayout x:Name="viewPortLayout1" HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch" HideSmall="True" Loaded="ViewPortLayout1_OnLoad" PreviewMouseDown="viewportLayout1_OnPreviewMouseDown" SelectionChanged="viewportLayout1_SelectionChanged" Panel.ZIndex="1" ShowFps="True">
-                <ddes:ViewportLayout.ProgressBar>
-                    <ddes:ProgressBar Lighting="False"/>
-                </ddes:ViewportLayout.ProgressBar>
-
-                <ddes:ViewportLayout.Viewports>
-                    <ddes:Viewport DisplayMode="Rendered" InitialView="Other">
-                        <ddes:Viewport.Background>
-                            <ddgr:BackgroundSettings BottomColor="#FF434752" StyleMode="LinearGradient" TopColor="#FF222329"/>
-                        </ddes:Viewport.Background>
-                        <ddes:Viewport.CoordinateSystemIcon>
-                            <ddes:CoordinateSystemIcon Lighting="False" Visibility="Hidden"/>
-                        </ddes:Viewport.CoordinateSystemIcon>
-                        <ddes:Viewport.Camera>
-                            <ddes:Camera Distance="600" ProjectionMode="Perspective" Rotation="0.0868240888334652, 0.150383733180435, 0.492403876506104, 0.852868531952443" Target="0, 0, 50" ZoomFactor="2"/>
-                        </ddes:Viewport.Camera>
-                        <ddes:Viewport.Grids>
-                            <ddes:Grid ColorAxisY="#7F202020" ColorAxisX="#7F202020" Lighting="False" MajorLineColor="#7F5A5A5A" MajorLinesEvery="5" Step="5" Visible="False"/>
-                        </ddes:Viewport.Grids>
-                        <ddes:Viewport.OriginSymbol>
-                            <ddes:OriginSymbol Lighting="False" Visibility="Hidden"/>
-                        </ddes:Viewport.OriginSymbol>
-                        <ddes:Viewport.Rotate>
-                            <ddes:RotateSettings Enabled="True"/>
-                        </ddes:Viewport.Rotate>
-                        <ddes:Viewport.ToolBar>
-                            <ddes:ToolBar>
-                                <ddes:ToolBar.Buttons>
-                                    <ddes:HomeToolBarButton/>
-                                    <ddes:MagnifyingGlassToolBarButton/>
-                                    <ddes:ZoomWindowToolBarButton/>
-                                    <ddes:ZoomToolBarButton/>
-                                    <ddes:PanToolBarButton/>
-                                    <ddes:RotateToolBarButton/>
-                                    <ddes:ZoomFitToolBarButton/>
-                                </ddes:ToolBar.Buttons>
-                            </ddes:ToolBar>
-                        </ddes:Viewport.ToolBar>
-                        <ddes:Viewport.ViewCubeIcon>
-                            <ddes:ViewCubeIcon Lighting="False"/>
-                        </ddes:Viewport.ViewCubeIcon>
-                    </ddes:Viewport>
-                </ddes:ViewportLayout.Viewports>
-            </ddes:ViewportLayout>
             <Label x:Name="ModeLabel" Content="Simulation Mode Active" HorizontalAlignment="Left" Height="481" Margin="22,23,0,0" VerticalAlignment="Top" Width="419" Foreground="#FF272727" Panel.ZIndex="100" FontSize="24"/>
             <Button x:Name="SafteyResetButton" Content="Reset Saftey" HorizontalAlignment="Left" Height="74" Margin="347,23,0,0" VerticalAlignment="Top" Width="240" Background="#FF742F2F" BorderBrush="{x:Null}" BorderThickness="3" Foreground="Black" Panel.ZIndex="100" Opacity="0.2" FontSize="24" FontWeight="Bold" Click="ResetSaftey" Visibility="Hidden">
                 <Button.Effect>
@@ -170,7 +126,7 @@
                     <TextBlock HorizontalAlignment="Left" Height="28" Margin="187,2,0,0" TextWrapping="Wrap" Text="Jog Speed(mm/s):" VerticalAlignment="Top" Width="130" TextAlignment="Center" FontSize="16" />
                     <TextBox Name ="JogAccelTextBox" HorizontalAlignment="Left" Height="28" Margin="194,0,0,0" TextWrapping="Wrap" Text="2" VerticalAlignment="Top" Width="48" FontSize="16" Grid.Column="1"/>
                     <TextBlock HorizontalAlignment="Left" Visibility ="Hidden" Height="28" Margin="90,2,0,0" TextWrapping="Wrap" Text="Jog Accel(s):" VerticalAlignment="Top" Width="104" TextAlignment="Center" FontSize="16" Grid.Column="1" />
-                    <Button x:Name="QueModeButton" Grid.Row ="0" Content="Toggle Que Mode" HorizontalAlignment="Left" Margin="10,-2,0,2" VerticalAlignment="Stretch" Width="164" Click="QueModeButton_Click" Visibility="Visible"/>
+                    <Button x:Name="QueModeButton" Grid.Row ="0" Content="Switch to Que Mode" HorizontalAlignment="Left" Margin="10,-2,0,2" VerticalAlignment="Stretch" Width="164" Click="QueModeButton_Click" Visibility="Visible"/>
                 </Grid>
 
 

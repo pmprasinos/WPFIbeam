@@ -20,14 +20,14 @@ namespace WpfApp1
             if (this.DoHandle)
             {
                 //Handling the exception within the UnhandledException handler.
-                MessageBox.Show(e.Exception.Message, "Exception Caught",
-                                        MessageBoxButton.OK, MessageBoxImage.Error);
+             //   MessageBox.Show(e.Exception.Message, "Exception Caught",
+              //                          MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Handled = true;
             }
             else
             {
                 //If you do not set e.Handled to true, the application will close due to crash.
-                MessageBox.Show("Application is going to close! ", "Uncaught Exception");
+               // MessageBox.Show("Application is going to close! ", "Uncaught Exception");
                 e.Handled = false;
                 MainWindow.Close();
             }

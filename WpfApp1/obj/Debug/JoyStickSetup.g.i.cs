@@ -52,7 +52,7 @@ namespace WpfApp1 {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Automater_QA1;component/joysticksetup.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Automater;component/joysticksetup.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\JoyStickSetup.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

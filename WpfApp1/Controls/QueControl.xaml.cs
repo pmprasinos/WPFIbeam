@@ -86,6 +86,10 @@ namespace CustomControl
                     using (SqlCommand CMD = new SqlCommand(cmdstr, MomCon))
                     {
                         CMD.Parameters.AddWithValue("@QueName", this.QueName);
+                        try
+                        {
+
+               
                         MomCon.Open();
                         if (!this.IsAxis) CMD.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = CMD.ExecuteReader())
@@ -106,6 +110,10 @@ namespace CustomControl
 
                         }
                         MomCon.Close();
+                        }catch
+                        {
+                            QueNameTextBox.Clear(); NotesTextBox.Clear(); AxisQuantityTextBox.Clear(); this.IsActive = false;
+                        }
                     }
                 }
 

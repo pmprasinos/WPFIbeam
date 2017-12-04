@@ -12,7 +12,7 @@ public partial class ADSQL
 {
 
     //  public static ADSClient Mom = new ADSClient("10.99.1.1.1.1", true, 20);
-    static string MomConStr = "data source = MOM0\\MOMSQL; initial catalog = MomSQL; MultipleActiveResultSets = True; user id = pprasinos; password = Wyman123-;";
+    static string MomConStr = "data source = MOM0\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; MultipleActiveResultSets = True; user id = pprasinos; password = Wyman123-;";
 
     public static bool SqlWriteAxis(int axisNumber, string columnName, object newValue, bool ignoreException = false,  string queName = "")
     {
@@ -20,11 +20,11 @@ public partial class ADSQL
 
         try
         {
-            using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+            using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
             {
 
                 SqlCommand cmd = new SqlCommand("Update MomSQL..Axis set targetPositon = @newValue Where AxisNumber = @axisNumber", MomCon);
-
+                cmd.CommandTimeout = 500;
                 switch (columnName.ToUpper())
                 {
                     case ("TARGETPOSITION"):
@@ -72,6 +72,7 @@ public partial class ADSQL
 
                 if (queName != null && queName != "")
                 {
+                    
                     cmd.ExecuteNonQuery();
                     cmd = new SqlCommand("Update momsql..ques set " + columnName + " = @newValue Where QueName = @QueName and AxisNum = @AxisNumber", MomCon);
                     cmd.Parameters.AddWithValue("@newValue", newValue);
@@ -96,13 +97,13 @@ public partial class ADSQL
         {
             using (SqlCommand acmd = new SqlCommand("momsql.dbo.ExeCuteQue", MomCon))
             {
+                acmd.CommandTimeout = 500;
                 acmd.CommandType = CommandType.StoredProcedure;
                 acmd.Parameters.AddWithValue("@QueName", QueName);
                 acmd.Parameters.AddWithValue("@TrimFactor", TrimFactor);
                 MomCon.Open();
                 acmd.ExecuteNonQuery();
                 MomCon.Close();
-            
             }
         }
     }
@@ -113,6 +114,7 @@ public partial class ADSQL
         {
             using (SqlCommand acmd = new SqlCommand("momsql.dbo.ExeCuteJog", MomCon))
             {
+                acmd.CommandTimeout = 500;
                 acmd.CommandType = CommandType.StoredProcedure;
                 acmd.Parameters.AddWithValue("@AxisName", AxisName);
                 acmd.Parameters.AddWithValue("@TrimFactor", TrimFactor);
@@ -122,8 +124,6 @@ public partial class ADSQL
                 MomCon.Open();
                 int j = acmd.ExecuteNonQuery();
                 return j == 1;
-                MomCon.Close();
-
             }
         }
     }
@@ -134,13 +134,14 @@ public partial class ADSQL
         {
             using (SqlCommand acmd = new SqlCommand("momsql.dbo.QueWatchDog", MomCon))
             {
+                acmd.CommandTimeout = 500;
                 acmd.CommandType = CommandType.StoredProcedure;
                 acmd.Parameters.AddWithValue("@QueName", queName);
                 acmd.Parameters.AddWithValue("@TrimFactor", TrimFactor);
                 MomCon.Open();
-
-                return acmd.ExecuteNonQuery();
+                int j = acmd.ExecuteNonQuery();
                 MomCon.Close();
+                return j;
             }
         }
     }
@@ -148,63 +149,59 @@ public partial class ADSQL
     public static object SqlReadAxis(int axisNumber, string columnName, bool ignoreException = false)
     {
         Stopwatch st = Stopwatch.StartNew();
-        using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+        using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL;   Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
         {
             try
             {
-
                 SqlCommand cmd = new SqlCommand("Select * from MomSQL..Axis Where AxisNumber = @axisNumber", MomCon);
                 cmd.Parameters.AddWithValue("@axisNumber", axisNumber);
-
+                cmd.CommandTimeout = 500;
                 if (MomCon.State == ConnectionState.Closed) MomCon.Open();
                 using (SqlDataReader s = cmd.ExecuteReader())
                 {
                     s.Read();
                     return s[columnName];
                 }
-
             }
-            catch (SqlException)
+            catch (SqlException e)
             {
-                if (!ignoreException) throw; else return false;
-            }
-            finally
-            {
-                // Debug.Print(columnName + "   " + axisNumber.ToString() + "    " + st.ElapsedMilliseconds.ToString());
-                MomCon.Close();
+                if (e.ErrorCode == -2146232060) return null;
+                return false;
             }
         }
-
-
     }
 
     public static object SqlReadQue(String QueName, string columnName, bool ignoreException = false)
     {
         Stopwatch st = Stopwatch.StartNew();
-        using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+        using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
         {
             try
             {
                 using (SqlCommand cmd = new SqlCommand("Select * from MomSQL..Ques Where QueName = @queName", MomCon))
                 {
+                    cmd.CommandTimeout = 500;
                     cmd.Parameters.AddWithValue("@QueName", QueName);
                     MomCon.Open();
                     using (SqlDataReader s = cmd.ExecuteReader())
                     {
                         s.Read();
-                        if (s[columnName].ToString() == "") return "";
+                        if (s[columnName].ToString() == "")
+                        {
+                            return "";
+                        }
                         return s[columnName];
                     }
-
+                    
                 }
             }
-            catch (SqlException)
+            catch (System.Data.SqlClient.SqlException e)
             {
-                if (!ignoreException) throw; else return false;
+                if (e.ErrorCode == -2146232060) return null;
+                 else return false;
             }
-            finally { MomCon.Close(); }
 
-            }
+        }
     }
 }
 

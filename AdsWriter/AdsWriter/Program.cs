@@ -28,7 +28,8 @@ namespace AdsWriter
             public static void Main(string[] args)
         {
             Console.WriteLine("VERSION 6");
-           
+            Mom = new ADSClient(new TwinCAT.Ads.AmsAddress("10.4.1.55.1.1", 851).NetId.ToString(), 4);
+           var jg = Mom.Client.ReadAny(Mom.Client.CreateVariableHandle("MAIN.Kid[1].Load"), typeof(int));
             bool[] isActive = new bool[6];
                 int[] DeadCounter = new int[6];
                
@@ -40,16 +41,17 @@ namespace AdsWriter
                 tSaftey.Elapsed += new System.Timers.ElapsedEventHandler(tSaftey_Tick);
                 tSaftey.Interval = 300; 
 
+
                 int InstanceCount = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length;
-                        if (InstanceCount > 2) return;
-                             
-                     
+                if (InstanceCount > 2) return;
+
+
                 if (InstanceCount > 1) do { InstanceCount = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length; Thread.Sleep(200); } while (InstanceCount > 1);
 
                 if (InstanceCount > 1) Thread.Sleep(5000);
                 Console.Write("STARTING CONNECTION TO MOM...");
 
-                Mom = new ADSClient(new TwinCAT.Ads.AmsAddress("10.99.1.1.1.1", 851).NetId.ToString(), 6);
+                Mom = new ADSClient(new TwinCAT.Ads.AmsAddress("10.4.1.55", 851).NetId.ToString(), 6);
                 tSaftey.Start();
                 Console.Write("DONE");
                 System.Timers.Timer tSlow = new System.Timers.Timer();
@@ -141,8 +143,8 @@ namespace AdsWriter
             {
                 if (GlobalEstop)
                 {
-                    Mom.WriteValue(Mom.GlobalEstop, true);
-                    Console.WriteLine("ESTOPACTIVATED");
+                   // Mom.WriteValue(Mom.GlobalEstop, true);
+                    //Console.WriteLine("ESTOPACTIVATED");
                     ((System.Timers.Timer)myObject).Interval = 300;
                 }
                 else
@@ -157,7 +159,7 @@ namespace AdsWriter
             {
                 
                 GlobalEstop = (int)Mom.ReadValue(Mom.GlobalEstop) > 0;
-                if (GlobalEstop) ADSQL.SqlWrite("UPDATE MOMSQL..AXIS SET FAULTED = 1 where AxisNumber = 1");
+            //    if (GlobalEstop) ADSQL.SqlWrite("UPDATE MOMSQL..AXIS SET FAULTED = 1 where AxisNumber = 1");
             }
             Thread.Sleep(2);
             s = Convert.ToInt16(ADSQL.SqlRead("SELECT FaultCode From Axis Where AxisNumber = 1"));

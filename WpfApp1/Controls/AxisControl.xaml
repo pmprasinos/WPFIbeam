@@ -65,37 +65,37 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="8" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                
-                      
+                        <RowDefinition Height="13*" />
+                        <RowDefinition Height="13*" />
+                        <RowDefinition Height="13*" />
+                        <RowDefinition Height="13*" />
+                        <RowDefinition Height="13*" />
+                        <RowDefinition Height="13*" />
+                        <RowDefinition Height="13*" />
+                        <RowDefinition Height="12*" />
+
+
                     </Grid.RowDefinitions>
 
 
-                    <TextBox x:Name ="TargetPositionTextBox" Tag="TargetPosition" Text="{Binding TargetPosition}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="7" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}" BorderBrush="{x:Null}"  Foreground="White" GotKeyboardFocus="AxisControlTextBox_GotKeyboardFocus" LostKeyboardFocus="AxisControlTextBox_LostKeyboardFocus" KeyDown="AxisTextbox_KeyDown"   />
+                    <TextBox x:Name ="TargetPositionTextBox" Tag="TargetPosition" Text="{Binding TargetPosition}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"  Grid.Row="7" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"  Background="{x:Null}" BorderBrush="{x:Null}"  Foreground="White" GotKeyboardFocus="AxisControlTextBox_GotKeyboardFocus" LostKeyboardFocus="AxisControlTextBox_LostKeyboardFocus" KeyDown="AxisTextbox_KeyDown"   />
 
 
-                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="Axis:" Grid.Row="1" TextAlignment="Right"  />
-                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   Text="Status:" Grid.Row="2" TextAlignment="Right" />
-                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   Text="CurrentPosition:" Grid.Row="3" TextAlignment="Right"  />
-                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Text="Max Speed:" Grid.Row="4" TextAlignment="Right"  />
-                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Text="Acceleration:" Grid.Row="5" TextAlignment="Right"  />
-                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"    Text="Deceleration" Grid.Row="6" TextAlignment="Right"  />
-                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"    Text="TargetPosition:" Grid.Row="7" TextAlignment="Right"  />
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Text="Axis:" Grid.Row="1" TextAlignment="Right"  />
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Bottom"   Text="Status:" Grid.Row="2" TextAlignment="Right" />
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Bottom"   Text="CurrentPosition:" Grid.Row="3" TextAlignment="Right"  />
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Text="Max Speed:" Grid.Row="4" TextAlignment="Right"  />
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Text="Acceleration:" Grid.Row="5" TextAlignment="Right"  />
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Bottom"    Text="Deceleration" Grid.Row="6" TextAlignment="Right"  />
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Bottom"    Text="TargetPosition:" Grid.Row="7" TextAlignment="Right"  />
 
 
-                    <TextBox x:Name="AxisNameTextBox" Tag="AxisName" Text="{Binding AxisName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="1" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"   Foreground="White" IsEnabled="False"  />
-                    <TextBox x:Name ="AxisStatusTextBox"  Text="{Binding AxisStatus, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="2" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"    Foreground="White" IsEnabled="False"  />
-                    <TextBox x:Name ="CurrentPositionTextBox" Text="{Binding CurrentPosition, UpdateSourceTrigger=Explicit}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="3" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"     Foreground="White" IsEnabled="False"  />
-                    <TextBox x:Name ="VelocityTextBox"  Tag="Velocity" Text="{Binding Velocity, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="4" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"    Foreground="White" GotKeyboardFocus="AxisControlTextBox_GotKeyboardFocus" LostFocus="AxisControlTextBox_LostKeyboardFocus" KeyDown="AxisTextbox_KeyDown"   />
-                    <TextBox x:Name ="AccelTextBox"  Tag="Acceleration" Text="{Binding Acceleration, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="5" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"    Foreground="White" GotKeyboardFocus="AxisControlTextBox_GotKeyboardFocus" LostKeyboardFocus="AxisControlTextBox_LostKeyboardFocus" KeyDown="AxisTextbox_KeyDown"   />
-                    <TextBox x:Name ="DecelTextBox" Tag="Deceleration" Text="{Binding Deceleration, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="6" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"   Foreground="White" GotKeyboardFocus="AxisControlTextBox_GotKeyboardFocus" LostKeyboardFocus="AxisControlTextBox_LostKeyboardFocus" KeyDown="AxisTextbox_KeyDown"   />
+                    <TextBox x:Name="AxisNameTextBox" Tag="AxisName" Text="{Binding AxisName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"  Grid.Row="1" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"   Foreground="White" IsEnabled="False"  />
+                    <TextBox x:Name ="AxisStatusTextBox"  Visibility="Hidden" Text="{Binding AxisStatus, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch"  Grid.Row="2" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"    Foreground="White" IsEnabled="False"  />
+                    <TextBox x:Name ="CurrentPositionTextBox" Text="{Binding CurrentPosition, UpdateSourceTrigger=Explicit}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"  Grid.Row="3" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"     Foreground="White" IsEnabled="False"  />
+                    <TextBox x:Name ="VelocityTextBox"  Tag="Velocity" Text="{Binding Velocity, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"  Grid.Row="4" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"    Foreground="White" GotKeyboardFocus="AxisControlTextBox_GotKeyboardFocus" LostFocus="AxisControlTextBox_LostKeyboardFocus" KeyDown="AxisTextbox_KeyDown"   />
+                    <TextBox x:Name ="AccelTextBox"  Tag="Acceleration" Text="{Binding Acceleration, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"  Grid.Row="5" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"    Foreground="White" GotKeyboardFocus="AxisControlTextBox_GotKeyboardFocus" LostKeyboardFocus="AxisControlTextBox_LostKeyboardFocus" KeyDown="AxisTextbox_KeyDown"   />
+                    <TextBox x:Name ="DecelTextBox" Tag="Deceleration" Text="{Binding Deceleration, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"  Grid.Row="6" Grid.Column="2" TextAlignment="Left" VerticalContentAlignment="Center"   Foreground="White" GotKeyboardFocus="AxisControlTextBox_GotKeyboardFocus" LostKeyboardFocus="AxisControlTextBox_LostKeyboardFocus" KeyDown="AxisTextbox_KeyDown"   />
                     <Button Name="RemoveButton" Content="Remove from Cue" HorizontalAlignment="Stretch"  Margin="30,-2,50,5" Grid.Row="8" Grid.RowSpan="1" VerticalAlignment="Stretch"  Grid.ColumnSpan="3" Style="{StaticResource RoundedButtonStyle}" Click="RemoveButton_Click"  Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" Visibility="Hidden" />
 
                 </Grid>

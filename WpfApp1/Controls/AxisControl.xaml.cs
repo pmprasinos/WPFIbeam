@@ -235,13 +235,6 @@ namespace CustomControl
         public static readonly DependencyProperty TextSizeProperty =
             DependencyProperty.Register("TextSize", typeof(int), typeof(AxisControl), new PropertyMetadata(0));
 
-        public bool LiveValues
-        {
-            get { return bool.Parse(GetValue(LiveValuesProperty).ToString()); }
-            set { SetValue(LiveValuesProperty, value); }
-        }
-        public static readonly DependencyProperty LiveValuesProperty =
-          DependencyProperty.Register("LiveValues", typeof(bool), typeof(AxisControl));
 
         // Using a DependencyProperty as the backing store for LiveValues.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsSelectedProperty =
@@ -273,16 +266,23 @@ namespace CustomControl
             set
             {
                 bool y = bool.Parse(value.ToString());
-                SetValue(IsActiveProperty, bool.Parse(value.ToString()));
-                using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+                try { 
+                using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
                 {
                     SqlCommand cmd = new SqlCommand("UPDATE MOMSQL..AXIS SET IsActive = 0 where AxisName = @AxisName", MomCon);
                     if (y) cmd.CommandText = "UPDATE MOMSQL..AXIS SET IsActive = 1 where AxisName = @AxisName";
+                        cmd.CommandTimeout = 500;
                     cmd.Parameters.AddWithValue("@AxisName", this.AxisNameTextBox.Text);
                     MomCon.Open();
-                    cmd.ExecuteNonQuery();
+                        SetValue(IsActiveProperty, bool.Parse(value.ToString()));
+                        cmd.ExecuteNonQuery();
                     MomCon.Close();
                 }
+                } catch
+                {
+                    SetValue(IsActiveProperty, false);
+                }
+                
             }
         }
         // Using a DependencyProperty as the backing store for LiveValues.  This enables animation, styling, binding, etc...
@@ -305,7 +305,7 @@ namespace CustomControl
             }
             else
             {
-                ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text);
+               // ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text);
             }
 
 
@@ -322,7 +322,7 @@ namespace CustomControl
             }
             else
             {
-                ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text);
+               // ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text);
             }               
            
         }
@@ -353,32 +353,26 @@ namespace CustomControl
             if (isDragging) return;
         }
 
-        public void PushSelection()
-        {
-            using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
-            {
-                using (SqlCommand CMD = new SqlCommand("Update momsql..axis set isselected = @IsSelected where AxisName = @AxisName", MomCon))
-                {
-                    CMD.Parameters.AddWithValue("@AxisName", this.AxisNameTextBox.Text);
-                    CMD.Parameters.AddWithValue("@IsSelected", this.IsSelected);
-                    MomCon.Open();
-                    CMD.ExecuteNonQuery();
-                    MomCon.Close();
-                }
-            }
-        }
 
         public void PullSelection()
         {
-            using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+            using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
             {
-                using (SqlCommand CMD = new SqlCommand("Update momsql..axis set isselected = 1 where AxisName = @AxisName and IsSelected = 1", MomCon))
+                try
                 {
-                    CMD.Parameters.AddWithValue("@AxisName", this.AxisNameTextBox.Text);
-                    MomCon.Open();
-                    this.IsSelected = CMD.ExecuteNonQuery()>0;
-                    MomCon.Close();
+                    using (SqlCommand CMD = new SqlCommand("Update momsql..axis set isselected = 1 where AxisName = @AxisName and IsSelected = 1", MomCon))
+                    {
+                        CMD.CommandTimeout = 500;
+                        CMD.Parameters.AddWithValue("@AxisName", this.AxisNameTextBox.Text);
+                        MomCon.Open();
+                        this.IsSelected = CMD.ExecuteNonQuery() > 0;
+                        MomCon.Close();
+                    }
+                }catch
+                {
+                    this.IsSelected = false;
                 }
+                
             }
         }
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
@@ -388,10 +382,11 @@ namespace CustomControl
             {
                 System.Windows.MessageBoxResult g = MessageBox.Show("Are you sure you want to remove " + this.AxisNameTextBox.Text + " from the que: " + this.SelectedQue.ToString() + "?", "Remove Axis target from Que", MessageBoxButton.OKCancel);
                 if (g != MessageBoxResult.OK) return;
-                using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+                using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
                 {
                     using (SqlCommand CMD = new SqlCommand("Delete from momsql..Ques where AxisNum =@AxisNum and QueName = @QueName", MomCon))
                     {
+                        CMD.CommandTimeout = 500;
                         CMD.Parameters.AddWithValue("@AxisNum", this.AxisNumber);
                         CMD.Parameters.AddWithValue("@QueName", this.SelectedQue);
                         MomCon.Open();
@@ -414,7 +409,7 @@ namespace CustomControl
                 }
                 else
                 {
-                    ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text);
+                    //ADSQL.SqlWriteAxis(this.AxisNumber, t.Tag.ToString(), t.Text);
                 }
                 this.RemoveButton.Focus();
             }

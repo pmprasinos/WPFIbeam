@@ -160,27 +160,28 @@ namespace AdsWriter
 
         public AdsKid(TcAdsClient MOM, int KidIndex)
         {
+           
             LastPolled.Start();
             if (!Connected) try
                 {
                     this.Mom = MOM;
                     this.kidIndex = KidIndex;
-                    TargetPosAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].targetpos_FromMom_Raw");
-                    CurrentPosAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].HomedPosition_toMom");
-                    CurrentVelocityAddr = Mom.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].Speed");
-                    ModeVelAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].ModeVel_FromMom");
-                    ModeAccelAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].ModeAccel_FromMom");
-                    ModeDecelAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].ModeDecel_FromMom");
-                    DeadManPressedAddr = Mom.CreateVariableHandle("MAIN.Kid[" + KidIndex + "].RMT_DeadManPressed");
-                    ScalingIntAddr = Mom.CreateVariableHandle("MAIN.Kid[" + KidIndex + "].ScalingNumber");
-                    MomControlAddr = Mom.CreateVariableHandle("MAIN.Kid[" + KidIndex + "].CheckIn.MomControl");
-                    StatusWordAddr = Mom.CreateVariableHandle("MAIN.Kid[" + KidIndex + "].UpdateWord_ToMom");
+                  //  TargetPosAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].targetpos_FromMom_Raw");
+                   // CurrentPosAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].HomedPosition_toMom");
+                    //CurrentVelocityAddr = Mom.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].Speed");
+                    //ModeVelAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].ModeVel_FromMom");
+                    //ModeAccelAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].ModeAccel_FromMom");
+                    //ModeDecelAddr = MOM.CreateVariableHandle("MAIN.Kid[" + kidIndex + "].ModeDecel_FromMom");
+                    //DeadManPressedAddr = Mom.CreateVariableHandle("MAIN.Kid[" + KidIndex + "].RMT_DeadManPressed");
+                    //ScalingIntAddr = Mom.CreateVariableHandle("MAIN.Kid[" + KidIndex + "].ScalingNumber");
+                    //MomControlAddr = Mom.CreateVariableHandle("MAIN.Kid[" + KidIndex + "].CheckIn.MomControl");
+                    //StatusWordAddr = Mom.CreateVariableHandle("MAIN.Kid[" + KidIndex + "].UpdateWord_ToMom");
                     
-                    string checkStr = MOM.ReadAny(TargetPosAddr, typeof(int)).ToString();
+                    //string checkStr = MOM.ReadAny(TargetPosAddr, typeof(int)).ToString();
                     //  TcAdsSymbolInfoLoader tcl = MOM.CreateSymbolInfoLoader();
                     // TcAdsSymbolInfo tci = tcl.FindSymbol("MAIN.Kid[" + KidIndex + "].SCALINGINT");
-                    currentPosition = int.Parse(MOM.ReadAny(CurrentPosAddr, typeof(int)).ToString());
-                    targetPosition = currentPosition;
+                    //currentPosition = int.Parse(MOM.ReadAny(CurrentPosAddr, typeof(int)).ToString());
+                    //targetPosition = currentPosition;
                     Connected = true;
                 }
                 catch

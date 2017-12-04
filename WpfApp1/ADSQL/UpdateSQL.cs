@@ -30,7 +30,10 @@ namespace WpfApp1
                 }
 
             }
-            finally {  }
+            catch(SqlException e)
+            {
+                if (e.ErrorCode == -2146232060) return;
+            }
            
                 
         }

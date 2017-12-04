@@ -99,7 +99,7 @@ namespace CustomControl {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Automater_QA1;component/controls/quecontrol.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Automater;component/controls/quecontrol.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\Controls\QueControl.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
