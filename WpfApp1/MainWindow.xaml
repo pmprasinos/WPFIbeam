@@ -91,6 +91,7 @@
                 </Button.Effect>
             </Button>
             <Image x:Name="ErrorIcon"   Panel.ZIndex="180" ToolTip="" Height="112" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="118" PreviewKeyUp="ErrorIcon_PreviewKeyUp" MouseEnter="ErrorIcon_MouseEnter" MouseLeave="ErrorIcon_MouseLeave" Source="Resources/Error.png"/>
+            <Label x:Name="QueryStatusLabel" Content="Label" HorizontalAlignment="Left" Height="39" Margin="855,23,0,0" VerticalAlignment="Top" Width="198"/>
 
 
         </Grid>
@@ -114,7 +115,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30" />
+                        <RowDefinition Height="50" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
@@ -122,7 +123,7 @@
                     </Grid.RowDefinitions>
 
 
-                     <TextBox Name ="JogSpeedTextBox" HorizontalAlignment="Left" Height="28" Margin="322,2,0,0" TextWrapping="Wrap" Text="200" VerticalAlignment="Top" Width="55" FontSize="16" Grid.ColumnSpan="2"/>
+                    <TextBox Name ="JogSpeedTextBox" HorizontalAlignment="Left" Height="28" Margin="322,2,0,0" TextWrapping="Wrap" Text="200" VerticalAlignment="Top" Width="55" FontSize="16" Grid.ColumnSpan="2"/>
                     <TextBlock HorizontalAlignment="Left" Height="28" Margin="187,2,0,0" TextWrapping="Wrap" Text="Jog Speed(mm/s):" VerticalAlignment="Top" Width="130" TextAlignment="Center" FontSize="16" />
                     <TextBox Name ="JogAccelTextBox" HorizontalAlignment="Left" Height="28" Margin="194,0,0,0" TextWrapping="Wrap" Text="2" VerticalAlignment="Top" Width="48" FontSize="16" Grid.Column="1"/>
                     <TextBlock HorizontalAlignment="Left" Visibility ="Hidden" Height="28" Margin="90,2,0,0" TextWrapping="Wrap" Text="Jog Accel(s):" VerticalAlignment="Top" Width="104" TextAlignment="Center" FontSize="16" Grid.Column="1" />

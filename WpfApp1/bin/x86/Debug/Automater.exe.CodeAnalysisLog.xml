@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio\2017\community\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="15.0">
  <Targets>
-  <Target Name="C:\Users\Console\Desktop\WPFIbeam\WpfApp1\bin\x86\Debug\Automater.exe">
+  <Target Name="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\bin\x86\Debug\Automater.exe">
    <Modules>
     <Module Name="automater.exe">
      <Namespaces>
@@ -12,25 +12,25 @@
          <Members>
           <Member Name="#ExecuteQue(System.String,System.Int32)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-04 22:47:51Z" FixCategory="DependsOnFix">
-             <Issue Certainty="75" Level="Warning" Path="C:\Users\Console\Desktop\WPFIbeam\WpfApp1\ADSQL" File="ADSQL.cs" Line="108">Object 'MomCon' can be disposed more than once in method 'ADSQL.ExecuteQue(string, int)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 108</Issue>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\ADSQL" File="ADSQL.cs" Line="108">Object 'MomCon' can be disposed more than once in method 'ADSQL.ExecuteQue(string, int)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 108</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#QueWatchDog(System.String,System.Int32)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-04 22:47:51Z" FixCategory="DependsOnFix">
-             <Issue Certainty="75" Level="Warning" Path="C:\Users\Console\Desktop\WPFIbeam\WpfApp1\ADSQL" File="ADSQL.cs" Line="144">Object 'MomCon' can be disposed more than once in method 'ADSQL.QueWatchDog(string, int)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 144</Issue>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\ADSQL" File="ADSQL.cs" Line="144">Object 'MomCon' can be disposed more than once in method 'ADSQL.QueWatchDog(string, int)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 144</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#SqlWriteAxis(System.Int32,System.String,System.Object,System.Boolean,System.String)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2017-12-04 22:47:51Z" FixCategory="NonBreaking">
-             <Issue Certainty="95" Level="Error" Path="C:\Users\Console\Desktop\WPFIbeam\WpfApp1\ADSQL" File="ADSQL.cs" Line="87">'ADSQL.SqlWriteAxis(int, string, object, bool, string)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\ADSQL" File="ADSQL.cs" Line="87">'ADSQL.SqlWriteAxis(int, string, object, bool, string)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
             </Message>
-            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-12-04 22:47:51Z" FixCategory="DependsOnFix">
-             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\Users\Console\Desktop\WPFIbeam\WpfApp1\ADSQL" File="ADSQL.cs" Line="77">The query string passed to 'SqlCommand.SqlCommand(string, SqlConnection)' in 'ADSQL.SqlWriteAxis(int, string, object, bool, string)' could contain the following variables 'columnName'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\ADSQL" File="ADSQL.cs" Line="77">The query string passed to 'SqlCommand.SqlCommand(string, SqlConnection)' in 'ADSQL.SqlWriteAxis(int, string, object, bool, string)' could contain the following variables 'columnName'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
             </Message>
            </Messages>
           </Member>
@@ -46,8 +46,8 @@
            <Accessors>
             <Accessor Name="#set_IsActive(System.Boolean)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
              <Messages>
-              <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-04 22:47:51Z" FixCategory="DependsOnFix">
-               <Issue Certainty="75" Level="Warning" Path="C:\Users\Console\Desktop\WPFIbeam\WpfApp1\Controls" File="AxisControl.xaml.cs" Line="280">Object 'MomCon' can be disposed more than once in method 'AxisControl.IsActive.set(bool)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 280</Issue>
+              <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="DependsOnFix">
+               <Issue Certainty="75" Level="Warning" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\Controls" File="AxisControl.xaml.cs" Line="280">Object 'MomCon' can be disposed more than once in method 'AxisControl.IsActive.set(bool)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 280</Issue>
               </Message>
              </Messages>
             </Accessor>
@@ -55,15 +55,15 @@
           </Member>
           <Member Name="#PullSelection()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-04 22:47:51Z" FixCategory="DependsOnFix">
-             <Issue Certainty="75" Level="Warning" Path="C:\Users\Console\Desktop\WPFIbeam\WpfApp1\Controls" File="AxisControl.xaml.cs" Line="376">Object 'MomCon' can be disposed more than once in method 'AxisControl.PullSelection()'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 376</Issue>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\Controls" File="AxisControl.xaml.cs" Line="376">Object 'MomCon' can be disposed more than once in method 'AxisControl.PullSelection()'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 376</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#RemoveButton_Click(System.Object,System.Windows.RoutedEventArgs)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-04 22:47:51Z" FixCategory="DependsOnFix">
-             <Issue Certainty="75" Level="Warning" Path="C:\Users\Console\Desktop\WPFIbeam\WpfApp1\Controls" File="AxisControl.xaml.cs" Line="397">Object 'MomCon' can be disposed more than once in method 'AxisControl.RemoveButton_Click(object, RoutedEventArgs)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 397</Issue>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\Controls" File="AxisControl.xaml.cs" Line="397">Object 'MomCon' can be disposed more than once in method 'AxisControl.RemoveButton_Click(object, RoutedEventArgs)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 397</Issue>
             </Message>
            </Messages>
           </Member>
@@ -71,7 +71,7 @@
         </Type>
         <Type Name="QueControl" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Status="Active" Created="2017-12-04 22:47:51Z" FixCategory="DependsOnFix">
+          <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="DependsOnFix">
            <Issue Name="DependsOnFix" Certainty="95" Level="CriticalError">Implement IDisposable on 'QueControl' because it creates members of the following IDisposable types: 'DataTable'. If 'QueControl' has previously shipped, adding new members that implement IDisposable to this type is considered a breaking change to existing consumers.</Issue>
           </Message>
          </Messages>
@@ -80,8 +80,8 @@
            <Accessors>
             <Accessor Name="#set_QueName(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
              <Messages>
-              <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-04 22:47:51Z" FixCategory="DependsOnFix">
-               <Issue Certainty="75" Level="Warning" Path="C:\Users\Console\Desktop\WPFIbeam\WpfApp1\Controls" File="QueControl.xaml.cs" Line="118">Object 'MomCon' can be disposed more than once in method 'QueControl.QueName.set(string)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 118</Issue>
+              <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="DependsOnFix">
+               <Issue Certainty="75" Level="Warning" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\Controls" File="QueControl.xaml.cs" Line="118">Object 'MomCon' can be disposed more than once in method 'QueControl.QueName.set(string)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 118</Issue>
               </Message>
              </Messages>
             </Accessor>
@@ -95,36 +95,36 @@
        <Types>
         <Type Name="MainWindow" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Status="Active" Created="2017-12-04 22:47:51Z" FixCategory="DependsOnFix">
+          <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="DependsOnFix">
            <Issue Name="DependsOnFix" Certainty="95" Level="CriticalError">Implement IDisposable on 'MainWindow' because it creates members of the following IDisposable types: 'DataTable'. If 'MainWindow' has previously shipped, adding new members that implement IDisposable to this type is considered a breaking change to existing consumers.</Issue>
           </Message>
          </Messages>
          <Members>
           <Member Name="#GenerateQueButton_Clicked(System.Object,System.Windows.RoutedEventArgs)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-04 22:47:51Z" FixCategory="DependsOnFix">
-             <Issue Certainty="75" Level="Warning" Path="C:\Users\Console\Desktop\WPFIbeam\WpfApp1" File="MainWindow.xaml.cs" Line="714">Object 'MomCon' can be disposed more than once in method 'MainWindow.GenerateQueButton_Clicked(object, RoutedEventArgs)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 714, 742, 747</Issue>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1" File="MainWindow.xaml.cs" Line="718">Object 'MomCon' can be disposed more than once in method 'MainWindow.GenerateQueButton_Clicked(object, RoutedEventArgs)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 718, 746, 751</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#GetLastInputInfo(WpfApp1.MainWindow+LASTINPUTINFO&amp;)" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="MovePInvokesToNativeMethodsClass" Category="Microsoft.Design" CheckId="CA1060" Status="Active" Created="2017-12-04 22:47:51Z" FixCategory="Breaking">
+            <Message TypeName="MovePInvokesToNativeMethodsClass" Category="Microsoft.Design" CheckId="CA1060" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="Breaking">
              <Issue Certainty="95" Level="CriticalWarning">Because it is a P/Invoke method, 'MainWindow.GetLastInputInfo(ref MainWindow.LASTINPUTINFO)' should be defined in a class named NativeMethods, SafeNativeMethods, or UnsafeNativeMethods.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#QuesGrid_Update(System.Int32)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-04 22:47:51Z" FixCategory="DependsOnFix">
-             <Issue Certainty="75" Level="Warning" Path="C:\Users\Console\Desktop\WPFIbeam\WpfApp1" File="MainWindow.xaml.cs" Line="544">Object 'MomCon' can be disposed more than once in method 'MainWindow.QuesGrid_Update(int)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 544</Issue>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1" File="MainWindow.xaml.cs" Line="548">Object 'MomCon' can be disposed more than once in method 'MainWindow.QuesGrid_Update(int)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 548</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#StatesGrid_PullSelected(System.Data.DataRowView)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-04 22:47:51Z" FixCategory="DependsOnFix">
-             <Issue Certainty="75" Level="Warning" Path="C:\Users\Console\Desktop\WPFIbeam\WpfApp1" File="MainWindow.xaml.cs" Line="591">Object 'MomCon' can be disposed more than once in method 'MainWindow.StatesGrid_PullSelected(DataRowView)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 591</Issue>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1" File="MainWindow.xaml.cs" Line="595">Object 'MomCon' can be disposed more than once in method 'MainWindow.StatesGrid_PullSelected(DataRowView)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 595</Issue>
             </Message>
            </Messages>
           </Member>
@@ -132,17 +132,29 @@
         </Type>
         <Type Name="MomSQLDataSet" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="ImplementISerializableCorrectly" Category="Microsoft.Usage" CheckId="CA2240" Status="Active" Created="2017-12-04 22:47:51Z" FixCategory="NonBreaking">
+          <Message TypeName="ImplementISerializableCorrectly" Category="Microsoft.Usage" CheckId="CA2240" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="NonBreaking">
            <Issue Certainty="60" Level="Error">Add an implementation of GetObjectData to type 'MomSQLDataSet'.</Issue>
           </Message>
          </Messages>
         </Type>
         <Type Name="MomSQLDataSet+AxisDataTable" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="ImplementISerializableCorrectly" Category="Microsoft.Usage" CheckId="CA2240" Status="Active" Created="2017-12-04 22:47:51Z" FixCategory="NonBreaking">
+          <Message TypeName="ImplementISerializableCorrectly" Category="Microsoft.Usage" CheckId="CA2240" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="NonBreaking">
            <Issue Certainty="60" Level="Error">Add an implementation of GetObjectData to type 'MomSQLDataSet.AxisDataTable'.</Issue>
           </Message>
          </Messages>
+        </Type>
+        <Type Name="UpdateSQL" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#WriteLog(System.String,System.String)" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2017-12-05 16:07:19Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\ADSQL" File="UpdateSQL.cs" Line="61">Object 'sw' can be disposed more than once in method 'UpdateSQL.WriteLog(string, string)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 61</Issue>
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\ADSQL" File="UpdateSQL.cs" Line="72">Object 'sw' can be disposed more than once in method 'UpdateSQL.WriteLog(string, string)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 72</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
         </Type>
        </Types>
       </Namespace>
@@ -155,7 +167,7 @@
   <Rule TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202">
    <Name>Do not dispose objects multiple times</Name>
    <Description>A correctly implemented Dispose method can be called multiple times without throwing an exception. However, this is not guaranteed and to avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.</Description>
-   <Resolution Name="Default">Object {0} can be disposed more than once in method {1}. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 714, 742, 747</Resolution>
+   <Resolution Name="Default">Object {0} can be disposed more than once in method {1}. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 718, 746, 751</Resolution>
    <Owner>RuleOwner</Owner>
    <Url>http://msdn.microsoft.com/library/ms182334.aspx</Url>
    <Email />

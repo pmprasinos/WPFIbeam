@@ -110,11 +110,11 @@ namespace WpfApp1
                 JoyStickGrid.Children.Add(QC);
                 qControl[i] = QC;
             }
-
+          
             //viewPortLayout1.ToolBar.Visible = false;            //JoySticks[0].X = 20;
 
 
-           // viewPortLayout1.ToolBar.Visible = false;            //JoySticks[0].X = 20;
+            // viewPortLayout1.ToolBar.Visible = false;            //JoySticks[0].X = 20;
             DataGridTextColumn TextColumn = new DataGridTextColumn();
             TextColumn.Header = "QueSortID";
             TextColumn.Binding = new System.Windows.Data.Binding("QueSortID");
@@ -215,8 +215,11 @@ namespace WpfApp1
             // UpdateSQL.Refresh();
 
             int x = 0;
+           
             foreach (AxisControl AX in axControl)
             {
+                UpdateSQL.queryStatus = "Querying Axis...";
+                QueryStatusLabel.Content = UpdateSQL.queryStatus;
                 if (AX == null) return;
                 AX.queControl = (bool)QueMode;
                 if (!(bool)QueMode && AX.AssignedJoyStick != -1)
@@ -240,7 +243,7 @@ namespace WpfApp1
 
         private void T_tick(object myObject, EventArgs e)
         {
-
+            QueryStatusLabel.Content = UpdateSQL.queryStatus;
             Stopwatch s = Stopwatch.StartNew();
             try
             {
@@ -329,6 +332,7 @@ namespace WpfApp1
 
         private void MaximizeToSecondaryMonitor(Window window)
         {
+            ConnectSerial();
             System.Drawing.Point p = new System.Drawing.Point(-1000, 0);
             var secondaryScreen = System.Windows.Forms.Screen.FromPoint(p);
             if (secondaryScreen != null)
@@ -765,8 +769,10 @@ namespace WpfApp1
         void ConnectSerial()
         {
             //string s = (string)ErrorIcon.ToolTip;
+            
             if (this.SerialConnected && !sp.IsOpen)
             {
+                QueryStatusLabel.Content = "CONNECTING SERIAL...";
                 foreach (string ComPort in System.IO.Ports.SerialPort.GetPortNames())
                 {
                     if (!sp.IsOpen && SerialConnected)
@@ -789,8 +795,9 @@ namespace WpfApp1
                   //  if (!s.Contains("Error connecting to analog controls")) ErrorIcon.ToolTip = ErrorIcon.ToolTip + "Error connecting to analog controls. Click to troubleshoot.\r";
                     SerialConnected = false;
                 }
-                else { sr.start(); SerialConnected = true;  }
+                else { sr.start(); SerialConnected = true; QueryStatusLabel.Content = "CONNECTING SERIAL...DONE"; }
             }
+
         }
 
         private void ModeSelect()
