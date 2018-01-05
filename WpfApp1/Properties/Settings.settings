@@ -10,5 +10,11 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=MOM0\MOMSQL;Initial Catalog=MomSQL;Persist Security Info=True;User ID=pprasinos;Password=Wyman123-</Value>
     </Setting>
+    <Setting Name="ShowSpace" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">SECONDSHOW</Value>
+    </Setting>
+    <Setting Name="AxisQuantity" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">4</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

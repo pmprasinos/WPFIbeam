@@ -45,7 +45,7 @@ namespace WpfApp1
         static void WriteLog(String Path, String LogText)
         {
 
-
+          
             string path = Path;
             // This text is added only once to the file.
 
@@ -60,16 +60,20 @@ namespace WpfApp1
                     sw.Close();
                 }
             }
-
-            // This text is always added, making the file longer over time
-            // if it is not deleted.
-            using (System.IO.StreamWriter sw = System.IO.File.AppendText(path))
+            else
             {
-                sw.Write(DateTime.Now.ToLongTimeString());
-                sw.Write("  ||  ");
-                sw.WriteLine(LogText);
-                sw.Close();
+                // This text is always added, making the file longer over time
+                // if it is not deleted.
+             //   using (System.IO.StreamWriter sw = System.IO.File.AppendText(path))
+            //    {
+             //       sw.Write(DateTime.Now.ToLongTimeString());
+            ////        sw.Write("  ||  ");
+             //       sw.WriteLine(LogText);
+            //        sw.Close();
+            //    }
             }
+
+            
            
 
         }

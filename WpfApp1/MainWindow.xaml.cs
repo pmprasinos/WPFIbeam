@@ -58,7 +58,7 @@ namespace WpfApp1
         string MomConStr = "data source = MOM0\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; MultipleActiveResultSets = True; user id = pprasinos; password = Wyman123-;";
         DataTable dt = new DataTable();
         private Vector3D[][] IBeamTrans = new Vector3D[3][];
-        private double[] KidPositions = new double[6];
+        private double[] KidPositions = new double[WpfApp1.Properties.Settings.Default.AxisQuantity];
         private const string EYESHOT_SERIAL = "ULTWPF-94GF-N1277-FNLR3-1PPHF";
         static System.Windows.Forms.Timer t = new System.Windows.Forms.Timer(); static System.Windows.Forms.Timer StatesGridTimer = new System.Windows.Forms.Timer();
         bool disabled = false; bool SerialConnected = true;
@@ -89,8 +89,8 @@ namespace WpfApp1
             //  JoyStickDisp[4] = { QueControl_1, QueControl_2, QueControl_3, QueControl_4};
             for (int i = 0; i < 100; i++) if (i < JoySticks.Length) JoySticks[i] = new Point4D(0, 0, 0, 0);
 
-            axControl = new AxisControl[6];
-            for (int i = 0; i < 6; i++)
+            axControl = new AxisControl[WpfApp1.Properties.Settings.Default.AxisQuantity];
+            for (int i = 0; i < WpfApp1.Properties.Settings.Default.AxisQuantity; i++)
             {
                // ADSQL.SqlWriteAxis(i + 1, "TargetPosition", (int)ADSQL.SqlReadAxis(i + 1, "TargetPosition"));
                 AxisControl AX = new AxisControl();
@@ -100,7 +100,7 @@ namespace WpfApp1
                 AxisGrid.Children.Add(AX);
                 axControl[i] = AX;
             }
-            qControl = new QueControl[4];
+            qControl = new QueControl[WpfApp1.Properties.Settings.Default.AxisQuantity];
             for (int i = 0; i < 4; i++)
             {
                 QueControl QC = new QueControl();
@@ -161,7 +161,7 @@ namespace WpfApp1
         private void InitAxisControl()
         {
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i <  WpfApp1.Properties.Settings.Default.AxisQuantity; i++)
             {
                 AxisGrid.Children.Remove(axControl[i]);
                 axControl[i] = null;
@@ -179,7 +179,7 @@ namespace WpfApp1
         {
             if (!(bool)QueMode)
             {
-                for (int axs = 0; axs < 6; axs++)
+                for (int axs = 0; axs < WpfApp1.Properties.Settings.Default.AxisQuantity; axs++)
                 {
                     KidPositions[axs] = KidPositions[axs] + AxisSpeed[axs];
 
@@ -248,7 +248,7 @@ namespace WpfApp1
             try
             {
                 ConnectSerial();
-                if (sr == null) { Thread.Sleep(4000); return; }
+                if (sr == null) { Thread.Sleep(40); return; }
                 for (int i = 0; i < 9; i++) sr.Lights[i] = 3;
                 JSPositions();
                 t.Interval = 40;
@@ -264,14 +264,14 @@ namespace WpfApp1
                 // t.Stop();
                 //  ConnectMom();
                 // if (sr.DeadmanRightPressed || sr.DeadmanLeftPressed) ADSQL.SqlWriteAxis(1, "LiveValues", true);
-                for (int x = 0; x < 6; x++)
+                for (int x = 0; x < WpfApp1.Properties.Settings.Default.AxisQuantity; x++)
                 {
                    
                     if (!QueMode && int.TryParse(ADSQL.SqlReadAxis(x + 1, "CurrentPosition").ToString(),  out int h)) KidPositions[x] = h;
                     if (QueMode && int.TryParse(ADSQL.SqlReadAxis(x + 1, "TargetPosition").ToString(), out int k))  KidPositions[x] =k;
                 }
 
-                for (int x = 0; x < 4; x++)
+                for (int x = 0; x < WpfApp1.Properties.Settings.Default.AxisQuantity; x++)
                 {
                     //if (qControl[x].IsActive) sr.Lights[x] = 5; else sr.Lights[x] = 7;
                     if (sr != null) if ((sr.DeadmanRightPressed || sr.DeadmanLeftPressed) && qControl[x].IsActive && sr.w[x] == 1)
@@ -366,7 +366,7 @@ namespace WpfApp1
             if (InstanceCount > 1) do { InstanceCount = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length; Thread.Sleep(200); } while (InstanceCount > 1);
             MaximizeToSecondaryMonitor(this);
             Thread.Sleep(2000);
-            t.Interval = 2000; StatesGridTimer.Interval = 120; StatesGridTimer.Start();
+            t.Interval = 2000; StatesGridTimer.Interval = 250; StatesGridTimer.Start();
             t.Start();
             t.Tick += new EventHandler(T_tick); StatesGridTimer.Tick += new EventHandler(StatesGridTimer_tick);
             JoyStick_Activate();
@@ -579,6 +579,7 @@ namespace WpfApp1
                     using (SqlCommand cmd = new SqlCommand("momsql..PullAxisTargets", MomCon))
                     {
                         cmd.Parameters.AddWithValue("@QueName", h);
+                        cmd.Parameters.AddWithValue("@ShowSpace", Properties.Settings.Default.ShowSpace);
                         cmd.CommandType = CommandType.StoredProcedure;
                         MomCon.Open();
                         cmd.ExecuteNonQuery();
@@ -731,6 +732,7 @@ namespace WpfApp1
                             cmd.Parameters.AddWithValue("@QueName", SelectedQueTextBox.Text);
                             cmd.Parameters.AddWithValue("@JoyStickNumber", RadioButtonJSSelection + 1);
                             cmd.Parameters.AddWithValue("@AxisNumber", AX.AxisNumber);
+                                cmd.Parameters.AddWithValue("@ShowSpace", Properties.Settings.Default.ShowSpace);
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.AddWithValue("@Notes", SelectedQueNotesTextBox.Text);
                             cmd.Parameters.AddWithValue("@SortIndex", SelectedQueSortIDTextBox.Text);
@@ -768,8 +770,8 @@ namespace WpfApp1
         }
         void ConnectSerial()
         {
-            //string s = (string)ErrorIcon.ToolTip;
-            
+            string s = (string)ErrorIcon.ToolTip;
+
             if (this.SerialConnected && !sp.IsOpen)
             {
                 QueryStatusLabel.Content = "CONNECTING SERIAL...";
@@ -780,7 +782,8 @@ namespace WpfApp1
                         sp = new System.IO.Ports.SerialPort(ComPort, 19200);
                         try
                         {
-                            sp.Open();                          
+                            sp.Open();
+                            System.Threading.Thread.Sleep(1000);
                             if (sp.BytesToRead < 10) sp.Close(); else { sr = new SerialRemote(ref sp); }
                         }
                         catch
@@ -791,8 +794,8 @@ namespace WpfApp1
                 }
                 if (!sp.IsOpen)
                 {
-                   // ErrorIcon.Visibility = Visibility.Visible;
-                  //  if (!s.Contains("Error connecting to analog controls")) ErrorIcon.ToolTip = ErrorIcon.ToolTip + "Error connecting to analog controls. Click to troubleshoot.\r";
+                    // ErrorIcon.Visibility = Visibility.Visible;
+                    //  if (!s.Contains("Error connecting to analog controls")) ErrorIcon.ToolTip = ErrorIcon.ToolTip + "Error connecting to analog controls. Click to troubleshoot.\r";
                     SerialConnected = false;
                 }
                 else { sr.start(); SerialConnected = true; QueryStatusLabel.Content = "CONNECTING SERIAL...DONE"; }
@@ -872,7 +875,7 @@ namespace WpfApp1
             //  if (t.Content != "Toggle Que Mode" && t.Content != "Toggle Jog Mode"  ) t.Content = "Toggle Jog Mode";
             SelectedQueSortIDTextBox.Text = ""; SelectedQueTextBox.Text = "New Cue"; SelectedQueNotesTextBox.Text = "New Cue Notes";
 
-            if ((string)t.Content == "Switch to Que Mode")
+            if ((string)t.Content == "Switch to Show Mode")
             {
                 t.Content= "Switch to Jog Mode";
                 JogAccelTextBox.IsEnabled = false;
@@ -883,13 +886,13 @@ namespace WpfApp1
             }
             else
             {
-                t.Content = "Switch to  Que Mode";
+                t.Content = "Switch to Show Mode";
                 JogAccelTextBox.IsEnabled = true;
                 JogSpeedTextBox.IsEnabled = true;
                 QueMode = false;
                 SaveQueButton.Content = "Generate Cue";
                 RB0.IsChecked = true;  RB1.IsChecked = false; RB2.IsChecked = false; RB3.IsChecked = false;
-            }
+            }   
             InitAxisControl();
             InitQueControl();
             QuesGrid_Update(QueGrid_Selection);

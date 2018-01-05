@@ -33,5 +33,23 @@ namespace WpfApp1.Properties {
                 return ((string)(this["MomSQLConnString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("SECONDSHOW")]
+        public string ShowSpace {
+            get {
+                return ((string)(this["ShowSpace"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public int AxisQuantity {
+            get {
+                return ((int)(this["AxisQuantity"]));
+            }
+        }
     }
 }

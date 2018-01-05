@@ -101,3 +101,13 @@ C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\x86\Debug\Automater.applicat
 C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\x86\Debug\Automater.exe
 C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\x86\Debug\Automater.pdb
 C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\obj\x86\Debug\iBeams.csprojResolveAssemblyReference.cache
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\bin\x86\Debug\devDept.Eyeshot.Control.Wpf.v9.dll
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\bin\x86\Debug\devDept.Eyeshot.Dicom.Wpf.v9.dll
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\bin\x86\Debug\devDept.Eyeshot.Kinect.Wpf.v9.dll
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\bin\x86\Debug\devDept.Geometry.v9.dll
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\bin\x86\Debug\devDept.Graphics.Wpf.v9.dll
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\bin\x86\Debug\devDept.Eyeshot.Control.Wpf.v9.xml
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\bin\x86\Debug\devDept.Eyeshot.Dicom.Wpf.v9.xml
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\bin\x86\Debug\devDept.Eyeshot.Kinect.Wpf.v9.xml
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\bin\x86\Debug\devDept.Geometry.v9.xml
+C:\Users\Phil\Documents\GitHub\WPFIbeam\WpfApp1\bin\x86\Debug\devDept.Graphics.Wpf.v9.xml

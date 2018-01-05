@@ -22,7 +22,8 @@ public partial class ADSQL
         {
             using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
             {
-
+                if (newValue == null)
+                    Debug.Print("STOP");
                 SqlCommand cmd = new SqlCommand("Update MomSQL..Axis set targetPositon = @newValue Where AxisNumber = @axisNumber", MomCon);
                 cmd.CommandTimeout = 500;
                 switch (columnName.ToUpper())
@@ -99,6 +100,7 @@ public partial class ADSQL
             {
                 acmd.CommandTimeout = 500;
                 acmd.CommandType = CommandType.StoredProcedure;
+                acmd.Parameters.AddWithValue("@ShowSpace", WpfApp1.Properties.Settings.Default.ShowSpace);
                 acmd.Parameters.AddWithValue("@QueName", QueName);
                 acmd.Parameters.AddWithValue("@TrimFactor", TrimFactor);
                 MomCon.Open();
@@ -137,6 +139,7 @@ public partial class ADSQL
                 acmd.CommandTimeout = 500;
                 acmd.CommandType = CommandType.StoredProcedure;
                 acmd.Parameters.AddWithValue("@QueName", queName);
+                acmd.Parameters.AddWithValue("@ShowSpace", WpfApp1.Properties.Settings.Default.ShowSpace);
                 acmd.Parameters.AddWithValue("@TrimFactor", TrimFactor);
                 MomCon.Open();
                 int j = acmd.ExecuteNonQuery();

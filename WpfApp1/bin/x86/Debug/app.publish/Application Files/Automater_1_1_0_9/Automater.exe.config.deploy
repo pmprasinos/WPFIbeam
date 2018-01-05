@@ -4,7 +4,14 @@
   <configSections>
     <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
     <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false"/>
+    <sectionGroup name="applicationSettings" type="System.Configuration.ApplicationSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" >
+      <section name="WpfApp1.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+    </sectionGroup>
   </configSections>
+  <connectionStrings>
+    <add name="WpfApp1.Properties.Settings.MomSQLConnString" connectionString="Data Source=MOM0\MOMSQL;Initial Catalog=MomSQL;Persist Security Info=True;User ID=pprasinos;Password=Wyman123-"
+      providerName="System.Data.SqlClient" />
+  </connectionStrings>
   <startup>
     <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.6"/>
   </startup>
@@ -35,4 +42,14 @@
     </assemblyBinding>
   </runtime>
  
+  <applicationSettings>
+    <WpfApp1.Properties.Settings>
+      <setting name="ShowSpace" serializeAs="String">
+        <value>SECONDSHOW</value>
+      </setting>
+      <setting name="AxisQuantity" serializeAs="String">
+        <value>4</value>
+      </setting>
+    </WpfApp1.Properties.Settings>
+  </applicationSettings>
 </configuration>

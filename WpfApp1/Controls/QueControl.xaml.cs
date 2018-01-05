@@ -82,14 +82,12 @@ namespace CustomControl
                 using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
                 {
                     string cmdstr = "MOMSQL.dbo.GetQueData";
-                    if (this.IsAxis) cmdstr = "Select AxisName as QueName, AxisType as QueNotes, ID as QueSortID, AxisStatus as QueStatus, '1' as AxisQuantity, 'LOAD' as Load from momsql..axis where AxisName = @QueName";
+                    if (this.IsAxis) cmdstr = "Select AxisName as QueName, AxisType as QueNotes, ID as QueSortID, AxisStatus as QueStatus, '1' as AxisQuantity, 'LOAD' as Load from momsql..axis where AxisName = @QueName And ShowSpace = 'SECONDSHOW'";
                     using (SqlCommand CMD = new SqlCommand(cmdstr, MomCon))
                     {
                         CMD.Parameters.AddWithValue("@QueName", this.QueName);
                         try
                         {
-
-               
                         MomCon.Open();
                         if (!this.IsAxis) CMD.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = CMD.ExecuteReader())
@@ -97,7 +95,6 @@ namespace CustomControl
                             if (sdr.HasRows)
                             {
                                 sdr.Read();
-
                                 QueNameTextBox.Text = sdr["QueName"].ToString();
                                 NotesTextBox.Text = sdr["QueNotes"].ToString();
                                 AxisQuantityTextBox.Text = sdr["AxisQuantity"].ToString();
