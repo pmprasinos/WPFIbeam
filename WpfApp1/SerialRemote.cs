@@ -63,7 +63,7 @@ class SerialRemote
     private void Scan()
     {
         do { System.Threading.Thread.Sleep(100); } while (!spin.IsOpen);
-        System.Threading.Thread.Sleep(10000);
+        System.Threading.Thread.Sleep(1000);
         do
         {
   

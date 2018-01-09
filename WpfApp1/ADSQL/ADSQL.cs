@@ -12,7 +12,7 @@ public partial class ADSQL
 {
 
     //  public static ADSClient Mom = new ADSClient("10.99.1.1.1.1", true, 20);
-    static string MomConStr = "data source = MOM0\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; MultipleActiveResultSets = True; user id = pprasinos; password = Wyman123-;";
+    static string MomConStr = "data source = 10.99.1.1\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; MultipleActiveResultSets = True; user id = pprasinos; password = Wyman123-;";
 
     public static bool SqlWriteAxis(int axisNumber, string columnName, object newValue, bool ignoreException = false,  string queName = "")
     {
@@ -20,7 +20,7 @@ public partial class ADSQL
 
         try
         {
-            using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+            using (SqlConnection MomCon = new SqlConnection("data source = 10.99.1.1\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
             {
                 if (newValue == null)
                     Debug.Print("STOP");
@@ -152,17 +152,18 @@ public partial class ADSQL
     public static object SqlReadAxis(int axisNumber, string columnName, bool ignoreException = false)
     {
         Stopwatch st = Stopwatch.StartNew();
-        using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL;   Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+        using (SqlConnection MomCon = new SqlConnection("data source = 10.99.1.1\\MOMSQL;   Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Select * from MomSQL..Axis Where AxisNumber = @axisNumber", MomCon);
+                SqlCommand cmd = new SqlCommand("Select " + columnName + " from MomSQL..Axis Where AxisNumber = @axisNumber", MomCon);
                 cmd.Parameters.AddWithValue("@axisNumber", axisNumber);
                 cmd.CommandTimeout = 500;
                 if (MomCon.State == ConnectionState.Closed) MomCon.Open();
                 using (SqlDataReader s = cmd.ExecuteReader())
                 {
                     s.Read();
+                    string g = s[columnName].ToString();
                     return s[columnName];
                 }
             }
@@ -177,23 +178,30 @@ public partial class ADSQL
     public static object SqlReadQue(String QueName, string columnName, bool ignoreException = false)
     {
         Stopwatch st = Stopwatch.StartNew();
-        using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+        using (SqlConnection MomCon = new SqlConnection("data source = 10.99.1.1\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
         {
             try
             {
-                using (SqlCommand cmd = new SqlCommand("Select * from MomSQL..Ques Where QueName = @queName", MomCon))
+                using (SqlCommand cmd = new SqlCommand("Select * from MomSQL..Ques Where QueName = @queName and ShowSpace = 'SECONDSHOW'", MomCon))
                 {
                     cmd.CommandTimeout = 500;
                     cmd.Parameters.AddWithValue("@QueName", QueName);
                     MomCon.Open();
                     using (SqlDataReader s = cmd.ExecuteReader())
                     {
+                        if(s.HasRows)
+                        { 
                         s.Read();
                         if (s[columnName].ToString() == "")
                         {
                             return "";
                         }
+                       
                         return s[columnName];
+                        }else
+                        {
+                            return false;
+                        }
                     }
                     
                 }

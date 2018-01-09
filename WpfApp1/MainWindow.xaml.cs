@@ -55,7 +55,7 @@ namespace WpfApp1
 
         //Task BackTask;
         int tickCounter = 0; bool QueMode; int RadioButtonJSSelection;
-        string MomConStr = "data source = MOM0\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; MultipleActiveResultSets = True; user id = pprasinos; password = Wyman123-;";
+        string MomConStr = "data source = 10.99.1.1\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; MultipleActiveResultSets = True; user id = pprasinos; password = Wyman123-;";
         DataTable dt = new DataTable();
         private Vector3D[][] IBeamTrans = new Vector3D[3][];
         private double[] KidPositions = new double[WpfApp1.Properties.Settings.Default.AxisQuantity];
@@ -101,7 +101,7 @@ namespace WpfApp1
                 axControl[i] = AX;
             }
             qControl = new QueControl[WpfApp1.Properties.Settings.Default.AxisQuantity];
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < WpfApp1.Properties.Settings.Default.AxisQuantity; i++)
             {
                 QueControl QC = new QueControl();
                 QC.JoyStickIndex = i;
@@ -144,7 +144,7 @@ namespace WpfApp1
         private void InitQueControl()
         {
             JoyStickGrid.Children.Clear();
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < WpfApp1.Properties.Settings.Default.AxisQuantity; i++)
             {
 
                 qControl[i] = null;
@@ -172,7 +172,12 @@ namespace WpfApp1
                 System.Windows.Controls.Grid.SetColumn(AX, i % 2);
                 System.Windows.Controls.Grid.SetRow(AX, 1 + (i / 2));
                 AxisGrid.Children.Add(AX);
-                ADSQL.SqlWriteAxis(i + 1, "TargetPosition", ADSQL.SqlReadAxis(i + 1, "TargetPosition"));
+               // ADSQL.SqlWriteAxis(i + 1, "TargetPosition", ADSQL.SqlReadAxis(i + 1, "TargetPosition"));
+                if (i != 0)
+                {
+                    AX.IsEnabled = false;
+                }
+                
             }
         }
         private void PopulateJoystickSelections(bool IsAxis, int JoyStickAssignment, string h)
@@ -238,7 +243,7 @@ namespace WpfApp1
                 }
                 x++;
             }
-            Task k = Task.Run(() => UpdateSQL.Refresh());
+            if (sr != null) { Task k = Task.Run(() => UpdateSQL.Refresh()); }
         }
 
         private void T_tick(object myObject, EventArgs e)
@@ -279,7 +284,7 @@ namespace WpfApp1
                             //if (qControl[x].IsActive) sr.Lights[x] = 3;
                             ADSQL.ExecuteQue(qControl[x].QueName, Math.Abs(int.Parse(sr.y[x].ToString()) + 100)); //TextBlock1.Text = sr.y[x].ToString();
                         }
-                        else if (sr != null) if ((sr.DeadmanRightPressed || sr.DeadmanLeftPressed) && qControl[x].QueNameTextBox.Text.Contains("iBeamHoist"))
+                        else if (sr != null) if ((sr.DeadmanRightPressed || sr.DeadmanLeftPressed) && qControl[x].QueNameTextBox.Text.Contains("Hoist"))
                             {
                                 //  if (sr.DeadmanRightPressed || sr.DeadmanLeftPressed) ADSQL.SqlWriteAxis(1, "isActive", .Ytrue);
                                 //TextBlock1.Text = "JS: " + JoySticks[x].Y.ToString() + "  " + JoySticks[x].X.ToString() + "  " + JoySticks[x].Z.ToString();
@@ -289,7 +294,7 @@ namespace WpfApp1
                                 //Debug.Print("TARGET: " + int.Parse(Math.Round((5 * JoySticks[x].Y) + KidPositions[qControl[x].AxisIndex]).ToString()).ToString());
                                 int p = int.Parse(sr.y[x].ToString());
                                 // if (x == 1) int.Parse(sr.x[x].ToString());
-                                if (!ADSQL.ExecuteJog(qControl[x].QueName, Math.Abs(p), int.Parse(JogSpeedTextBox.Text), float.Parse(JogAccelTextBox.Text), p * 3))
+                                if (!ADSQL.ExecuteJog(qControl[x].QueName, Math.Abs(p), int.Parse(JogSpeedTextBox.Text), float.Parse(JogAccelTextBox.Text), p * 2))
                                 {
                                     //MessageBox.Show(qControl[x].QueName);
                                 }
@@ -298,11 +303,31 @@ namespace WpfApp1
                                 {
                                     ADSQL.QueWatchDog(qControl[x].QueName, Math.Abs(int.Parse(sr.y[x].ToString()) + 100));
                                     qControl[x].StatusTextBox.Text = (string)ADSQL.SqlReadQue(qControl[x].QueName, "QueStatus");
-                                } else if (qControl[x].IsActive && !qControl[x].QueNameTextBox.Text.Contains("iBeamHoist"))
+                                   
+                                } else if (qControl[x].IsActive && !qControl[x].QueNameTextBox.Text.Contains("Hoist"))
                                 {
-                                    qControl[x].StatusTextBox.Text = (string)ADSQL.SqlReadQue(qControl[x].QueName, "QueStatus");
+                                    string p = ADSQL.SqlReadQue(qControl[x].QueName, "QueStatus").ToString();
+                                    if(p.ToUpper() == "FALSE")
+                                    {
+                                        qControl[x].ClearQueControl();
+                                        QuesGrid_Update(QueGrid.SelectedIndex + 1);
+                                    }
+                                    else { qControl[x].StatusTextBox.Text = (string)ADSQL.SqlReadQue(qControl[x].QueName, "QueStatus"); }
+                                   
                                 }
+                    if (qControl[x].StatusTextBox.Text == "DONE")
+                    {
+                        qControl[x].PopulateNext();
+                        QueGrid.SelectedIndex = QueGrid.SelectedIndex + 1;
+                        DataRowView g = (DataRowView)QueGrid.SelectedItem;
+                        if(g[3].ToString() != (x+1).ToString())
+                        {
+                            QueGrid.SelectedIndex = QueGrid.SelectedIndex + 1;
+                        }
+
+                    }
                 }
+              
                 if ((bool)QueMode && qControl[loopCount % 4].IsActive) qControl[loopCount % 4].StatusTextBox.Text = (string)ADSQL.SqlReadQue(qControl[loopCount % 4].QueName, "QueStatus");
 
 
@@ -394,114 +419,20 @@ namespace WpfApp1
         private void ViewPortLayout1_OnLoad(object sender, RoutedEventArgs e)
         {
              return;
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    Entity E = (Entity)viewPortLayout1.Blocks["iBeamParent"].Entities[0].Clone();
-            //    // Entity P = (Entity)viewPortLayout1.Blocks["PulleyParent"].Entities[0].Clone();
-
-            //    E.Color = System.Drawing.Color.Black;
-            //    viewPortLayout1.Entities.Add(E, i + 1);
-            //    viewPortLayout1.Entities[(i * 2) + 1].Color = System.Drawing.Color.Black;
-            //    viewPortLayout1.Entities[(i * 2) + 1].Visible = true;
-            //    IBeamTrans[i] = new Vector3D[2];
-            //    IBeamTrans[i][0] = new Vector3D(0, 0, 0);
-            //    IBeamTrans[i][1] = new Vector3D(0, 0, 0);
-
-            //}
-            //UpdateCad(0); UpdateCad(1); UpdateCad(2);
-            //UpdateCad(0); UpdateCad(1); UpdateCad(2);
-            //viewPortLayout1.SetView(viewType.Trimetric, true, viewPortLayout1.AnimateCamera);
-            //viewPortLayout1.Invalidate();
-            //viewPortLayout1.ZoomFit();
+         
         }
 
         private void UpdateCad(int BeamIndex)
         {
             return;
-            //Vector3D d = new Vector3D(0, 0, 1);
-            //viewPortLayout1.Cursor = Cursors.Arrow;
-            //viewPortLayout1.Blocks["iBeamParent"].Entities[0].Visible = false;
-            //Entity e0 = (Entity)viewPortLayout1.Blocks["iBeamParent"].Entities[0].Clone();
-            //for (int k = 1; k < viewPortLayout1.Entities.Count; k++) if (viewPortLayout1.Entities[k].LayerIndex != 0) viewPortLayout1.Entities.RemoveAt(k);
-            //for (int i = 0; i < 3; i++)
-            //{
-                
-            //   if(int.TryParse(ADSQL.SqlReadAxis((i * 2) + 1, "CurrentPosition").ToString(), out int h)) KidPositions[(i * 2)] = h;
-            //   if(int.TryParse(ADSQL.SqlReadAxis((i * 2) + 2, "CurrentPosition").ToString(), out int k)) KidPositions[(i * 2) + 1] = k;
-            //    Entity e = (Entity)e0.Clone();
-            //    //  Entity P = (Entity)P0.Clone();
-            //    e.Rotate(1.5708, new Vector3D(1, 0, 0));
-            //    if (e.BoxMax != null) e.Rotate(System.Math.Tan((KidPositions[i * 2] - KidPositions[(i * 2) + 1]) / (120 * 25.3)), new Vector3D(0, 1), boxCenter(e));
-            //    e.Translate(0, 1000 * i, 0);
-            //    e.Color = System.Drawing.Color.Black;
-            //    e.Translate(0, 0, (KidPositions[i * 2] + KidPositions[i * 2 + 1]) / 2);
-            //    viewPortLayout1.Entities.Add(e, i + 1);
-
-            //    if (SelectedLayer != -1) PopulateAxisInfo((SelectedLayer * 2) - 1, false);
-            //    if (SelectedLayer != -1) PopulateAxisInfo(SelectedLayer * 2, false);
-
-            //    viewPortLayout1.Invalidate();
-            //}
-            //foreach (Entity en in viewPortLayout1.Entities)
-            //{
-            //    if (en.LayerIndex != 0) en.Visible = true;
-            //    if (en.LayerIndex == SelectedLayer) en.Selected = true;
-            //}
+           
         }
 
-        //private Point3D boxCenter(Entity en)
-      //  {
-      //      Point3D result = new Point3D((en.BoxMax.X + en.BoxMin.X) / 2, (en.BoxMax.Y + en.BoxMin.Y) / 2, (en.BoxMax.Z + en.BoxMin.Z) / 2);
-      //      return result;
-      //  }
-
+     
 
         private void viewportLayout1_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            //viewPortLayout1.Entities.ClearSelection();
-            //_mouseLocation = devDept.Graphics.RenderContextUtility.ConvertPoint(e.GetPosition(viewPortLayout1));
-            //viewPortLayout1.ProcessSelection(new System.Drawing.Rectangle(_mouseLocation.X - 10, _mouseLocation.Y - 10, 20, 20), true, false, new ViewportLayout.SelectionChangedEventArgs());
-            //viewPortLayout1.UpdateVisibleSelection();
-            //viewPortLayout1.Entities.SetSelectionAsCurrent();
-            //foreach (Entity en in viewPortLayout1.Entities)
-            //{
-            //    if (en.Selected && SelectedLayer != en.LayerIndex)
-            //    {
-            //        QueGrid_Selection = -1;
-            //        this.SelectedQueTextBox.Text = "Unknown";
-            //      //  SelectedLayer = en.LayerIndex;
-            //      //  PopulateAxisInfo((SelectedLayer * 2) - 1, true);
-            //      //  foreach (AxisControl ax in axControl) ax.IsActive = false;
-
-            //        PopulateAxisInfo(SelectedLayer * 2, false);
-            //    }
-            //}
-
         }
-
-    //    private void viewportLayout1_SelectionChanged(object sender, ViewportLayout.SelectionChangedEventArgs e)
-      //  {
-            //if (viewPortLayout1.Entities.CurrentBlockReference == null)
-            //{
-            //    // If the user clicks on a BlockReference then we want to set it as current.
-            //    int currentEntity = viewPortLayout1.GetEntityUnderMouseCursor(_mouseLocation);
-            //    if (currentEntity != -1)
-            //    {
-            //        viewPortLayout1.Entities.SetCurrent(viewPortLayout1.Entities[currentEntity] as BlockReference);
-            //        if (viewPortLayout1.Entities.CurrentBlockReference != null)
-            //            viewPortLayout1.Entities.CurrentBlockReference.Selected = true;
-            //    }
-            //}
-            //else
-            //{
-            //    // Set the BlockReference as selected.
-            //    // viewPortLayout1.Entities.CurrentBlockReference.Selected = true;
-            //    // Selection();
-            //    viewPortLayout1.Invalidate();
-            //}
-            //JoyStick_Activate();
-     //   }
-
 
 
         private void JoyStick_Activate()
@@ -512,8 +443,6 @@ namespace WpfApp1
                 JS2.Source = ImageFilter.SetJoyStick(true, true, false, false); JS2.Opacity = 20;
             }
         }
-
-
 
 
         private void PopulateAxisInfo(int AxisNum, bool clear = false)
@@ -599,6 +528,47 @@ namespace WpfApp1
             finally { this.QueGrid.SelectionChanged += QueGrid_SelectionChanged; }
         }
 
+        private void StatesGrid_Pull(int JoyStick, string QueName)
+        {
+
+            this.QueGrid.SelectionChanged -= QueGrid_SelectionChanged;
+
+            int j = QueGrid.Items.Count;
+            try
+            {
+                using (SqlConnection MomCon = new SqlConnection(MomConStr))
+                {
+                    string h = QueName;
+                    int JoyStickAssignment = JoyStick;
+                    if (JoyStickAssignment != -1)
+                    {
+                        this.Dispatcher.Invoke(() => SelectedQueTextBox.Text = h);
+                        Thread.Sleep(1);
+                        this.Dispatcher.Invoke(() => PopulateJoystickSelections(!(bool)QueMode, JoyStickAssignment - 1, SelectedQueTextBox.Text));
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand("momsql..PullAxisTargets", MomCon))
+                    {
+                        cmd.Parameters.AddWithValue("@QueName", h);
+                        cmd.Parameters.AddWithValue("@ShowSpace", Properties.Settings.Default.ShowSpace);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        MomCon.Open();
+                        cmd.ExecuteNonQuery();
+                        MomCon.Close();
+                    }
+                    foreach (AxisControl AX in axControl)
+                    {
+                        this.Dispatcher.Invoke(() => AX.HasKeyBoardFocus = false);
+                        this.Dispatcher.Invoke(() => AX.PullSelection());
+                        this.Dispatcher.Invoke(() => AX.queControl = (bool)this.QueMode);
+                        this.Dispatcher.Invoke(() => AX.SelectedQue = SelectedQueTextBox.Text);
+                    }
+
+                }
+            }
+            catch { }
+            finally { this.QueGrid.SelectionChanged += QueGrid_SelectionChanged; }
+        }
 
         private void UnhandeledEx(object sender, UnhandledExceptionEventArgs args)
         {
@@ -807,10 +777,10 @@ namespace WpfApp1
         {
             if(!(bool)QueMode) PopulateJoystickSelections(true, -1, "");
 
-        
                     if (!SerialConnected || sr is null || ModeSelDisabled) return;
-                    ModeSelDisabled = true;  
-                    if (Convert.ToInt16(ADSQL.SqlReadAxis(1, "Faulted")) != 0 && LiveDisplay != 2) LiveDisplay = 3;
+                    ModeSelDisabled = true;
+            string u = ADSQL.SqlReadAxis(1, "Faulted").ToString();
+                    if (u == "True" && LiveDisplay != 2) LiveDisplay = 3;
                     if (sr.EstopPressed && LiveDisplay != 2) LiveDisplay = 4;
                   
 
@@ -830,6 +800,7 @@ namespace WpfApp1
                 ModeLabel.Content = "Console E-Stop active (Live)";
                 VirtualModeButton.Opacity = 20;
                 if (sr.EstopPressed) SafteyResetButton.Visibility = Visibility.Hidden;
+                if (!sr.EstopPressed) LiveDisplay = 3;
             }
 
           

@@ -26,8 +26,8 @@ namespace WpfApp1.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=MOM0\\MOMSQL;Initial Catalog=MomSQL;Persist Security Info=True;User ID" +
-            "=pprasinos;Password=Wyman123-")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=10.99.1.1\\MOMSQL;Initial Catalog=MomSQL;Persist Security Info=True;Us" +
+            "er ID=pprasinos;Password=Wyman123-")]
         public string MomSQLConnString {
             get {
                 return ((string)(this["MomSQLConnString"]));

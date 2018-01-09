@@ -42,7 +42,7 @@ namespace CustomControl
             this.MouseLeftButtonUp += new MouseButtonEventHandler(Control_MouseLeftButtonUp);
             this.MouseMove += new System.Windows.Input.MouseEventHandler(Control_MouseMove);
             this.IsSelected = false;
-
+           
             //  for (int i = 0; i < this.Controls.Count; i++)
             //  {
             //      Controls[i].Click += Item_Click;
@@ -267,7 +267,7 @@ namespace CustomControl
             {
                 bool y = bool.Parse(value.ToString());
                 try { 
-                using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+                using (SqlConnection MomCon = new SqlConnection("data source = 10.99.1.1\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
                 {
                     SqlCommand cmd = new SqlCommand("UPDATE MOMSQL..AXIS SET IsActive = 0 where AxisName = @AxisName", MomCon);
                     if (y) cmd.CommandText = "UPDATE MOMSQL..AXIS SET IsActive = 1 where AxisName = @AxisName";
@@ -356,7 +356,7 @@ namespace CustomControl
 
         public void PullSelection()
         {
-            using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+            using (SqlConnection MomCon = new SqlConnection("data source = 10.99.1.1\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
             {
                 try
                 {
@@ -382,7 +382,7 @@ namespace CustomControl
             {
                 System.Windows.MessageBoxResult g = MessageBox.Show("Are you sure you want to remove " + this.AxisNameTextBox.Text + " from the que: " + this.SelectedQue.ToString() + "?", "Remove Axis target from Que", MessageBoxButton.OKCancel);
                 if (g != MessageBoxResult.OK) return;
-                using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+                using (SqlConnection MomCon = new SqlConnection("data source = 10.99.1.1\\MOMSQL;  Connection Timeout=10; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
                 {
                     using (SqlCommand CMD = new SqlCommand("Delete from momsql..Ques where AxisNum =@AxisNum and QueName = @QueName", MomCon))
                     {

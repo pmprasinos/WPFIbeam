@@ -9,7 +9,7 @@
     </sectionGroup>
   </configSections>
   <connectionStrings>
-    <add name="WpfApp1.Properties.Settings.MomSQLConnString" connectionString="Data Source=MOM0\MOMSQL;Initial Catalog=MomSQL;Persist Security Info=True;User ID=pprasinos;Password=Wyman123-"
+    <add name="WpfApp1.Properties.Settings.MomSQLConnString" connectionString="Data Source=10.99.1.1\MOMSQL;Initial Catalog=MomSQL;Persist Security Info=True;User ID=pprasinos;Password=Wyman123-"
       providerName="System.Data.SqlClient" />
   </connectionStrings>
   <startup>

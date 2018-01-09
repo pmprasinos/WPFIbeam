@@ -70,7 +70,35 @@ namespace CustomControl
         public static readonly DependencyProperty QueNotesProperty =
             DependencyProperty.Register("QueNotes", typeof(string), typeof(QueControl), new PropertyMetadata(default(string)));
 
+        public void PopulateNext()
+        {
+            String newQue = "";
+            using (SqlConnection MomCon = new SqlConnection("data source = 10.99.1.1\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+            {
+                string cmdstr = "select top 1  SortID, max(QueName) as QueName from momsql..ques where JoyStick = @JoyStick group by SortID having sortID > (Select max(SortID) from Momsql..Ques where QueName = @QueName)";
 
+                using (SqlCommand CMD = new SqlCommand(cmdstr, MomCon))
+                {
+                    CMD.Parameters.AddWithValue("@JoyStick", this.JoyStickIndex + 1);
+                    CMD.Parameters.AddWithValue("@QueName", this.QueName);
+                    try
+                    {
+                        MomCon.Open();
+                        using (SqlDataReader sdr = CMD.ExecuteReader())
+                        {
+                            if (sdr.HasRows)
+                            {
+                                sdr.Read();
+                                newQue = sdr["QueName"].ToString();
+                            }
+                        }
+                    }
+                    catch { }
+         
+                }
+            }
+            this.QueName = newQue;
+        }
 
         public string QueName
         {
@@ -78,11 +106,11 @@ namespace CustomControl
             set
             { if (GetValue(QueNameProperty).ToString() == value.ToString() || value.ToString().Length < 3) return;
                 SetValue(QueNameProperty, value);
-                if (value.ToString().Contains("iBeamHoist")) IsAxis = true;
-                using (SqlConnection MomCon = new SqlConnection("data source = MOM0\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
+                if (value.ToString().Contains("Hoist")) IsAxis = true;
+                using (SqlConnection MomCon = new SqlConnection("data source = 10.99.1.1\\MOMSQL; initial catalog = MomSQL; user id = pprasinos; password = Wyman123-; MultipleActiveResultSets = True; App = EntityFramework"))
                 {
                     string cmdstr = "MOMSQL.dbo.GetQueData";
-                    if (this.IsAxis) cmdstr = "Select AxisName as QueName, AxisType as QueNotes, ID as QueSortID, AxisStatus as QueStatus, '1' as AxisQuantity, 'LOAD' as Load from momsql..axis where AxisName = @QueName And ShowSpace = 'SECONDSHOW'";
+                    if (this.IsAxis) cmdstr = "Select AxisName as QueName, AxisType as QueNotes, ID as QueSortID, AxisStatus as QueStatus, '1' as AxisQuantity, 'LOAD' as Load from momsql..axis where AxisName = @QueName";
                     using (SqlCommand CMD = new SqlCommand(cmdstr, MomCon))
                     {
                         CMD.Parameters.AddWithValue("@QueName", this.QueName);
